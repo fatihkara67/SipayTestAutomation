@@ -1,11 +1,11 @@
-@spy
+@spy @last
 Feature: Assigned Records Page
 
   Background:
     Given The user go to 'test-app' environment
     Given The user login
-      | username | TestSipay |
-      | password | Sipay2025 |
+      | username | TestSipay  |
+      | password | Sipay2025. |
 
   Scenario: Assigned records navigation and display
     When The user click assigned records tab
@@ -60,8 +60,8 @@ Feature: Assigned Records Page
 
   Scenario: Assigned Records Create date filter
     When The user click assigned records tab
-    When The user select date filter 14 8 2025
-    Then The user verify create date filter 14 8 2025
+    When The user select date filter 7 9 2025
+    Then The user verify create date filter 7 9 2025
 
   Scenario: Assigned Records Create date and Deal Status filter
     When The user click assigned records tab
@@ -80,12 +80,12 @@ Feature: Assigned Records Page
   Scenario: Assigned Records Go To Related Record button
     When The user click assigned records tab
     When The user select 'Prospect' in deal status filter
-    When The user click related record button at row 1
+    When The user click related record button at row 0
     Then The user verify 'Lead Formu' form is open
 
   Scenario: Assigned Records Pagination Control
     When The user click assigned records tab
-    When The user enter 'test' to search input
+    When The user enter 'fatih' to search input
     Then The user verify previous page button passive
     Then The user verify next button active
     When The user click next page button

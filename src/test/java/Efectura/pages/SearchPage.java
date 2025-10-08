@@ -15,6 +15,9 @@ public class SearchPage extends BasePage {
     @FindBy(xpath = "//input[contains(@id,'earch')]")
     private WebElement searchInput;
 
+    @FindBy(xpath = "//button[@title='Clear Search']")
+    private WebElement searchInputResetButton;
+
     @FindBy(xpath = "//*[contains(@id,'content-')]/div[3]/div[3]/div/div[1]/div[1]")
     private List<WebElement> recordTitles;
 
@@ -51,7 +54,7 @@ public class SearchPage extends BasePage {
     @FindBy(xpath = "//*[@id='root']/div/main/div/div/div[1]/div/button")
     private WebElement createNewRecordButton;
 
-    @FindBy(xpath = "//*[contains(@id,'-content-')]/div[1]/button")
+    @FindBy(xpath = "//*[contains(@id,'-content-')]/div[1]/div/div/div[1]/button[2]")
     private WebElement searchButton;
 
     @FindBy(xpath = "//*[contains(@id,'content-')]/div[3]/div[3]/div/div[2]/button[1]")
@@ -59,6 +62,57 @@ public class SearchPage extends BasePage {
 
     @FindBy(xpath = "//*[contains(@id,'content-')]/div[3]/div[2]/div[2]/div//button")
     private WebElement createDateFilter;
+
+    @FindBy(xpath = "//button[contains(@aria-label,'Today')]")
+    private WebElement todayDateOption;
+
+    @FindBy(xpath = "/html/body/div/div/main/section/div/div[2]")
+    private WebElement recordWarning;
+
+    @FindBy(xpath = "//div[@class='grid grid-cols-1 md:grid-cols-2 md:gap-1']/div/div")
+    private List<WebElement> searchPageAllRecordsValues;
+
+    @FindBy(xpath = "//div[@role='textbox']/p[@data-placeholder='Revize açıklamasını giriniz...']")
+    private WebElement reviseExplanationTextInput;
+
+    @FindBy(xpath = "//label[normalize-space(text())='Operasyon Revize Açıklaması']/following-sibling::div//div//div//div//div//p")
+    private WebElement operationReviseReason;
+
+    @FindBy(xpath = "//label[normalize-space(text())='Risk Revize Açıklaması']/following-sibling::div//div//div//div//div//p")
+    private WebElement riskReviseReason;
+
+    @FindBy(xpath = "//div/div[1]/div[1]/div/h3")
+    private WebElement formNameText;
+
+    @FindBy(xpath = "//button[contains(.,'Arama Alanları')]")
+    private WebElement searchAreaButton;
+
+    @FindBy(xpath = "/html/body/div[2]/div/div/div[2]/div/div/div[2]/span")
+    private List<WebElement> searchAreaOptions;
+
+    @FindBy(xpath = "/html/body/div[2]/div/div/div[2]/div/div[2]/div")
+    private List<WebElement> selectedSearchAreaIcons;
+
+    @FindBy(xpath = "//*[@id=\"root\"]/div/header/div/nav/div/div/button[2]")
+    private WebElement languageButton;
+
+    @FindBy(xpath = "//div[1]/div[1]/div/div/div[2]/div/span")
+    private List<WebElement> selectedSearchAreas;
+
+    @FindBy(xpath = "/html/body/div[3]/div[2]/div/div/div[2]/div/span[1]")
+    private List<WebElement> historyAttributes;
+
+    @FindBy(xpath = "//div[3]/div[2]/div/button")
+    private WebElement redReasonSelectButton;
+
+    @FindBy(xpath = "//div[2]/div/div/div[1]/div/input")
+    private WebElement redReasonSelectInput;
+
+    @FindBy(xpath = "//div/div/div[2]/button")
+    private List<WebElement> redReasonSelectOptions;
+
+    @FindBy(xpath = "//div[contains(text(),'Kayıt bulunamadı')]")
+    private WebElement tableInfo;
 
 
     public static boolean isSortedAscending(List<String> dateStrings, String pattern) {

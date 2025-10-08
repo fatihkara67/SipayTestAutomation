@@ -14,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -348,6 +349,15 @@ public class BrowserUtils {
         }
     }
 
+    public static boolean isElementDisplayed(By locator) {
+        try {
+            return Driver.getDriver().findElement(locator).isDisplayed();
+        } catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+
 
     public static boolean isButtonActive(WebElement button) {
         String classAttribute = button.getAttribute("class");
@@ -560,8 +570,92 @@ public class BrowserUtils {
     }
 
 
+    // readyState COMPLETE
+    public static void waitForPageLoaded(Duration timeout) {
+        new WebDriverWait(Driver.getDriver(), timeout).until(d ->
+                ((JavascriptExecutor) d).executeScript("return document.readyState").equals("complete"));
+    }
+
+    // Genel overlay/spinner bekleme – kendi uygulamana göre lokatörü güncelle
+    // Örn: Tailwind backdrop, loading spinner, modal açıkken body:overflow-hidden, vs.
+    public static void waitOverlaysGone(Duration timeout) {
+        By[] blockers = new By[] {
+                By.cssSelector(".loading, .spinner, .MuiBackdrop-root, .ant-modal-mask, .Toastify__toast--loading"),
+                By.cssSelector("[data-state='open']"), // Radix/HeadlessUI açık modal
+                By.cssSelector("div[role='dialog']"),
+                By.cssSelector(".fixed.inset-0"), // Tailwind full-screen overlay
+        };
+        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), timeout);
+        for (By by : blockers) {
+            try { wait.until(ExpectedConditions.invisibilityOfElementLocated(by)); } catch (Exception ignore) {}
+        }
+        // Body scroll kilidi kalksın
+        new WebDriverWait(Driver.getDriver(), timeout).until(d ->
+                !((JavascriptExecutor)d).executeScript(
+                        "return document.body.style.overflow || getComputedStyle(document.body).overflow"
+                ).toString().contains("hidden"));
+    }
+
+    // Eleman görünür & etkin & tıklanabilir
+    public static WebElement waitClickable(By by, Duration timeout) {
+        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), timeout);
+        return wait.until(ExpectedConditions.elementToBeClickable(by));
+    }
+
+    // Ekrana getir
+    public static void scrollIntoView(WebElement el) {
+        ((JavascriptExecutor)Driver.getDriver()).executeScript("arguments[0].scrollIntoView({block:'center', inline:'center'});", el);
+    }
+
+    // Elemanın üstünde başka bir şey var mı (point hit-test)
+    public static boolean isCovered(WebElement el) {
+        JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
+        Map<String, Long> rect = (Map<String, Long>) js.executeScript(
+                "const r=arguments[0].getBoundingClientRect();" +
+                        "return {x: Math.floor(r.left + r.width/2), y: Math.floor(r.top + r.height/2)};", el);
+        Long x = rect.get("x"), y = rect.get("y");
+        WebElement top = (WebElement) js.executeScript(
+                "return document.elementFromPoint(arguments[0], arguments[1]);", x, y);
+        return top != el && !el.equals(top) && !el.isDisplayed();
+    }
 
 
+    public static void safeClick(WebElement element) {
+        WebDriver driver = Driver.getDriver();
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        RuntimeException last = null;
+
+        for (int attempt = 1; attempt <= 3; attempt++) {
+            try {
+                waitForPageLoaded(Duration.ofSeconds(20));
+                waitOverlaysGone(Duration.ofSeconds(20));
+                scrollIntoView(element);
+
+                if (isCovered(element)) {
+                    waitOverlaysGone(Duration.ofSeconds(10));
+                }
+
+                try {
+                    element.click(); // Normal click
+                    return;
+                } catch (ElementClickInterceptedException e1) {
+                    // Actions click
+                    try {
+                        new Actions(driver).moveToElement(element).pause(Duration.ofMillis(100)).click().perform();
+                        return;
+                    } catch (Exception e2) {
+                        // JS click
+                        js.executeScript("arguments[0].click();", element);
+                        return;
+                    }
+                }
+            } catch (StaleElementReferenceException | ElementClickInterceptedException | TimeoutException e) {
+                last = new RuntimeException(e);
+                try { Thread.sleep(400L * attempt); } catch (InterruptedException ignored) {}
+            }
+        }
+        throw last != null ? last : new RuntimeException("safeClick failed for given element.");
+    }
 
 
 }

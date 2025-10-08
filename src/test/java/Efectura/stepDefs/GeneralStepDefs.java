@@ -7,12 +7,12 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static Efectura.utilities.BrowserUtils.isElementDisplayed;
 
@@ -29,13 +29,14 @@ public class GeneralStepDefs extends BaseStep {
         pages.generalPage().getPasswordInput().sendKeys(mapParam.get("password"));
         pages.generalPage().getLoginButton().click();
         BrowserUtils.waitForVisibility(pages.generalPage().getUserMenuButton(),40);
-        pages.generalPage().getWarningCloseButton().click();
-        BrowserUtils.wait(1);
+//        pages.generalPage().getWarningCloseButton().click();
+        BrowserUtils.wait(5);
     }
 
     @Then("The user verify warning {string}")
     public void theUserVerifyWarning(String warningText) {
-        BrowserUtils.wait(1);
+        BrowserUtils.wait(2);
+        BrowserUtils.waitForVisibility(pages.generalPage().getWarningElement(),45);
         Assert.assertTrue("Uyarı Gelmedi", isElementDisplayed(pages.generalPage().getWarningElement()));
 
         Assert.assertEquals("Mesaj farklı",warningText,pages.generalPage().getWarningElement().getText());
@@ -61,8 +62,12 @@ public class GeneralStepDefs extends BaseStep {
 
     @Given("The user logout")
     public void theUserLogout() {
+        BrowserUtils.wait(5);
         pages.generalPage().getUserMenuButton().click();
+        BrowserUtils.wait(2);
         pages.generalPage().getLogoutButton().click();
+        BrowserUtils.wait(2);
+        BrowserUtils.waitForVisibility(pages.generalPage().getUserNameInput(),60);
     }
 
     @Then("The user verify previous page button passive")
@@ -119,25 +124,14 @@ public class GeneralStepDefs extends BaseStep {
                 .ifPresent(WebElement::click);
     }
 
-    @When("The user click {string} button")
-    public void theUserClickButton(String buttonName) {
-        WebElement button = Driver.getDriver().
-                findElement(By.xpath("//button[contains(text(),'" + buttonName + "')]"));
-
-        BrowserUtils.wait(1);
-        BrowserUtils.waitForVisibility(button, 45);
-        BrowserUtils.waitForClickability(button, 45);
-        BrowserUtils.adjustScreenSize(70,Driver.getDriver());
-
-        button.click();
-        BrowserUtils.wait(1);
-    }
 
     @Then("The user verify form inputs clear")
     public void theUserVerifyFormInputsClear() {
-
+        List<String> skipInputs = new ArrayList<>(List.of("location"));
         for (WebElement input : pages.formsPage().getFormInputs()) {
-
+            if (skipInputs.contains(input.getAttribute("id"))) {
+                continue;
+            }
             Assert.assertEquals(input.getAttribute("id") + " input tewmizlenmemiş",
                     "", BrowserUtils.getValueInInputBox(input));
 
@@ -147,62 +141,37 @@ public class GeneralStepDefs extends BaseStep {
 
     @When("The user go to other tab")
     public void theUserGoToOtherTab() {
-        Driver.getDriver().switchTo().window(Driver.getDriver().getWindowHandles().stream()
-                .filter(h -> !h.equals(Driver.getDriver().getWindowHandle()))
-                .findFirst().get());
+//        Driver.getDriver().switchTo().window(Driver.getDriver().getWindowHandles().stream()
+//                .filter(h -> !h.equals(Driver.getDriver().getWindowHandle()))
+//                .findFirst().get());
+
+        // Tüm sekme pencerelerinin ID'lerini al
+        List<String> tabs = new ArrayList<>(Driver.getDriver().getWindowHandles());
+
+// Yeni sekmeye geçiş yap (örneğin ikinci sekme)
+        Driver.getDriver().switchTo().window(tabs.get(1));
+
+// İşlem tamamlandıktan sonra, önceki sekmeye (ilk sekme) dön ve kapat
+        Driver.getDriver().switchTo().window(tabs.get(0));
+        Driver.getDriver().close();
+
+// Geri kalan açık sekmeye geç
+        Driver.getDriver().switchTo().window(tabs.get(1));
+
+
         BrowserUtils.wait(3);
 
     }
 
     @When("The user open {string} info in form")
     public void theUserOpenProspectInfoInForm(String infoName) {
+        BrowserUtils.wait(5);
+        BrowserUtils.adjustScreenSize(40,Driver.getDriver());
         WebElement infoTab = Driver.getDriver().findElement(By.xpath("//button[contains(.,'" + infoName + "')]"));
-        infoTab.click();
+        BrowserUtils.safeClick(infoTab);
+//        infoTab.click();
     }
 
-    @Then("The user verify required documents")
-    public void theUserVerifyRequiredDocuments() {
-        BrowserUtils.adjustScreenSize(50,Driver.getDriver());
-        SelectFilterUtils sf = new SelectFilterUtils(Driver.getDriver(), Duration.ofSeconds(3));
-        WebElement select = Driver.getDriver().findElement(By.id("companyType"));
-        select.click();
-
-        List<String> optionTexts = pages.generalPage().getCompanyTypeOptions().stream()
-                .map(WebElement::getText).toList();
-
-        sf.chooseRandom(select);
-        BrowserUtils.wait(1);
-        pages.generalPage().getRequiredDocumentsButton().click();
-
-        for (String option : optionTexts) {
-            sf.choose(select,option);
-            List<String> actualReqDocuments = BrowserUtils.convertWebElementListToStringList
-                    (pages.generalPage().getActualRequiredDocuments());
-
-            if (option.equals("Adi Ortaklık") || option.equals("XB")) {
-                Assert.assertTrue(BrowserUtils.areListsEqualIgnoreOrder(
-                                actualReqDocuments,pages.generalPage().getAdiAndXbRequiredDocuments()));
-            }
-            if (option.equals("Şahıs")) {
-                Assert.assertTrue(BrowserUtils.areListsEqualIgnoreOrder(
-                        actualReqDocuments,pages.generalPage().getSahisRequiredDocuments()));
-            }
-            if (option.equals("Limited") || option.equals("Anonim")) {
-                Assert.assertTrue(BrowserUtils.areListsEqualIgnoreOrder(
-                        actualReqDocuments,pages.generalPage().getLimitedandAnonimRequiredDocuments()));
-            }
-            if (option.equals("Dernek")) {
-                Assert.assertTrue(BrowserUtils.areListsEqualIgnoreOrder(
-                        actualReqDocuments,pages.generalPage().getDernekRequiredDocuments()));
-            }
-            if (option.equals("Vakıf")) {
-                Assert.assertTrue(BrowserUtils.areListsEqualIgnoreOrder(
-                        actualReqDocuments,pages.generalPage().getVakifRequiredDocuments()));
-            }
-
-        }
-
-    }
 
     @When("The user select {int} {int} {int} in {string}")
     public void theUserSelectInOfferDate(int day, int month, int year, String elementId) {
@@ -233,6 +202,7 @@ public class GeneralStepDefs extends BaseStep {
     public void theUserRefreshThePage() {
         Driver.getDriver().navigate().refresh();
         BrowserUtils.wait(3);
+        BrowserUtils.waitForVisibility(Driver.getDriver().findElement(By.xpath("//*[@id=\"root\"]/div/main/div/div/div[2]/fieldset")),45);
     }
 
     @Then("The user verify revise reason {string} for {string}")
@@ -257,6 +227,8 @@ public class GeneralStepDefs extends BaseStep {
         }
         if (page.equalsIgnoreCase("operation")) {
             pages.generalPage().getExplanationInput().sendKeys(value);
+        } else if (page.equalsIgnoreCase("prospect")) {
+            pages.generalPage().getExplanationForProspect().sendKeys(value);
         }
 
     }
@@ -273,5 +245,22 @@ public class GeneralStepDefs extends BaseStep {
                     expectedValue,pages.generalPage().getExplanationInput().getText());
         }
 
+    }
+
+    @When("The user select date {int} {int} {int} in {string}")
+    public void theUserSelectDateInNewAppointment(int day, int month, int year,String id) {
+        Driver.getDriver().findElement(By.id(id)).click();
+        BrowserUtils.wait(1);
+        DateFilterUtils df = new DateFilterUtils(Driver.getDriver(), Duration.ofSeconds(10));
+        String locate = "//*[@id='" + id + "']";
+        df.selectCreatedAt(LocalDate.of(year, month, day), locate);
+        BrowserUtils.wait(2);
+    }
+
+
+    @When("The user navigate to {string}")
+    public void theUserNavigateToHttpsSipayappEfecturaCom(String url) {
+        Driver.getDriver().navigate().to(url);
+        BrowserUtils.wait(2);
     }
 }

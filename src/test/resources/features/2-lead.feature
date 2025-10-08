@@ -12,6 +12,7 @@ Feature: Lead Cases
     When The user click related record button at row 1
     When The user go to other tab
     Then The user verify 'Lead Formu' form is open
+    When The user wait 3 second
     When The user click 'Tamamla' button
     Then The user verify warning 'Lütfen tüm zorunlu alanları doldurun'
 
@@ -58,6 +59,7 @@ Feature: Lead Cases
     When The user fill the prospect form
     When The user click 'Tamamla' button
     Then The user verify 'Lead Formu' form is open
+    When The user wait 3 second
     When The user select 'Fiziki POS' in 'product'
     When The user fill the lead form
     When The user click 'Tamamla' button

@@ -18,7 +18,7 @@ public class GeneralPage extends BasePage {
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement loginButton;
 
-    @FindBy(xpath = "//button[contains(@id,'trigger-assigned')]")
+    @FindBy(xpath = "//main/div/div/div[1]/button[2]")
     private WebElement assignedRecordsButton;
 
     @FindBy(xpath = "//img[@alt='Sipay Logo']")
@@ -31,7 +31,7 @@ public class GeneralPage extends BasePage {
     @FindBy(xpath = "/html/body/div/div/main/section/div/div/button")
     private WebElement warningCloseButton;
 
-    @FindBy(xpath = "//*[@id='root']/div/header/div/nav/div/div/button[2]")
+    @FindBy(xpath = "//button[@id='user-menu-button']/following::button[contains(text(),'Çıkış Yap')][1]")
     private WebElement logoutButton;
 
     @FindBy(xpath = "//*[@id='user-menu-button']/span[1]")
@@ -60,6 +60,9 @@ public class GeneralPage extends BasePage {
 
     @FindBy(xpath = "//*[@id=\"root\"]/div/main/div/div/div[2]/fieldset/div/div[5]/div/div/div/div[2]/div/div/p")
     private WebElement explanationInput;
+
+    @FindBy(xpath = "//*[@id=\"root\"]/div/main/div/div/div[2]/form/fieldset/div/div[13]/div/div/div/div[2]/div/div/p")
+    private WebElement explanationForProspect;
 
     @FindBy(xpath = "//*[@id=\"root\"]/div/main/div/div/div[2]/fieldset/div/div[4]/div/div/div/div[2]/div/div")
     private WebElement explanationInputForRisk;
@@ -90,6 +93,12 @@ public class GeneralPage extends BasePage {
 
     @FindBy(xpath = "//*[@id=\"reviseReason\"]/span")
     private WebElement reviseReasonSelectedValueForRisk;
+
+    @FindBy(xpath = "//input[@placeholder='Ara...']")
+    private WebElement selectSearchInput;
+
+    @FindBy(xpath = "/html/body/div[2]/div/div/div[2]/div/div/div/div/span")
+    private List<WebElement> selectOptions;
 
     private final List<String> adiAndXbRequiredDocuments = List.of("Kimlik","Üye İşyeri Bilgi Formu","Oran Şablonu");
     private final List<String> sahisRequiredDocuments = List.of("Kimlik","Vergi Levhası","İmza Beyannamesi","İkametgah Belgesi","Üye İşyeri Bilgi Formu","Oran Şablonu");

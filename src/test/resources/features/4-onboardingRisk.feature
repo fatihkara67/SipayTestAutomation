@@ -39,3 +39,24 @@ Feature: Onboarding Risk
     When The user refresh the page
     Then The user verify revise reason 'Yasaklı sektör' for 'risk'
 #    Then The user verify explanation 'Test notu' for 'risk'
+
+
+  Scenario: risk save
+    When The user select 'Contracting' in deal status filter
+    When The user click related record button at row 0
+    When The user go to other tab
+    When The user wait 5 second
+    Then The user verify 'Onboarding Risk Formu' form is open
+#    When The user click 'Tamamla' button
+#    Then The user verify warning 'Lütfen tüm zorunlu alanları doldurun'
+    When The user fill select prospect form sales and field
+    When The user fill inputs prospect form sales and field
+    When The user click 'Güncelle' button
+    Then The user verify warning 'Durum OnBoardingRiskDraft olarak güncellendi'
+    Then The user verify old values
+    When The user click 'Tamamla' button
+    Then The user verify warning 'Durum OnboardingRisk olarak güncellendi'
+    Then The user verify 'Onboarding Operation Formu' form is open
+    When The user open 'Onboarding Bilgileri' info in form
+    Then The user verify old values
+    When The user open 'Onboarding Bilgileri' info in form
