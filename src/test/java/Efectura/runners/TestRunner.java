@@ -38,9 +38,7 @@ import java.util.List;
 public class TestRunner {
     // Tüm senaryoların çalıştırılmasının ardından yapılacak işlemler
     @AfterClass
-    public static void
-
-    teardown() {
+    public static void teardown() {
         File reportOutputDirectory = new File("target/cucumber-reports");
         generateReport(reportOutputDirectory.getAbsolutePath());
 
@@ -63,7 +61,7 @@ public class TestRunner {
         }
 
         // 4) Telegram'a gönder
-        BrowserUtils.sendFileToTelegram(finalReportPath.toString(), "-1002156506449");
+        BrowserUtils.sendFileToTelegram(finalReportPath.toString(), "-4194828120");
 
         BrowserUtils.renameFile(
                 renamedReport.toString(),

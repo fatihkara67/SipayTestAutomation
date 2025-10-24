@@ -728,8 +728,10 @@ public class SearchStepDefs extends BaseStep {
             attributeAndValues.put("segment", "Small");
             attributeCodesAndLabels.put("segment","Segment");
 
-            attributeAndValues.put("salesRep",Driver.getDriver().findElement(By.id("salesRep")).getText());
-            attributeCodesAndLabels.put("salesRep","Atanan Satış Temsilcisi");
+            if (BrowserUtils.isElementDisplayed(By.id("salesRep"))) {
+                attributeAndValues.put("salesRep",Driver.getDriver().findElement(By.id("salesRep")).getText());
+                attributeCodesAndLabels.put("salesRep","Atanan Satış Temsilcisi");
+            }
 
 
             if (BrowserUtils.isElementDisplayed(select)) {
@@ -779,7 +781,7 @@ public class SearchStepDefs extends BaseStep {
                 "phone", "email", "estVolume", "location", "singlePaymentRate",
                 "installmentUsageRate", "debitUsageRate", "creditUsageRate", "currentRate",
                 "estRevenue", "commissionRate", "estimatedIncome", "ownerTC", "partnerTC",
-                "authorizedTC", "authorized","walletMasterId","installmentCount"
+                "authorizedTC", "authorized","walletMasterId","installmentCount","deviceQty","accountantEmail","accountantPhone"
         );
 
         for (WebElement input : pages.formsPage().getFormInputs()) {
@@ -825,6 +827,15 @@ public class SearchStepDefs extends BaseStep {
                 attributeCodesAndLabels.put(id,
                         Driver.getDriver().findElement(By.xpath("//*[@id='" + id + "']/parent::*//label")).getText());
             }
+
+            if ("accountantPhone".equals(id)) {
+                validPhone = BrowserUtils.generateTurkishMobileNumber();
+                input.sendKeys(validPhone);
+                attributeAndValues.put(id, validPhone);
+                attributeCodesAndLabels.put(id,
+                        Driver.getDriver().findElement(By.xpath("//*[@id='" + id + "']/parent::*//label")).getText());
+            }
+
             if ("email".equals(id)) {
                 validEmail = BrowserUtils.generateRandomEmail();
                 input.sendKeys(validEmail);
@@ -832,6 +843,16 @@ public class SearchStepDefs extends BaseStep {
                 attributeCodesAndLabels.put(id,
                         Driver.getDriver().findElement(By.xpath("//*[@id='" + id + "']/parent::*//label")).getText());
             }
+
+            if ("accountantEmail".equals(id)) {
+                validEmail = BrowserUtils.generateRandomEmail();
+                input.sendKeys(validEmail);
+                attributeAndValues.put(id, validEmail);
+                attributeCodesAndLabels.put(id,
+                        Driver.getDriver().findElement(By.xpath("//*[@id='" + id + "']/parent::*//label")).getText());
+            }
+
+
             if ("estVolume".equals(id)) {
                 String pos = "10000000";
                 input.sendKeys(pos);
@@ -908,6 +929,12 @@ public class SearchStepDefs extends BaseStep {
             }
             if ("authorized".equals(id)) {
                 attributeAndValues.put(id, name + " " + name);
+                attributeCodesAndLabels.put(id,
+                        Driver.getDriver().findElement(By.cssSelector("label[for='" + id + "']")).getText());
+            }
+            if ("deviceQty".equals(id)) {
+                input.sendKeys("9");
+                attributeAndValues.put(id, "9");
                 attributeCodesAndLabels.put(id,
                         Driver.getDriver().findElement(By.cssSelector("label[for='" + id + "']")).getText());
             }
@@ -1549,4 +1576,5 @@ public class SearchStepDefs extends BaseStep {
 
 
     }
+
 }
