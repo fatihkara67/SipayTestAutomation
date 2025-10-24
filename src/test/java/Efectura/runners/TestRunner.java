@@ -1,5 +1,7 @@
 package Efectura.runners;
 
+import Efectura.utilities.BrowserUtils;
+import Efectura.utilities.ReportPathResolver;
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 import net.masterthought.cucumber.Configuration;
@@ -9,6 +11,7 @@ import org.junit.AfterClass;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,7 +28,7 @@ import java.util.List;
                 "rerun:target/rerun.txt"
         },
         // Hangi senaryoların çalıştırılacağını belirten etiket
-        tags ="@last-prod",
+        tags ="@deneme",
         features ="src/test/resources/features",
         glue  = "Efectura/stepDefs",
         dryRun = false
@@ -40,6 +43,33 @@ public class TestRunner {
     teardown() {
         File reportOutputDirectory = new File("target/cucumber-reports");
         generateReport(reportOutputDirectory.getAbsolutePath());
+
+        // 1) Raporun orijinal lokasyonunu bul
+        Path originalReport = ReportPathResolver.resolveCucumberHtml();
+
+        // 2) Yeniden adlandır ve yeni yolu al
+        Path renamedReport = BrowserUtils.renameFile(
+                originalReport.toString(),
+                "sipay.html"
+        );
+
+        // Eğer rename başarısızsa fallback olarak orijinal raporu dene
+        Path finalReportPath = (renamedReport != null) ? renamedReport : originalReport;
+
+        // 3) Var mı, boş mu kontrol et
+        if (!ReportPathResolver.isReportReady(finalReportPath)) {
+            System.err.println("Cucumber HTML raporu bulunamadı ya da boş: " + finalReportPath);
+            return;
+        }
+
+        // 4) Telegram'a gönder
+        BrowserUtils.sendFileToTelegram(finalReportPath.toString(), "-1002156506449");
+
+        BrowserUtils.renameFile(
+                renamedReport.toString(),
+                "cucumber.html"
+        );
+
     }
     // Cucumber raporlarını üreten metot
     public static void generateReport(String cucumberOutputPath) {

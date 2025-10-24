@@ -1,4 +1,4 @@
-@last
+@last-prod @last @deneme
 Feature: Field And Sales Cases
 
   Background:
@@ -32,4 +32,16 @@ Feature: Field And Sales Cases
     When The user open 'Ziyaret' info in form
     When The user click 'Tamamla' button
     Then The user verify warning 'Lütfen tüm zorunlu alanları doldurun'
+    When The user wait 3 second
+    When The user select2 'Kiralama' in 'deviceOwnership'
+    When The user fill select prospect form sales and field
+    When The user fill inputs prospect form sales and field
+    When The user click 'Cihaz Ekle' button
+    When The user click 'Tamamla' button
+    Then The user verify warning 'Durum Lead olarak güncellendi'
+    When The user keep lead data
+    Then The user verify 'Satış Formu' form is open
+    When The user open 'Lead' info in form
+    Then The user verify old values
+    When The user open 'Lead' info in form
     Given The user assert all

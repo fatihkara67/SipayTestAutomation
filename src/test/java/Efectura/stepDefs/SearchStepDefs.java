@@ -728,8 +728,8 @@ public class SearchStepDefs extends BaseStep {
             attributeAndValues.put("segment", "Small");
             attributeCodesAndLabels.put("segment","Segment");
 
-            attributeAndValues.put("salesRep","Test Sipay");
-            attributeCodesAndLabels.put("salesRep","Test Sipay");
+            attributeAndValues.put("salesRep",Driver.getDriver().findElement(By.id("salesRep")).getText());
+            attributeCodesAndLabels.put("salesRep","Atanan Satış Temsilcisi");
 
 
             if (BrowserUtils.isElementDisplayed(select)) {

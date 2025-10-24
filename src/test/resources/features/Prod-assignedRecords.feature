@@ -1,4 +1,4 @@
-@spy-prod
+@spy @last-prod
 Feature: Prod Assigned Records Page
 
   Background:

@@ -1,4 +1,4 @@
-@spy @last
+@spy @last @last-prod
 Feature: Search Page Scenarios
 
   Background:

@@ -762,6 +762,32 @@ public class BrowserUtils {
         return latestFile != null ? latestFile.getName() : null;
     }
 
+    public static Path renameFile(String oldFilePath, String newFileName) {
+        try {
+            File oldFile = new File(oldFilePath);
+
+            if (!oldFile.exists()) {
+                System.out.println("❌ Dosya bulunamadı: " + oldFilePath);
+                return null;
+            }
+
+            File newFile = new File(oldFile.getParent(), newFileName);
+
+            boolean success = oldFile.renameTo(newFile);
+
+            if (success) {
+                System.out.println("✅ Dosya ismi değiştirildi: " + newFile.getAbsolutePath());
+                return newFile.toPath().toAbsolutePath().normalize();
+            } else {
+                System.out.println("⚠️ Dosya adı değiştirilemedi!");
+                return null;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 
 
