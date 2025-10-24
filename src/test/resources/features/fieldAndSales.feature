@@ -60,6 +60,7 @@ Feature: Field And Sales Cases
     Given The user assert all
 
 
+    @spy
   Scenario: Prod End to End
     Given The user go to 'prod-app' environment
     Given The user login

@@ -2,13 +2,13 @@ package Efectura.runners;
 
 import Efectura.utilities.BrowserUtils;
 import Efectura.utilities.ReportPathResolver;
-import io.cucumber.junit.Cucumber;
-import io.cucumber.junit.CucumberOptions;
+
+import io.cucumber.testng.CucumberOptions;
 import net.masterthought.cucumber.Configuration;
 import net.masterthought.cucumber.ReportBuilder;
 import org.apache.commons.io.FileUtils;
-import org.junit.AfterClass;
-import org.junit.runner.RunWith;
+
+import org.testng.annotations.AfterSuite;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -16,9 +16,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import io.cucumber.testng.AbstractTestNGCucumberTests;
 
 
-@RunWith(Cucumber.class)
+
+//@RunWith(Cucumber.class)
 @CucumberOptions(
         // Test sonuçlarının raporlanmasını sağlayan Cucumber ayarları
         plugin = {
@@ -35,9 +37,9 @@ import java.util.List;
 )
 
 
-public class TestRunner {
+public class TestRunner extends AbstractTestNGCucumberTests {
     // Tüm senaryoların çalıştırılmasının ardından yapılacak işlemler
-    @AfterClass
+    @AfterSuite(alwaysRun = true)
     public static void teardown() {
         File reportOutputDirectory = new File("target/cucumber-reports");
         generateReport(reportOutputDirectory.getAbsolutePath());
