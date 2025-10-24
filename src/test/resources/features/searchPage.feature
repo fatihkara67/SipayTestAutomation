@@ -1,4 +1,4 @@
-@spy @last
+@test @last
 Feature: Search Page Scenarios
 
   Background:

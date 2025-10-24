@@ -1,4 +1,4 @@
-@spy @last
+@test @last
 Feature: Assigned Records Page
 
   Background:

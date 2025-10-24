@@ -1,4 +1,4 @@
-@last-prod @spy
+@spy @last-prod
 Feature: Prod End To End Form Cases
 
   Background:
