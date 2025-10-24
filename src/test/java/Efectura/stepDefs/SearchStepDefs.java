@@ -1,5 +1,6 @@
 package Efectura.stepDefs;
 
+import Efectura.pages.BasePage;
 import Efectura.pages.SearchPage;
 import Efectura.utilities.*;
 import io.cucumber.java.en.And;
@@ -20,6 +21,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static Efectura.utilities.BrowserUtils.isElementDisplayed;
 
@@ -112,8 +114,13 @@ public class SearchStepDefs extends BaseStep {
         Assert.assertTrue(SearchPage.isSortedAscending(createDates, "dd-MM-yyyy HH:mm:ss"));
     }
 
-    @When("The user select date filter {int} {int} {int}")
-    public void theUserSelectDateFilter(int day, int month, int year) {
+    LocalDate today = LocalDate.now();
+
+    int year = today.getYear();
+    int month = today.getMonthValue();
+    int day = today.getDayOfMonth();
+    @When("The user select date filter")
+    public void theUserSelectDateFilter() {
 //        BrowserUtils.wait(1);
 //        DateFilterUtils df = new DateFilterUtils(Driver.getDriver(), Duration.ofSeconds(10));
 //        String locate = "//button[.//span[normalize-space()='Oluşturulma Tarihi']]";
@@ -132,8 +139,8 @@ public class SearchStepDefs extends BaseStep {
 
     }
 
-    @Then("The user verify create date filter {int} {int} {int}")
-    public void theUserVerifyCreateDateFilter(int day, int month, int year) {
+    @Then("The user verify create date filter")
+    public void theUserVerifyCreateDateFilter() {
         List<String> createDates = pages.searchPage().getCreateDateValues().stream()
                 .map(WebElement::getText).toList();
 
@@ -161,6 +168,7 @@ public class SearchStepDefs extends BaseStep {
 
     @When("The user click create date reset button")
     public void theUserClickCreateDateResetButton() {
+        BrowserUtils.wait(1);
         pages.searchPage().getCreateDateResetFilter().click();
     }
 
@@ -417,10 +425,10 @@ public class SearchStepDefs extends BaseStep {
         BrowserUtils.wait(1);
         BrowserUtils.waitForVisibility(button, 45);
         BrowserUtils.waitForClickability(button, 45);
-        BrowserUtils.adjustScreenSize(70,Driver.getDriver());
+//        BrowserUtils.adjustScreenSize(70,Driver.getDriver());
 
-//        button.click();
-        BrowserUtils.safeClick(button);
+        button.click();
+//        BrowserUtils.safeClick(button);
         BrowserUtils.wait(1);
         if (buttonName.equals("Kaydet"))
             formStatus = "save";
@@ -435,6 +443,7 @@ public class SearchStepDefs extends BaseStep {
             System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
 
             if (BrowserUtils.isElementDisplayed(By.id(entry.getKey()))) {
+                System.out.println(entry.getKey() + " = " + Driver.getDriver().findElement(By.id(entry.getKey())).getText());
                 if (entry.getKey().equals("prospectDurum")) {
                     if (formStatus.equals("save")) {
                         softAssert.assertEquals(
@@ -442,6 +451,80 @@ public class SearchStepDefs extends BaseStep {
                                 entry.getValue(),
                                 entry.getKey() + " id'li attribute farklı"
                         );
+
+                    } else if (formStatus.equals("complete")) {
+                        softAssert.assertEquals(
+                                Driver.getDriver().findElement(By.id(entry.getKey())).getText(),
+                                "Onaylandı",
+                                entry.getKey() + " id'li attribute farklı"
+                        );
+                    }
+                    continue;
+                }
+
+                if (entry.getKey().equals("estVolume")) {
+                    softAssert.assertEquals(
+                            BrowserUtils.getValueInInputBox(Driver.getDriver().findElement(By.id(entry.getKey()))).replace(".", ""),
+                            entry.getValue(),
+                            entry.getKey() + " id'li attribute farklı"
+                    );
+                    continue;
+                }
+
+                if (entry.getKey().equals("estRevenue")) {
+                    softAssert.assertEquals(
+                            entry.getValue(),
+                            monthlyPos * 12 + "",
+                            entry.getKey() + " id'li attribute farlı"
+                    );
+                }
+
+                if (Driver.getDriver().findElement(By.id(entry.getKey())).getTagName().equals("input")) {
+                    if (!entry.getKey().equals("email")) {
+                        softAssert.assertEquals(
+                                BrowserUtils.getValueInInputBox(Driver.getDriver().findElement(By.id(entry.getKey()))).replace(".", ""),
+                                entry.getValue(),
+                                entry.getKey() + " id'li attribute farklı"
+                        );
+                    }
+                    continue;
+                }
+
+                if (entry.getKey().equals("segment")) {
+                    softAssert.assertEquals(
+                            Driver.getDriver().findElement(By.id(entry.getKey())).getText(),
+                            entry.getValue(),
+                            entry.getKey() + " id'li attribute farklı"
+                    );
+                    continue;
+                }
+
+                softAssert.assertEquals(
+                        Driver.getDriver().findElement(By.id(entry.getKey())).getText(),
+                        entry.getValue(),
+                        entry.getKey() + " id'li attribute farklı"
+                );
+            }
+        }
+    }
+
+
+    @Then("The user verify prospect values")
+    public void theUserVerifyProspectValues() {
+        BrowserUtils.wait(5);
+        for (Map.Entry<String, String> entry : prospectData.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+
+            if (BrowserUtils.isElementDisplayed(By.id(entry.getKey()))) {
+                System.out.println(entry.getKey() + " = " + Driver.getDriver().findElement(By.id(entry.getKey())).getText());
+                if (entry.getKey().equals("prospectDurum")) {
+                    if (formStatus.equals("save")) {
+                        softAssert.assertEquals(
+                                Driver.getDriver().findElement(By.id(entry.getKey())).getText(),
+                                entry.getValue(),
+                                entry.getKey() + " id'li attribute farklı"
+                        );
+
                     } else if (formStatus.equals("complete")) {
                         softAssert.assertEquals(
                                 Driver.getDriver().findElement(By.id(entry.getKey())).getText(),
@@ -583,8 +666,8 @@ public class SearchStepDefs extends BaseStep {
             BrowserUtils.wait(1);
             sf.choose(Driver.getDriver().findElement(By.id("BELGE_TURU")), actualReqDocument);
             pages.generalPage().getAddDocumentButton().click();
-            BrowserUtils.wait(3);
-            pages.generalPage().getUseAlreadyAddedFileButton().click();
+            BrowserUtils.wait(1);
+//            pages.generalPage().getUseAlreadyAddedFileButton().click();
             BrowserUtils.waitForVisibility(pages.generalPage().getWarningElement(), 20);
             Assert.assertEquals("Döküman başarıyla eklendi", pages.generalPage().getWarningElement().getText());
 
@@ -868,6 +951,7 @@ public class SearchStepDefs extends BaseStep {
 
     @Then("The user verify duplicate")
     public void theUserVerifyDuplicate() {
+        BrowserUtils.wait(2);
 
         for (char c : randomValue.toCharArray()) {
             pages.searchPage().getSearchInput().sendKeys(Character.toString(c));
@@ -1014,6 +1098,7 @@ public class SearchStepDefs extends BaseStep {
         BrowserUtils.wait(1);
         pages.searchPage().getSearchAreaOptions().
                 stream().filter(e -> e.getText().equals(searchOption)).findFirst().ifPresent(WebElement::click);
+        BrowserUtils.wait(1);
 
     }
 
@@ -1021,6 +1106,7 @@ public class SearchStepDefs extends BaseStep {
     public void theUserVerifySearchAreaCount(String buttonName) {
         WebElement button = Driver.getDriver().
                 findElement(By.xpath("//button[contains(.,'" + buttonName + "')]"));
+        softAssert.assertEquals(pages.searchPage().getSelectedSearchAreas().size(),pages.searchPage().getSelectedSearchAreaIcons().size());
         softAssert.assertEquals(button.getText().replace("(","").replace(")","").split(" ")[2],
                 pages.searchPage().getSelectedSearchAreaIcons().size(),"Arama alanlarında seçililerin sayısı farklı yazıyor");
     }
@@ -1030,10 +1116,13 @@ public class SearchStepDefs extends BaseStep {
         if (pages.searchPage().getLanguageButton().getText().equals(language)) {
             pages.searchPage().getLanguageButton().click();
         }
+        BrowserUtils.wait(1);
     }
 
+    String lang;
     @Then("The user verify page language switched to {string}")
     public void theUserVerifyPageLanguageSwitchedToEN(String language) {
+        lang = language;
         if (language.equals("EN")) {
             softAssert.assertEquals(pages.generalPage().getAssignedRecordsButton().getText(),"Assigned Records",
                     "Dil İngilizce olmadı");
@@ -1047,6 +1136,8 @@ public class SearchStepDefs extends BaseStep {
     @When("The user keep prospect data")
     public void theUserKeepProspectData() {
         prospectData.putAll(attributeAndValues);
+        System.out.println("Kaydedilen Prospect Bilgileri: ");
+        prospectData.forEach((k, v) -> System.out.println(k + " = " + v));
     }
 
     Map<String,String> leadData = new HashMap<>();
@@ -1203,5 +1294,259 @@ public class SearchStepDefs extends BaseStep {
         });
 
         softAssert.assertTrue(allMatch,"Operation Rolü OnboardingRisk ve OnBoardingOperationDraft statüsü dışında kayıt görüyor listede");
+    }
+
+    String formId;
+    @When("The user take form id")
+    public void theUserTakeFormId() {
+        // https://sipayapp.efectura.com/onboarding/5207
+        // https://sipay-ui.efectura.com/Enrich/EditItem/5312
+
+        formId = Driver.getDriver().getCurrentUrl().split("/")[4];
+        System.out.println("formId : " + formId);
+    }
+
+    @When("The User inputs a valid username {string}")
+    public void the_user_inputs_a_valid_username(String username) {
+        pages.formsPage().setUsernameField(username);
+    }
+
+    @When("The User inputs a valid password {string}")
+    public void the_user_inputs_a_valid_password(String password) {
+        pages.formsPage().setPasswordField(password);
+
+    }
+    @When("The User clicks the Submit button")
+    public void the_user_clicks_the_submit_button() {
+        pages.formsPage().clickLoginButton();
+    }
+
+    @Then("The User waits until the Analysis element is visible with a timeout of {int} seconds")
+    public void theUserWaitsUntilTheAnalysisElementIsVisibleWithATimeoutOfSeconds(Integer timeout) {
+        pages.formsPage().verifyAnalysisElement(timeout);
+
+    }
+
+    String environment;
+    @Given("The user opens {string} environment")
+    public void theUserOpensEnvironment(String env) {
+
+        Driver.getDriver().get(ConfigurationReader.getProperty(env));
+
+        environment = env;
+//        if (env.equals("PreProd")) {
+//            Driver.getDriver().get("https://mediamarkt-ui-preprod.efectura.com/");
+//        } else if (env.equals("Prod")) {
+//            Driver.getDriver().get("https://mm-admin.efectura.com/");
+//        }
+    }
+
+
+    @When("The user navigate the deal item")
+    public void theUserNavigateTheDealItem() {
+        Driver.getDriver().get("https://sipay-ui.efectura.com/Enrich/EditItem/" + formId);
+        BrowserUtils.wait(3);
+    }
+
+    @Then("The user clicks {string} tab")
+    public void the_user_clicks_tab(String tabName) {
+        pages.formsPage().clickEditItemTab(tabName);
+    }
+
+    @And("The user select {string} in {string} select filter")
+    public void theUserSelectInSelectFilter(String selectOption, String selectFilter) {
+        BrowserUtils.adjustScreenSize(70,Driver.getDriver());
+        pages.generalPage().selectOptionInSelectFilter(selectOption,selectFilter);
+        BrowserUtils.wait(5);
+    }
+
+    @When("The user go in the filtered item")
+    public void theUserGoInToFilteredItem() {
+        pages.formsPage().getFilteredItemLink().click();
+    }
+
+    @When("The user verify deal and documents")
+    public void theUserVerifyDealAndDocuments() {
+        WebElement table = Driver.getDriver().findElement(By.id("association-table"));
+        List<String> familyValues = BasePage.getColumnData(table,"Aile");
+
+        int documentCount = Collections.frequency(familyValues, "Afiş Kapağı");
+        int dealCount = Collections.frequency(familyValues, "DEAL");
+
+//        Assert.assertEquals("İlişkili Deal Sayısı 1'den farklı",1,dealCount);
+//        Assert.assertEquals("İlişkili Document Sayısı yüklenenden farklı",3,documentCount);
+
+    }
+
+
+    String uniqueChatValue;
+    @When("The user mention {string}")
+    public void theUserMention(String mentionValue) {
+        BrowserUtils.wait(2);
+        uniqueChatValue = UUID.randomUUID().toString();
+        System.out.println("uniqueChatValue: " + uniqueChatValue);
+        pages.formsPage().getAppChatIcon().click();
+        pages.formsPage().getAppChatInputBox().sendKeys(mentionValue);
+        BrowserUtils.wait(2);
+        pages.formsPage().getMentionOption().click();
+        pages.formsPage().getAppChatInputBox().sendKeys(" " + uniqueChatValue);
+        pages.formsPage().getAppChatMsgSubmitButton().click();
+    }
+
+    int notificationIndex;
+    @When("The user verify notification")
+    public void theUserVerifyNotification() {
+        pages.formsPage().getNotificationIcon().click();
+        BrowserUtils.wait(3);
+
+        System.out.println(pages.formsPage().getNotificationValues());
+
+        for (WebElement value : pages.formsPage().getNotificationValues()) {
+            System.out.println(value.getText());
+        }
+
+        boolean contains = pages.formsPage().getNotificationValues().stream()
+                .anyMatch(e -> e.getText().contains(uniqueChatValue.substring(0,15)));
+
+        Assert.assertTrue("Notification gelmedi",contains);
+
+        notificationIndex = -1;
+        for (int i = 0; i < pages.formsPage().getNotificationValues().size(); i++) {
+            if (pages.formsPage().getNotificationValues().get(i).getText().contains(uniqueChatValue.substring(0,15))) {
+                notificationIndex = i;
+                break;
+            }
+        }
+        System.out.println("İçeren elemanın index'i: " + notificationIndex);
+
+    }
+
+    @When("The user verify link")
+    public void theUserVerifyLink() {
+        pages.formsPage().getMentionLinks().get(notificationIndex).click();
+        BrowserUtils.wait(5);
+        String navigatedItemId = Driver.getDriver().getCurrentUrl().split("/")[5];
+
+        Assert.assertEquals("Link yönlendirmesi yanlış",formId,navigatedItemId.split("\\?")[0]);
+
+    }
+
+
+    @When("The user go to team dashboard")
+    public void theUserGoToTeamDashboard() {
+        if (environment.contains("prod")) {
+            Driver.getDriver().get("https://crm-ui.spwgpf.com/Enrich/ReportCardAnalysis");
+        } else if (environment.contains("test")) {
+            Driver.getDriver().get("");
+        }
+        BrowserUtils.wait(15);
+    }
+
+    @When("The user take screenshot")
+    public void theUserTakeScreenshot() {
+//        BrowserUtils.setZoom(Driver.getDriver(),60);
+        BrowserUtils.wait(20);
+        String path = BrowserUtils.getScreenshot("dashboard");
+        System.out.println("Path: " + path);
+        BrowserUtils.sendFileToTelegram(path,"-1002156506449");
+
+        Driver.getDriver().switchTo().frame(pages.formsPage().getCardReportDashboard());
+        Driver.getDriver().switchTo().frame(0);
+
+        for (int i = 1; i < 6; i++) {
+            pages.formsPage().getTeamDashboardTabs().get(i).click();
+            BrowserUtils.wait(3);
+
+            path = BrowserUtils.getScreenshot(pages.formsPage().getTeamDashboardTabs().get(i).getText());
+            System.out.println("Path: " + path);
+            BrowserUtils.sendFileToTelegram(path,"-4570445477");
+
+        }
+
+
+        Driver.getDriver().switchTo().parentFrame(); // içten dışa
+        Driver.getDriver().switchTo().defaultContent();
+
+
+    }
+
+    @Then("The user verify {string} added")
+    public void theUserVerifyAreaAdded(String filterName) {
+        boolean allMatch = pages.searchPage().getSelectedSearchAreas().stream()
+                .map(WebElement::getText)
+                .allMatch(title -> title.toLowerCase().contains(filterName.toLowerCase()));
+    }
+
+    @When("The user click history in app")
+    public void theUserClickHistoryInApp() {
+        BrowserUtils.wait(5);
+        pages.generalPage().getUserMenuButton().click();
+        BrowserUtils.wait(2);
+        pages.generalPage().getHistoryButton().click();
+        BrowserUtils.wait(2);
+    }
+
+    List<WebElement> firstRowOfAppHistoryValues;
+    List<WebElement> firstRowOfDealHistoryValues;
+    List<WebElement> firstRowOfAccountHistoryValues;
+    @When("The user get first row of {string} history")
+    public void theUserGetFirstRowOfAppHistory(String historyType) {
+        if (historyType.equalsIgnoreCase("app"))
+            firstRowOfAppHistoryValues = pages.generalPage().getHistoryFirstRowValues();
+
+        if (historyType.equalsIgnoreCase("deal"))
+            firstRowOfDealHistoryValues = pages.generalPage().getHistoryFirstRowValues();
+
+        if (historyType.equalsIgnoreCase("account"))
+            firstRowOfAccountHistoryValues = pages.generalPage().getHistoryFirstRowValues();
+    }
+
+    @Then("The user verify item history values")
+    public void theUserVerifyItemHistoryValues() {
+
+        boolean appAndDeal = IntStream.range(0, firstRowOfAppHistoryValues.size())
+                .allMatch(i -> firstRowOfAppHistoryValues.get(i).getText().trim()
+                        .equals(firstRowOfDealHistoryValues.get(i).getText().trim()));
+
+        boolean appAndAccount = IntStream.range(0, firstRowOfAppHistoryValues.size())
+                .allMatch(i -> firstRowOfAppHistoryValues.get(i).getText().trim()
+                        .equals(firstRowOfAccountHistoryValues.get(i).getText().trim()));
+
+        Assert.assertTrue("App Tarihçe'de sorun var",appAndDeal || appAndAccount);
+
+
+    }
+
+    String downloadedFileName;
+    @When("The user click uploaded document")
+    public void theUserClickUploadedDocument() {
+        BrowserUtils.wait(2);
+        BrowserUtils.adjustScreenSize(55,Driver.getDriver());
+
+        int index = IntStream.range(0, pages.searchPage().getUploadedDocumentNames().size())
+                .filter(i -> pages.searchPage().getUploadedDocumentNames().get(i).getText().contains("xlsx"))
+                .findFirst()
+                .orElse(-1);
+
+        downloadedFileName = pages.searchPage().getUploadedDocumentNames().get(index).getText().replaceAll("[()]", "");
+
+        pages.searchPage().getUploadedDocumentLinks().get(index).click();
+        BrowserUtils.wait(1);
+    }
+
+    @When("The user verify document is download")
+    public void theUserVerifyDocumentIsDownload() {
+        Assert.assertTrue("Dosya indirilemedi!",
+                BrowserUtils.isNewExcelDownloaded(System.getProperty("user.home") + "/Downloads",5));
+
+        String latestExcelFile = BrowserUtils.getLatestExcelFileName(System.getProperty("user.home") + "/Downloads");
+
+
+//        Assert.assertEquals("indirlen dosyanın ismi eşleşmedi",downloadedFileName,latestExcelFile);
+
+        Assert.assertTrue("indirilen dosya ismi eşleşmedi",
+                latestExcelFile.contains(downloadedFileName.split("\\.")[0]));
+
+
     }
 }

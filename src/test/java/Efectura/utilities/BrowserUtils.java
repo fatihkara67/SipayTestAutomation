@@ -4,16 +4,24 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.openqa.selenium.*;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.devtools.DevTools;
+import org.openqa.selenium.devtools.HasDevTools;
+import org.openqa.selenium.devtools.v110.emulation.Emulation;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,7 +43,7 @@ public class BrowserUtils {
      */
     public static String getScreenshot(String name) {
         // Adding date and time to the screenshot name to make it unique
-        name = new Date().toString().replace(" ", "_").replace(":", "-") + "_" + name;
+//        name = new Date().toString().replace(" ", "_").replace(":", "-") + "_" + name;
         String path;
         // Determining the file path based on the operating system
         if (System.getProperty("os.name").toLowerCase().contains("mac")) {
@@ -656,6 +664,105 @@ public class BrowserUtils {
         }
         throw last != null ? last : new RuntimeException("safeClick failed for given element.");
     }
+
+    public static String takeScreenshot(WebDriver driver, String screenshotName) {
+        // Tarih formatı ile dosya ismini eşsizleştir
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String fileName = screenshotName + "_" + timestamp + ".png";
+
+        // Ekran görüntüsünü geçici dosyaya al
+        File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+        // Hedef klasör (örnek: proje altındaki /screenshots klasörü)
+        String destDir = System.getProperty("user.dir") + "/screenshots/";
+        File directory = new File(destDir);
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        // Hedef dosya yolu
+        Path destPath = Path.of(destDir + fileName);
+
+        try {
+            // Dosyayı kopyala
+            Files.copy(srcFile.toPath(), destPath, StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("Screenshot saved at: " + destPath);
+            return destPath.toString(); // Yol döndürülüyor
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void setZoom(WebDriver driver, int percent) {
+        // 50 => 0.5; 100 => 1.0
+        double scale = percent / 100.0;
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        // Tüm sayfaya uygula
+        js.executeScript("document.documentElement.style.zoom = arguments[0];", String.valueOf(scale));
+    }
+
+    public static void setPageScale(WebDriver driver, double scale) {
+        DevTools devTools = ((HasDevTools) driver).getDevTools();
+        devTools.createSession();
+
+        // 1. Gerçek sayfa ölçek faktörü (0.5 = %50, 1.0 = %100)
+        devTools.send(Emulation.setPageScaleFactor(scale));
+
+        // 2. (Opsiyonel ama faydalı) viewport’u bildir — layout tekrar hesaplansın
+        int baseW = 1920, baseH = 1080;
+        devTools.send(Emulation.setDeviceMetricsOverride(
+                (int)(baseW), (int)(baseH), 1.0, false,
+                java.util.Optional.empty(), java.util.Optional.empty(), java.util.Optional.empty(),
+                java.util.Optional.empty(), java.util.Optional.empty(), java.util.Optional.empty(),
+                java.util.Optional.empty(), java.util.Optional.empty(), java.util.Optional.empty()
+        ));
+
+        ((JavascriptExecutor) driver).executeScript("window.dispatchEvent(new Event('resize'));");
+    }
+
+    public static void resetTo100(WebDriver driver) {
+        driver.findElement(By.tagName("html"))
+                .sendKeys(Keys.chord(Keys.CONTROL, "0"));
+    }
+
+    public static boolean isNewExcelDownloaded(String downloadDirPath, long maxAgeSeconds) {
+        File dir = new File(downloadDirPath);
+        File[] xlsxFiles = dir.listFiles((d, name) -> name.toLowerCase().endsWith(".xlsx"));
+
+        if (xlsxFiles == null || xlsxFiles.length == 0) {
+            return false;
+        }
+
+        File latestFile = Arrays.stream(xlsxFiles)
+                .max(Comparator.comparingLong(File::lastModified))
+                .orElse(null);
+
+        if (latestFile == null) return false;
+
+        long currentTime = System.currentTimeMillis();
+        long lastModified = latestFile.lastModified();
+
+        long ageInSeconds = (currentTime - lastModified) / 1000;
+        return ageInSeconds <= maxAgeSeconds;
+    }
+
+    public static String getLatestExcelFileName(String downloadDirPath) {
+        File dir = new File(downloadDirPath);
+        File[] xlsxFiles = dir.listFiles((d, name) -> name.toLowerCase().endsWith(".xlsx"));
+
+        if (xlsxFiles == null || xlsxFiles.length == 0) {
+            return null;
+        }
+
+        File latestFile = Arrays.stream(xlsxFiles)
+                .max(Comparator.comparingLong(File::lastModified))
+                .orElse(null);
+
+        return latestFile != null ? latestFile.getName() : null;
+    }
+
+
 
 
 }

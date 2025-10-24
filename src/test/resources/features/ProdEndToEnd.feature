@@ -22,7 +22,7 @@ Feature: Prod End To End Form Cases
     Then The user verify warning 'Durum ProspectDraft olarak güncellendi'
     Then The user verify old values
 
-#    When The user select2 'Ulaşılamadı' in 'prospectDurum'
+    When The user select2 'Ulaşılamadı' in 'prospectDurum'
     When The user click 'Tamamla' button
     Then The user verify warning 'Durum Prospect olarak güncellendi'
     Then The user verify 'Lead Formu' form is open
@@ -129,6 +129,81 @@ Feature: Prod End To End Form Cases
     When The user wait 3 second
     Then The user verify old values
     Given The user assert all
+
+
+
+  Scenario: Prod Item And Association Control
+    Given The user login
+      | username | TestSipay  |
+      | password | Sipay2025. |
+    When The user go to 'Prospect' on navbar
+    When The user fill select prospect form sales and field
+    When The user fill inputs prospect form sales and field
+    When The user select2 'Ulaşılamadı' in 'prospectDurum'
+    When The user click 'Tamamla' button
+    Then The user verify warning 'Durum Prospect olarak güncellendi'
+    Then The user verify 'Lead Formu' form is open
+    When The user select2 'Fiziki POS' in 'product'
+    When The user fill select prospect form sales and field
+    When The user fill inputs prospect form sales and field
+    When The user click 'Tamamla' button
+    Then The user verify warning 'Durum Lead olarak güncellendi'
+    Then The user verify 'Pitched Kayıt Formu' form is open
+    When The user fill select prospect form sales and field
+    When The user fill inputs prospect form sales and field
+    When THe user fill date 'offerDate' in form
+    When THe user fill date 'expectedActivationMonth' in form
+    When The user click 'Tamamla' button
+    Then The user verify warning 'Durum Pitched olarak güncellendi'
+    Then The user verify 'Contracting Kayıt Formu' form is open
+
+    When The user fill select prospect form sales and field
+    When The user fill inputs prospect form sales and field
+    When The user select2 'Adi Ortaklık' in 'companyType'
+#    Then The user verify required documents
+    When The user upload documents
+    When The user click 'Tamamla' button
+    Then The user verify warning 'Durum Contracting olarak güncellendi'
+    When The user take form id
+    Given The user opens 'test-fletum' environment
+    And   The User inputs a valid username "sahaUser"
+    And   The User inputs a valid password "sahaPassword"
+    And   The User clicks the Submit button
+    Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
+    When The user navigate the deal item
+    And The user clicks "Dijital Varlıklar" tab
+    And The user select "Evet" in "IsAssociated" select filter
+    Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
+    And The user clicks "İş Ortakları" tab
+    And The user select "Evet" in "IsAssociated" select filter
+    Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
+    When The user go in the filtered item
+    When The user go to other tab
+    And The user clicks "Dijital İçerikler" tab
+    And The user select "Evet" in "IsAssociated" select filter
+    Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
+    Then The user verify deal and documents
+
+
+  Scenario: Team Dashboard
+    Given The user opens 'prod-fletum' environment
+    And   The User inputs a valid username "sahaUser"
+    And   The User inputs a valid password "sahaPassword"
+    And   The User clicks the Submit button
+    Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
+    When The user go to team dashboard
+    When The user take screenshot
+
+  Scenario: Prod Document Download Control
+    Given The user login
+      | username | semasipay  |
+      | password | Sipay2025. |
+    When The user select 'Contracting' in deal status filter
+    When The user click related record button at row 0
+    When The user go to other tab
+    Then The user verify 'Onboarding Risk Formu' form is open
+    When The user click uploaded document
+    When The user verify document is download
 
 
 

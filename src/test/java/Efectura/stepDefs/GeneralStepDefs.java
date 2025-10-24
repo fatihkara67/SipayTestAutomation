@@ -1,5 +1,6 @@
 package Efectura.stepDefs;
 
+import Efectura.pages.BasePage;
 import Efectura.utilities.*;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
@@ -168,8 +169,8 @@ public class GeneralStepDefs extends BaseStep {
         BrowserUtils.wait(5);
         BrowserUtils.adjustScreenSize(40,Driver.getDriver());
         WebElement infoTab = Driver.getDriver().findElement(By.xpath("//button[contains(.,'" + infoName + "')]"));
-        BrowserUtils.safeClick(infoTab);
-//        infoTab.click();
+//        BrowserUtils.safeClick(infoTab);
+        infoTab.click();
     }
 
 
@@ -263,4 +264,18 @@ public class GeneralStepDefs extends BaseStep {
         Driver.getDriver().navigate().to(url);
         BrowserUtils.wait(2);
     }
+
+    @Then("The user verify {string} select filter with value {string} in {string}")
+    public void theUserVerifySelectFilterWithValue(String columnName, String expectedValue, String table) {
+        BrowserUtils.wait(2);
+        WebElement tableElement = Driver.getDriver().findElement(By.id(table));
+        List<String> values =  BasePage.getColumnData(tableElement,columnName);
+
+        System.out.println(values);
+        BrowserUtils.wait(7);
+        for (String actualValue : values) {
+            Assert.assertEquals(expectedValue,actualValue);
+        }
+    }
+
 }

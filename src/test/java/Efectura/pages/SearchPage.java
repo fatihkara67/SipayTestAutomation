@@ -45,7 +45,7 @@ public class SearchPage extends BasePage {
     @FindBy(xpath = "//*[contains(@id,'-content-')]/div[3]/div[3]//div[1]/div[2]/div[1]/div[4]")
     private List<WebElement> createDateValues;
 
-    @FindBy(xpath = "//*[contains(@id,'-content-')]/div[3]/div[2]/div[2]/div//button[2]")
+    @FindBy(xpath = "//div[3]/div[2]/div[2]/div/button/div")
     private WebElement createDateResetFilter;
 
     @FindBy(xpath = "//*[contains(@id,'-content-')]/div[3]/div[2]/div[2]//div/button/span")
@@ -87,13 +87,16 @@ public class SearchPage extends BasePage {
     @FindBy(xpath = "//button[contains(.,'Arama Alanları')]")
     private WebElement searchAreaButton;
 
+    @FindBy(xpath = "//div[2]/div/div/div[3]/div/button")
+    private WebElement searchAreaCloseButton;
+
     @FindBy(xpath = "/html/body/div[2]/div/div/div[2]/div/div/div[2]/span")
     private List<WebElement> searchAreaOptions;
 
     @FindBy(xpath = "/html/body/div[2]/div/div/div[2]/div/div[2]/div")
     private List<WebElement> selectedSearchAreaIcons;
 
-    @FindBy(xpath = "//*[@id=\"root\"]/div/header/div/nav/div/div/button[2]")
+    @FindBy(xpath = "//nav/div/div/div[2]/button")
     private WebElement languageButton;
 
     @FindBy(xpath = "//div[1]/div[1]/div/div/div[2]/div/span")
@@ -113,6 +116,15 @@ public class SearchPage extends BasePage {
 
     @FindBy(xpath = "//div[contains(text(),'Kayıt bulunamadı')]")
     private WebElement tableInfo;
+
+    @FindBy(xpath = "//div[2]/div/div[1]/div[3]/div[1]/h2")
+    private WebElement searchResultHeader;
+
+    @FindBy(xpath = "//div[2]/div[11]/div[4]/div[1]/div/div/a")
+    private List<WebElement> uploadedDocumentLinks;
+
+    @FindBy(xpath = "//div[2]/div[11]/div[4]/div[1]/div/div/span")
+    private List<WebElement> uploadedDocumentNames;
 
 
     public static boolean isSortedAscending(List<String> dateStrings, String pattern) {

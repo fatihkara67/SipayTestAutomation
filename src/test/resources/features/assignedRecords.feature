@@ -54,34 +54,43 @@ Feature: Assigned Records Page
     Then The user verify table with record
 
   Scenario: Assigned Records Deal Status Filter 1
+    When The user click create new record button
+    When The user fill select prospect form sales and field
+    When The user fill inputs prospect form sales and field
+    When The user click 'Kaydet' button
+    Then The user verify warning 'Durum ProspectDraft olarak güncellendi'
+    When The user navigate to 'https://sipayapp.efectura.com/'
     When The user click assigned records tab
-    When The user select 'Prospect' in deal status filter
+    When The user select 'ProspectDraft' in deal status filter
     Then The user verify deal status filter with 'Prospect'
 
   Scenario: Assigned Records Create date filter
     When The user click assigned records tab
-    When The user select date filter 7 9 2025
-    Then The user verify create date filter 7 9 2025
+    When The user select date filter
+    Then The user verify create date filter
 
   Scenario: Assigned Records Create date and Deal Status filter
     When The user click assigned records tab
-    When The user select 'Lead' in deal status filter
-    When The user select date filter 12 8 2025
-    Then The user verify create date filter 12 8 2025
-    Then The user verify deal status filter with 'Lead'
-
-  Scenario: Assigned Records Create date filter reset button
-    When The user click assigned records tab
-    When The user enter 'Sena' to search input
-    When The user select date filter 14 8 2025
+    When The user select 'ProspectDraft' in deal status filter
+    When The user select date filter
+    Then The user verify create date filter
+    Then The user verify deal status filter with 'ProspectDraft'
     When The user click create date reset button
     Then The user verify Reset button func for create date filter
 
+#  Scenario: Assigned Records Create date filter reset button
+#    When The user click assigned records tab
+#    When The user enter 'Sena' to search input
+#    When The user select date filter
+#    When The user click create date reset button
+#    Then The user verify Reset button func for create date filter
+
   Scenario: Assigned Records Go To Related Record button
     When The user click assigned records tab
-    When The user select 'Prospect' in deal status filter
+    When The user select 'ProspectDraft' in deal status filter
     When The user click related record button at row 0
-    Then The user verify 'Lead Formu' form is open
+    When The user go to other tab
+    Then The user verify 'Prospect Formu' form is open
 
   Scenario: Assigned Records Pagination Control
     When The user click assigned records tab

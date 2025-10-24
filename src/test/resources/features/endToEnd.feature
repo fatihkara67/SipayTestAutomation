@@ -360,7 +360,6 @@ Feature: End To End Form Cases
       Then The user verify ret reason
       Given The user assert all
 
-
     Scenario: Role Control
       Given The user login
         | username | semasipay  |
@@ -377,6 +376,127 @@ Feature: End To End Form Cases
       Then The user verify only operation records visible
       Given The user assert all
 
+
+    Scenario: Item And Association Control
+      Given The user login
+        | username | TestSipay  |
+        | password | Sipay2025. |
+      When The user go to 'Prospect' on navbar
+      When The user fill select prospect form sales and field
+      When The user fill inputs prospect form sales and field
+      When The user select2 'Ulaşılamadı' in 'prospectDurum'
+      When The user click 'Tamamla' button
+      Then The user verify warning 'Durum Prospect olarak güncellendi'
+      Then The user verify 'Lead Formu' form is open
+      When The user select2 'Fiziki POS' in 'product'
+      When The user fill select prospect form sales and field
+      When The user fill inputs prospect form sales and field
+      When The user click 'Tamamla' button
+      Then The user verify warning 'Durum Lead olarak güncellendi'
+      Then The user verify 'Pitched Kayıt Formu' form is open
+      When The user fill select prospect form sales and field
+      When The user fill inputs prospect form sales and field
+      When THe user fill date 'offerDate' in form
+      When THe user fill date 'expectedActivationMonth' in form
+      When The user click 'Tamamla' button
+      Then The user verify warning 'Durum Pitched olarak güncellendi'
+      Then The user verify 'Contracting Kayıt Formu' form is open
+
+      When The user fill select prospect form sales and field
+      When The user fill inputs prospect form sales and field
+      When The user select2 'Adi Ortaklık' in 'companyType'
+#    Then The user verify required documents
+      When The user upload documents
+      When The user click 'Tamamla' button
+      Then The user verify warning 'Durum Contracting olarak güncellendi'
+      When The user take form id
+      Given The user opens 'test-fletum' environment
+      And   The User inputs a valid username "sahaUser"
+      And   The User inputs a valid password "sahaPassword"
+      And   The User clicks the Submit button
+      Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
+      When The user navigate the deal item
+      And The user clicks "Dijital Varlıklar" tab
+      And The user select "Evet" in "IsAssociated" select filter
+      Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
+      And The user clicks "İş Ortakları" tab
+      And The user select "Evet" in "IsAssociated" select filter
+      Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
+      When The user go in the filtered item
+      When The user go to other tab
+      And The user clicks "Dijital İçerikler" tab
+      And The user select "Evet" in "IsAssociated" select filter
+      Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
+      Then The user verify deal and documents
+
+    Scenario: Chat
+      Given The user login
+        | username | TestSipay  |
+        | password | Sipay2025. |
+      When The user go to 'Prospect' on navbar
+      When The user fill select prospect form sales and field
+      When The user fill inputs prospect form sales and field
+      When The user select2 'Ulaşılamadı' in 'prospectDurum'
+      When The user click 'Tamamla' button
+      Then The user verify warning 'Durum Prospect olarak güncellendi'
+      Then The user verify 'Lead Formu' form is open
+      When The user take form id
+      Given The user logout
+      Given The user login
+        | username | semasipay  |
+        | password | Sipay2025. |
+#    Then The user verify operation revise reason and explanation
+      When The user search created form
+      When The user click related record button at row 0
+      When The user go to other tab
+      When The user wait 6 second
+      When The user mention '@testsipay'
+      Given The user opens 'test-fletum' environment
+      And   The User inputs a valid username "sahaUser"
+      And   The User inputs a valid password "sahaPassword"
+      And   The User clicks the Submit button
+      Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
+      Then The user verify notification
+      Then The user verify link
+
+  Scenario: History Check
+    Given The user login
+      | username | TestSipay  |
+      | password | Sipay2025. |
+    When The user select 'Prospect' in deal status filter
+    When The user click related record button at row 0
+    When The user go to other tab
+    Then The user verify 'Lead Formu' form is open
+    When The user click history in app
+    When The user get first row of 'app' history
+    When The user take form id
+    Given The user opens 'test-fletum' environment
+    And   The User inputs a valid username "sahaUser"
+    And   The User inputs a valid password "sahaPassword"
+    And   The User clicks the Submit button
+    Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
+    When The user navigate the deal item
+    And The user clicks "Tarihçe" tab
+    When The user get first row of 'deal' history
+    And The user clicks "İş Ortakları" tab
+    And The user select "Evet" in "IsAssociated" select filter
+    Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
+    When The user go in the filtered item
+    When The user go to other tab
+    And The user clicks "Tarihçe" tab
+    When The user get first row of 'account' history
+    Then The user verify item history values
+
+
+  Scenario: Document Download Control
+    Given The user login
+      | username | TestSipay  |
+      | password | Sipay2025. |
+    When The user select 'Contracting' in deal status filter
+    When The user click related record button at row 0
+    When The user go to other tab
+    Then The user verify 'Onboarding Risk Formu' form is open
+    When The user click uploaded document
 
 
 
