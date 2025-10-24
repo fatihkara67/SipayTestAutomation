@@ -30,7 +30,7 @@ import java.util.List;
         // Hangi senaryoların çalıştırılacağını belirten etiket
         tags ="@spy",
         features ="src/test/resources/features",
-        glue  = "Efectura/stepDefs",
+        glue  = "Efectura.stepDefs",
         dryRun = false
 )
 
