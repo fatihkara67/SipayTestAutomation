@@ -18,8 +18,11 @@ import java.util.*;
 import static Efectura.utilities.BrowserUtils.isElementDisplayed;
 
 public class GeneralStepDefs extends BaseStep {
+
+    String env;
     @Given("The user go to {string} environment")
     public void the_user_go_to_environment(String environment) {
+        env = environment;
         Driver.getDriver().get(ConfigurationReader.getProperty(environment));
     }
 

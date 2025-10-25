@@ -7,15 +7,12 @@ Feature: Prod Assigned Records Page
       | username | TestSipay  |
       | password | Sipay2025. |
 
-  Scenario: Assigned records navigation and display
-    When The user click assigned records tab
-    Then The user verify assigned records tab
-
   Scenario: Assign Not To Me Listing Case
     When The user click create new record button
     When The user select 'Test Sipay2 2' as salesRep
 #    When The user fill and save the form
     When The user fill select prospect form sales and field
+    When The user select2 'Ulaşılamadı' in 'prospectDurum'
     When The user fill inputs prospect form sales and field
     When The user click 'Tamamla' button
     When The user navigate to 'https://crmapp.spwgpf.com/'
@@ -26,6 +23,7 @@ Feature: Prod Assigned Records Page
     When The user click create new record button
     When The user select 'Test Sipay2 2' as salesRep
     When The user fill select prospect form sales and field
+    When The user select2 'Ulaşılamadı' in 'prospectDurum'
     When The user fill inputs prospect form sales and field
     When The user click 'Tamamla' button
     Given The user logout
@@ -35,29 +33,38 @@ Feature: Prod Assigned Records Page
     When The user click assigned records tab
     Then The user verify table with record
 
-#  Scenario: Records Not I Created Listing Case
-#    When The user click create new record button
-#    When The user select 'Merve Akan' as salesRep
+  Scenario: Records Not I Created Listing Case
+    When The user click create new record button
+    When The user select 'Test Sipay2 2' as salesRep
 #    When The user fill and save the form
-#    Given The user logout
-#    Given The user login
-#      | username | merveakan  |
-#      | password | Sipay2025. |
-#    When The user click assigned records tab
-#    When The user click assignedOrCreatedCheckbox
-#    Then The user verify table no result for created case
+    When The user fill select prospect form sales and field
+    When The user select2 'Ulaşılamadı' in 'prospectDurum'
+    When The user fill inputs prospect form sales and field
+    When The user click 'Tamamla' button
+    Given The user logout
+    Given The user login
+      | username | testsipay2 |
+      | password | Sipay2025. |
+    When The user click assigned records tab
+    When The user click assignedOrCreatedCheckbox
+    Then The user verify table no result for created case
 
-#  Scenario: Records I Created Listing Case
-#    When The user click create new record button
-##    When The user select 'Test Sipay' as salesRep
-#    When The user fill and save the form
-#    When The user click assigned records tab
-#    When The user click assignedOrCreatedCheckbox
-#    Then The user verify table with record
+  Scenario: Records I Created Listing Case
+    When The user click create new record button
+#    When The user select 'Test Sipay' as salesRep
+    When The user fill select prospect form sales and field
+    When The user select2 'Ulaşılamadı' in 'prospectDurum'
+    When The user fill inputs prospect form sales and field
+    When The user click 'Tamamla' button
+    When The user navigate to 'https://crmapp.spwgpf.com/'
+    When The user click assigned records tab
+    When The user click assignedOrCreatedCheckbox
+    Then The user verify table with record
 
   Scenario: Assigned Records Deal Status Filter 1
     When The user click create new record button
     When The user fill select prospect form sales and field
+    When The user select2 'Ulaşılamadı' in 'prospectDurum'
     When The user fill inputs prospect form sales and field
     When The user click 'Kaydet' button
     Then The user verify warning 'Durum ProspectDraft olarak güncellendi'

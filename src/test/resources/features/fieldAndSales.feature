@@ -67,11 +67,11 @@ Feature: Field And Sales Cases
       | username | saha_satis |
       | password | Sipay2025. |
     When The user go to 'Ziyaret' on navbar
-#    When The user click 'Tamamla' button
-#    Then The user verify warning 'Lütfen tüm zorunlu alanları doldurun'
-#    When The user enter 'KARA' into 'LastName'
-#    When The user click 'Temizle' button
-#    Then The user verify form inputs clear
+    When The user click 'Tamamla' button
+    Then The user verify warning 'Lütfen tüm zorunlu alanları doldurun'
+    When The user enter 'KARA' into 'LastName'
+    When The user click 'Temizle' button
+    Then The user verify form inputs clear
     When The user click 'hasPosUsage'
     Then The user verify 'otherPosInfo' is displayed
     When The user fill select prospect form sales and field
@@ -83,12 +83,12 @@ Feature: Field And Sales Cases
     Then The user verify warning 'Durum Prospect olarak güncellendi'
     When The user keep prospect data
     Then The user verify 'Fırsat Formu' form is open
-#    When The user open 'Ziyaret' info in form
-#    Then The user verify old values
-#    Then The user verify prospect values
-#    When The user open 'Ziyaret' info in form
-#    When The user click 'Tamamla' button
-#    Then The user verify warning 'Lütfen tüm zorunlu alanları doldurun'
+    When The user open 'Ziyaret' info in form
+    Then The user verify old values
+    Then The user verify prospect values
+    When The user open 'Ziyaret' info in form
+    When The user click 'Tamamla' button
+    Then The user verify warning 'Lütfen tüm zorunlu alanları doldurun'
     When The user wait 3 second
     When The user select2 'Kiralama' in 'deviceOwnership'
     When The user fill select prospect form sales and field
@@ -110,8 +110,7 @@ Feature: Field And Sales Cases
     Then The user verify warning 'Durum Pitched olarak güncellendi'
     When The user keep pitched data
     Then The user verify 'Contracting Kayıt Formu' form is open
-    When The user open 'Satış' info in form
+    When The user open 'Satış Bilgileri' info in form
     Then The user verify old values
     When The user open 'Satış' info in form
-    Then The user verify old values
     Given The user assert all

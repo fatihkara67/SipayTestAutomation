@@ -165,21 +165,21 @@ Feature: Prod End To End Form Cases
     When The user click 'Tamamla' button
     Then The user verify warning 'Durum Contracting olarak güncellendi'
     When The user take form id
-    Given The user opens 'test-fletum' environment
+    Given The user opens 'prod-fletum' environment
     And   The User inputs a valid username "sahaUser"
     And   The User inputs a valid password "sahaPassword"
     And   The User clicks the Submit button
     Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
     When The user navigate the deal item
-    And The user clicks "Dijital Varlıklar" tab
+    And The user clicks "Deal - Kişi İlişkisi" tab
     And The user select "Evet" in "IsAssociated" select filter
     Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
-    And The user clicks "İş Ortakları" tab
+    And The user clicks "Deal - Üye İşyeri İlişkisi" tab
     And The user select "Evet" in "IsAssociated" select filter
     Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
     When The user go in the filtered item
     When The user go to other tab
-    And The user clicks "Dijital İçerikler" tab
+    And The user clicks "Deal - Üye İşyeri İlişkisi" tab
     And The user select "Evet" in "IsAssociated" select filter
     Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
     Then The user verify deal and documents

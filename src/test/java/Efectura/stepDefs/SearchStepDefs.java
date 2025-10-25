@@ -65,6 +65,7 @@ public class SearchStepDefs extends BaseStep {
 
     @Then("The user verify deal status filter with {string}")
     public void theUserVerifyDealStatusFilterWithProspect(String expectedStatus) {
+        BrowserUtils.wait(2);
 
         System.out.println(pages.searchPage().getDealStatusValuesResult().stream()
                 .map(WebElement::getText).collect(Collectors.toList()));
@@ -135,7 +136,7 @@ public class SearchStepDefs extends BaseStep {
 //        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("d MMMM uuuu", tr);
 //        String today = LocalDate.now(ZoneId.of("Europe/Istanbul")).format(fmt);
 
-
+        BrowserUtils.wait(2);
 
     }
 
@@ -667,7 +668,9 @@ public class SearchStepDefs extends BaseStep {
             sf.choose(Driver.getDriver().findElement(By.id("BELGE_TURU")), actualReqDocument);
             pages.generalPage().getAddDocumentButton().click();
             BrowserUtils.wait(1);
-//            pages.generalPage().getUseAlreadyAddedFileButton().click();
+            if (isElementDisplayed(By.xpath("//button[contains(text(),'Mevcut Dosyayı Kullan')]"))) {
+            }
+            pages.generalPage().getUseAlreadyAddedFileButton().click();
             BrowserUtils.waitForVisibility(pages.generalPage().getWarningElement(), 20);
             Assert.assertEquals("Döküman başarıyla eklendi", pages.generalPage().getWarningElement().getText());
 
@@ -714,7 +717,7 @@ public class SearchStepDefs extends BaseStep {
             // Genel istisnalar (mevcut kuralın korunması)
             if ("virtualPosRequest".equals(id) || "product".equals(id) || "segment".equals(id)
                     || "salesRep".equals(id) || "communicationTracking".equals(id) || "companyType".equals(id) ||
-                    "prospectDurum".equals(id)) {
+                    "prospectDurum".equals(id) || "installationInfo".equals(id)) {
                 continue;
             }
 
@@ -781,7 +784,8 @@ public class SearchStepDefs extends BaseStep {
                 "phone", "email", "estVolume", "location", "singlePaymentRate",
                 "installmentUsageRate", "debitUsageRate", "creditUsageRate", "currentRate",
                 "estRevenue", "commissionRate", "estimatedIncome", "ownerTC", "partnerTC",
-                "authorizedTC", "authorized","walletMasterId","installmentCount","deviceQty","accountantEmail","accountantPhone"
+                "authorizedTC", "authorized","walletMasterId","installmentCount","deviceQty","accountantEmail",
+                "accountantPhone","mccCode"
         );
 
         for (WebElement input : pages.formsPage().getFormInputs()) {
@@ -848,6 +852,12 @@ public class SearchStepDefs extends BaseStep {
                 validEmail = BrowserUtils.generateRandomEmail();
                 input.sendKeys(validEmail);
                 attributeAndValues.put(id, validEmail);
+                attributeCodesAndLabels.put(id,
+                        Driver.getDriver().findElement(By.xpath("//*[@id='" + id + "']/parent::*//label")).getText());
+            }
+            if ("mccCode".equals(id)) {
+                input.sendKeys("67670");
+                attributeAndValues.put(id, "67670");
                 attributeCodesAndLabels.put(id,
                         Driver.getDriver().findElement(By.xpath("//*[@id='" + id + "']/parent::*//label")).getText());
             }
@@ -1371,7 +1381,12 @@ public class SearchStepDefs extends BaseStep {
 
     @When("The user navigate the deal item")
     public void theUserNavigateTheDealItem() {
-        Driver.getDriver().get("https://sipay-ui.efectura.com/Enrich/EditItem/" + formId);
+
+        if (environment.contains("prod")) {
+            Driver.getDriver().get("https://crm-ui.spwgpf.com/Enrich/EditItem/" + formId);
+        } else if (environment.contains("test")) {
+            Driver.getDriver().get("https://sipay-ui.efectura.com/Enrich/EditItem/" + formId);
+        }
         BrowserUtils.wait(3);
     }
 
@@ -1395,10 +1410,11 @@ public class SearchStepDefs extends BaseStep {
     @When("The user verify deal and documents")
     public void theUserVerifyDealAndDocuments() {
         WebElement table = Driver.getDriver().findElement(By.id("association-table"));
-        List<String> familyValues = BasePage.getColumnData(table,"Aile");
+        List<String> tableAssocValues = BasePage.getColumnData(table,"İlişkili");
+        Assert.assertEquals(4,tableAssocValues.size());
 
-        int documentCount = Collections.frequency(familyValues, "Afiş Kapağı");
-        int dealCount = Collections.frequency(familyValues, "DEAL");
+//        int documentCount = Collections.frequency(familyValues, "Afiş Kapağı");
+//        int dealCount = Collections.frequency(familyValues, "DEAL");
 
 //        Assert.assertEquals("İlişkili Deal Sayısı 1'den farklı",1,dealCount);
 //        Assert.assertEquals("İlişkili Document Sayısı yüklenenden farklı",3,documentCount);

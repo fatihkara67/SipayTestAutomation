@@ -21,6 +21,6 @@ public class AssignedRecordsStepDefs extends BaseStep {
     @When("The user click assignedOrCreatedCheckbox")
     public void theUserClickAssignedOrCreatedCheckbox() {
         BrowserUtils.wait(1);
-        pages.assignedRecordPage().getAssignedOrCreatedCheckBox().click();
+        pages.assignedRecordPage().getMyCreatedRecordsButton().click();
     }
 }
