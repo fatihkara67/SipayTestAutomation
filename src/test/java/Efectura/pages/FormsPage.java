@@ -40,13 +40,13 @@ public class FormsPage extends BasePage {
     @FindBy(xpath = "//tbody/tr/td[1]/a")
     private WebElement filteredItemLink;
 
-    @FindBy(xpath = "/html/body/div/div[2]/div")
+    @FindBy(xpath = "/html/body/div/div/div/div")
     private WebElement appChatIcon;
 
     @FindBy(xpath = "//input[@placeholder='Mesajınızı girin']")
     private WebElement appChatInputBox;
 
-    @FindBy(xpath = "/html/body/div/div[2]/div[2]/div[3]/div/button")
+    @FindBy(xpath = "//div[2]/div[3]/div/button")
     private WebElement appChatMsgSubmitButton;
 
     @FindBy(xpath = "/html/body/div[2]/div/div[2]/div[3]/div[1]")
@@ -67,7 +67,7 @@ public class FormsPage extends BasePage {
     @FindBy(xpath = "/html/body/div[2]/nav/div/div[3]/div/div[2]/div[2]/div/div[1]/div/div/div/p")
     private List<WebElement> notificationValues;
 
-    @FindBy(xpath = "//div/div[2]/div[2]/div[3]/div/div/div/div/div[2]/div[2]/div[.='Test Sipay']")
+    @FindBy(xpath = "//div[text()='Test Sipay']")
     private WebElement mentionOption;
 
     @FindBy(xpath = "//div[@role='tab']")

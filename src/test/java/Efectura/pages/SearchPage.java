@@ -111,7 +111,7 @@ public class SearchPage extends BasePage {
     @FindBy(xpath = "//div[2]/div/div/div[1]/div/input")
     private WebElement redReasonSelectInput;
 
-    @FindBy(xpath = "//div/div/div[2]/button")
+    @FindBy(xpath = "/html/body/div[3]/div[2]/div/div/div[2]/button")
     private List<WebElement> redReasonSelectOptions;
 
     @FindBy(xpath = "//div[contains(text(),'Kayıt bulunamadı')]")
