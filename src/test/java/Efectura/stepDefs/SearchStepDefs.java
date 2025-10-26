@@ -14,6 +14,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.asserts.SoftAssert;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -654,29 +655,40 @@ public class SearchStepDefs extends BaseStep {
         pages.generalPage().getRequiredDocumentsButton().click();
         SelectFilterUtils sf = new SelectFilterUtils(Driver.getDriver(), Duration.ofSeconds(3));
         BrowserUtils.adjustScreenSize(40, Driver.getDriver());
-//        pages.generalPage().getRequiredDocumentsButton().click();
 
-        List<String> actualReqDocuments = BrowserUtils.convertWebElementListToStringList
-                (pages.generalPage().getActualRequiredDocuments());
+        List<String> actualReqDocuments = BrowserUtils.convertWebElementListToStringList(
+                pages.generalPage().getActualRequiredDocuments()
+        );
 
-        System.out.println("Required Docs: " + pages.generalPage().getActualRequiredDocuments());
+        // 1) Proje kökünü al
+        String projectRoot = System.getProperty("user.dir");
+
+        // 2) Relative path ile birleştir (OS bağımsız)
+        Path docPath = Paths.get(projectRoot, "src", "test", "resources", "features", "testDocument.xlsx");
+
+        // 3) Selenium'a vereceğimiz kesin (absolute) string
+        String absoluteFilePath = docPath.toFile().getAbsolutePath();
+
+        System.out.println("Uploading file from: " + absoluteFilePath);
 
         for (String actualReqDocument : actualReqDocuments) {
             BrowserUtils.wait(1);
-            pages.generalPage().getDocumentInput().sendKeys(ConfigurationReader.getProperty("filePath"));
+
+            // <input type="file"> alanına MUTLAKA absolute path veriyoruz
+            pages.generalPage().getDocumentInput().sendKeys(absoluteFilePath);
+
             BrowserUtils.wait(1);
             sf.choose(Driver.getDriver().findElement(By.id("BELGE_TURU")), actualReqDocument);
             pages.generalPage().getAddDocumentButton().click();
             BrowserUtils.wait(1);
+
             if (isElementDisplayed(By.xpath("//button[contains(text(),'Mevcut Dosyayı Kullan')]"))) {
+                pages.generalPage().getUseAlreadyAddedFileButton().click();
             }
-            pages.generalPage().getUseAlreadyAddedFileButton().click();
+
             BrowserUtils.waitForVisibility(pages.generalPage().getWarningElement(), 20);
             Assert.assertEquals("Döküman başarıyla eklendi", pages.generalPage().getWarningElement().getText());
-
         }
-
-
     }
 
     @When("The user click {string}")
@@ -1491,7 +1503,7 @@ public class SearchStepDefs extends BaseStep {
         BrowserUtils.wait(20);
         String path = BrowserUtils.getScreenshot("dashboard");
         System.out.println("Path: " + path);
-        BrowserUtils.sendFileToTelegram(path,"-1002156506449");
+        BrowserUtils.sendFileToTelegram(path,"-4570445477");
 
         Driver.getDriver().switchTo().frame(pages.formsPage().getCardReportDashboard());
         Driver.getDriver().switchTo().frame(0);
@@ -1571,7 +1583,8 @@ public class SearchStepDefs extends BaseStep {
                 .findFirst()
                 .orElse(-1);
 
-        downloadedFileName = pages.searchPage().getUploadedDocumentNames().get(index).getText().replaceAll("[()]", "");
+        downloadedFileName = pages.searchPage().getUploadedDocumentNames().
+                get(index).getText().substring(1, pages.searchPage().getUploadedDocumentNames().get(index).getText().length() - 1);
 
         pages.searchPage().getUploadedDocumentLinks().get(index).click();
         BrowserUtils.wait(1);
@@ -1587,7 +1600,7 @@ public class SearchStepDefs extends BaseStep {
 
 //        Assert.assertEquals("indirlen dosyanın ismi eşleşmedi",downloadedFileName,latestExcelFile);
 
-        Assert.assertTrue("indirilen dosya ismi eşleşmedi",
+        Assert.assertTrue("indirilen dosya ismi eşleşmedi\nexpectedName: " + downloadedFileName + "\nActaulName: " + latestExcelFile,
                 latestExcelFile.contains(downloadedFileName.split("\\.")[0]));
 
 
