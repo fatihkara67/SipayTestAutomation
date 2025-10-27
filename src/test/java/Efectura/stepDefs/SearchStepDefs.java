@@ -85,6 +85,7 @@ public class SearchStepDefs extends BaseStep {
 
     @And("The user verify Reset button func for deal status filter")
     public void theUserVerifyResetButtonFuncForDealStatusFilter() {
+        BrowserUtils.wait(1);
         System.out.println("Reset Sonrası Deal filter: " + pages.searchPage().getSelectedDealStatusText().getText());
         Assert.assertEquals("Deal Durumu Resetlenmedi", "Deal Durumu",
                 pages.searchPage().getSelectedDealStatusText().getText());
@@ -1099,7 +1100,7 @@ public class SearchStepDefs extends BaseStep {
 
         BrowserUtils.wait(1);
         pages.searchPage().getSearchButton().click();
-        BrowserUtils.wait(1);
+        BrowserUtils.wait(2);
     }
 
     @Then("The user verify warning2 {string}")
@@ -1606,4 +1607,64 @@ public class SearchStepDefs extends BaseStep {
 
     }
 
+    @Then("The user verify last updated list")
+    public void theUserVerifyLastUpdatedList() {
+        Assert.assertEquals("Oluşturulan form son güncellenenlere gelmedi",
+                name,pages.searchPage().getLastUpdatedListTitles().get(0).getText());
+    }
+
+    String selectedRecordMemberName;
+    String fullName;
+    @When("The user get member name")
+    public void theUserGetMemberName() {
+        selectedRecordMemberName = pages.searchPage().getRecordTitles().get(0).getText();
+        fullName = pages.searchPage().getFullNameValues().get(0).getText().split(":")[1].trim();
+        System.out.println(fullName);
+
+    }
+
+    @Then("The user verify member name")
+    public void theUserVerifyMemberName() {
+        BrowserUtils.wait(1);
+//        String actualMemberName = Driver.getDriver().findElement(By.id("memberName")).getText();
+        String actualMemberName = BrowserUtils.getValueInInputBox(Driver.getDriver().findElement(By.id("memberName")));
+        String actualName = BrowserUtils.getValueInInputBox(Driver.getDriver().findElement(By.id("firstName"))) + " " +
+                BrowserUtils.getValueInInputBox(Driver.getDriver().findElement(By.id("LastName")));
+
+        Assert.assertEquals("Girilen formun üye işyeri adı farklı",
+                selectedRecordMemberName,actualMemberName);
+
+        Assert.assertEquals("Girilen formun ad alanı farklı",
+                fullName,actualName);
+
+    }
+
+    @When("The user click randevular tab")
+    public void theUserClickRandevularTab() {
+        pages.generalPage().getAppointmentsTab().click();
+        BrowserUtils.wait(2);
+    }
+
+    @Then("The user verify randevu list contains the form")
+    public void theUserVerifyRandevuListContainsTheForm() {
+        boolean containsText = pages.searchPage().getRecordTitles().stream()
+                .map(WebElement::getText)
+                .anyMatch(text -> text.equalsIgnoreCase(name));
+
+        Assert.assertTrue("Randevu listesi tarihi bugün olan bir kaydı içermiyor",
+                containsText);
+
+    }
+
+    @When("The user click other records button")
+    public void theUserClickOtherRecordsButton() {
+        pages.searchPage().getOtherRecordsButton().click();
+        BrowserUtils.wait(1);
+    }
+
+    @When("The user click create new record button in table")
+    public void theUserClickCreateNewRecordButtonInTable() {
+        pages.searchPage().getCreateNewRecordButtons().get(0).click();
+        BrowserUtils.wait(1);
+    }
 }

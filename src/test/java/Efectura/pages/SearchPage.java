@@ -18,8 +18,14 @@ public class SearchPage extends BasePage {
     @FindBy(xpath = "//button[@title='Clear Search']")
     private WebElement searchInputResetButton;
 
-    @FindBy(xpath = "//*[contains(@id,'content-')]/div[3]/div[3]/div/div[1]/div[1]")
+    @FindBy(xpath = "//*[contains(@id,'content-')]/div/div[3]/div/div/div[1]")
     private List<WebElement> recordTitles;
+
+    @FindBy(xpath = "//*[contains(@id,'content-')]/div[1]/div/div[1]/div/button[1]")
+    private WebElement otherRecordsButton;
+
+    @FindBy(xpath = "//*[contains(@id,'content-')]/div[1]/div/div[1]/div/button[2]")
+    private WebElement salesAndFieldRecordsButton;
 
     @FindBy(xpath = "//*[contains(@id,'content-')]/div[3]/div[2]/div[1]/button")
     private WebElement dealStatusSelect;
@@ -39,7 +45,7 @@ public class SearchPage extends BasePage {
     @FindBy(xpath = "//*[contains(@id,'-content-')]/div[3]/div[2]/div[1]/button/span")
     private WebElement selectedDealStatusText;
 
-    @FindBy(xpath = "//*[contains(@id,'content-search')]/div[3]/div[1]/div/button[1]")
+    @FindBy(xpath = "//*[contains(@id,'-content-')]/div[3]/div[1]/div/button[1]")
     private WebElement createDateSortButton;
 
     @FindBy(xpath = "//*[contains(@id,'-content-')]/div[3]/div[3]//div[1]/div[2]/div[1]/div[4]")
@@ -54,7 +60,7 @@ public class SearchPage extends BasePage {
     @FindBy(xpath = "//*[@id='root']/div/main/div/div/div[1]/div/button")
     private WebElement createNewRecordButton;
 
-    @FindBy(xpath = "//*[contains(@id,'-content-')]/div[1]/div/div/div[1]/button[2]")
+    @FindBy(xpath = "//button[text()='Ara']")
     private WebElement searchButton;
 
     @FindBy(xpath = "//*[contains(@id,'content-')]/div[3]/div[3]/div/div[2]/button[1]")
@@ -125,6 +131,15 @@ public class SearchPage extends BasePage {
 
     @FindBy(xpath = "//div[2]/div[11]/div[4]/div[1]/div/div/span")
     private List<WebElement> uploadedDocumentNames;
+
+    @FindBy(xpath = "//div/h3")
+    private List<WebElement> lastUpdatedListTitles;
+
+    @FindBy(xpath = "//span[contains(.,'Ad Soyad')]/parent::div")
+    private List<WebElement> fullNameValues;
+
+    @FindBy(xpath = "//*[contains(@id,'content-')]/div[3]/div[3]/div/div[2]/button[.='Yeni Kayıt Oluştur']")
+    private List<WebElement> createNewRecordButtons;
 
 
     public static boolean isSortedAscending(List<String> dateStrings, String pattern) {

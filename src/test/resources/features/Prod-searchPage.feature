@@ -35,6 +35,7 @@ Feature: Search Page Scenarios
     When The user click 'Kaydet' button
     Then The user verify warning 'Durum ProspectDraft olarak güncellendi'
     When The user navigate to 'https://crmapp.spwgpf.com/'
+    Then The user verify last updated list
     Then The user verify record is created
     When The user click related record button at row 0
     When The user go to other tab

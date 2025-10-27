@@ -23,6 +23,9 @@ public class GeneralPage extends BasePage {
     @FindBy(xpath = "//main/div/div/div[1]/button[2]")
     private WebElement assignedRecordsButton;
 
+    @FindBy(xpath = "/html/body/div/div/main/div/div/div[1]/button[3]")
+    private WebElement appointmentsTab;
+
     @FindBy(xpath = "//img[@alt='Sipay Logo']")
     private WebElement sipayLogo;
 
@@ -45,13 +48,13 @@ public class GeneralPage extends BasePage {
     @FindBy(xpath = "//div[contains(@id,'-content-')]/div[3]/div[3]/div")
     private WebElement tableNoContentText;
 
-    @FindBy(xpath = "//div[2]/div/div[1]/div[3]/div[4]/div[2]/button[1]")
+    @FindBy(xpath = "//*[contains(@id,'-content-')]/div[3]/div[4]/div[2]/button[1]")
     private WebElement previousPageButton;
 
-    @FindBy(xpath = "//div[2]/div/div[1]/div[3]/div[4]/div[2]/button[2]")
+    @FindBy(xpath = "//*[contains(@id,'-content-')]/div[3]/div[4]/div[2]/button[2]")
     private WebElement nextPageButton;
 
-    @FindBy(xpath = "//div[2]/div/div[1]/div[3]/div[4]/div[2]/span")
+    @FindBy(xpath = "//*[contains(@id,'-content-')]/div[3]/div[4]/div[2]/span")
     private WebElement paginateInfoText;
 
     @FindBy(xpath = "//*[@id='root']/div/header/div/nav/a")

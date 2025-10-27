@@ -71,7 +71,7 @@ Feature: Prod Assigned Records Page
     When The user navigate to 'https://crmapp.spwgpf.com/'
     When The user click assigned records tab
     When The user select 'ProspectDraft' in deal status filter
-    Then The user verify deal status filter with 'Prospect'
+    Then The user verify deal status filter with 'ProspectDraft'
 
   Scenario: Assigned Records Create date filter
     When The user click assigned records tab
