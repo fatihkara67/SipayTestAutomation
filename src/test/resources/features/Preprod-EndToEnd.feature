@@ -346,6 +346,7 @@ Feature: End To End Form Cases
       When The user go to 'Prospect' on navbar
       When The user fill select prospect form sales and field
       When The user fill inputs prospect form sales and field
+      When The user select2 'Ulaşılamadı' in 'prospectDurum'
       When The user click 'Tamamla' button
       Then The user verify warning 'Durum Prospect olarak güncellendi'
       Then The user verify 'Lead Formu' form is open

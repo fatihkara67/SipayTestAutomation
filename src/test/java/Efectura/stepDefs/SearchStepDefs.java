@@ -227,7 +227,7 @@ public class SearchStepDefs extends BaseStep {
 
         BrowserUtils.wait(1);
         pages.searchPage().getSearchButton().click();
-        BrowserUtils.wait(1);
+        BrowserUtils.wait(4);
 
         System.out.println(pages.searchPage().getRecordTitles().stream()
                 .map(WebElement::getText).collect(Collectors.toList()));
@@ -281,7 +281,7 @@ public class SearchStepDefs extends BaseStep {
             pages.searchPage().getSearchInput().sendKeys(Character.toString(c));
         }
         pages.searchPage().getSearchButton().click();
-        BrowserUtils.wait(1);
+        BrowserUtils.wait(4);
 
         System.out.println(pages.searchPage().getRecordTitles().stream()
                 .map(WebElement::getText).collect(Collectors.toList()));
@@ -1511,7 +1511,7 @@ public class SearchStepDefs extends BaseStep {
 
         for (int i = 1; i < 6; i++) {
             pages.formsPage().getTeamDashboardTabs().get(i).click();
-            BrowserUtils.wait(3);
+            BrowserUtils.wait(4);
 
             path = BrowserUtils.getScreenshot(pages.formsPage().getTeamDashboardTabs().get(i).getText());
             System.out.println("Path: " + path);

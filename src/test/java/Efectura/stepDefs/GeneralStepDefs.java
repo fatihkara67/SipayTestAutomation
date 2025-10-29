@@ -41,7 +41,9 @@ public class GeneralStepDefs extends BaseStep {
     public void theUserVerifyWarning(String warningText) {
         BrowserUtils.wait(2);
         BrowserUtils.waitForVisibility(pages.generalPage().getWarningElement(),45);
-        Assert.assertTrue("Uyarı Gelmedi", isElementDisplayed(pages.generalPage().getWarningElement()));
+        String url = Driver.getDriver().getCurrentUrl();
+        System.out.println("Url: " + url);
+        Assert.assertTrue("Url: " + url + "\nUyarı Gelmedi", isElementDisplayed(pages.generalPage().getWarningElement()));
 
         Assert.assertEquals("Mesaj farklı",warningText,pages.generalPage().getWarningElement().getText());
     }
