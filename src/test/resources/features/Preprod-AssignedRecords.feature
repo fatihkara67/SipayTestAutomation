@@ -1,4 +1,4 @@
-@test @last
+@preprod
 Feature: Assigned Records Page
 
   Background:

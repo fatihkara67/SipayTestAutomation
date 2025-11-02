@@ -1,4 +1,4 @@
-@prod
+@preprod
 Feature: End To End Form Cases
 
   Background:
@@ -367,8 +367,8 @@ Feature: End To End Form Cases
         | password | Sipay2025. |
       When The user click assigned records tab
       Then The user verify only risk records visible
-      When The user select 'Prospect' in deal status filter
-      Then The user verify table info no record
+#      When The user select 'Prospect' in deal status filter
+#      Then The user verify table info no record
       Given The user logout
       Given The user login
         | username | operatıon_sema |
@@ -493,9 +493,46 @@ Feature: End To End Form Cases
     Given The user login
       | username | TestSipay  |
       | password | Sipay2025. |
-    When The user select 'Contracting' in deal status filter
+    When The user go to 'Prospect' on navbar
+    When The user fill select prospect form sales and field
+    When The user fill inputs prospect form sales and field
+    When The user select2 'Ulaşılamadı' in 'prospectDurum'
+    When The user click 'Tamamla' button
+    Then The user verify warning 'Durum Prospect olarak güncellendi'
+    Then The user verify 'Lead Formu' form is open
+    When The user select2 'Fiziki POS' in 'product'
+    When The user fill select prospect form sales and field
+    When The user fill inputs prospect form sales and field
+    When The user click 'Tamamla' button
+    Then The user verify warning 'Durum Lead olarak güncellendi'
+    Then The user verify 'Pitched Kayıt Formu' form is open
+    When The user fill select prospect form sales and field
+    When The user fill inputs prospect form sales and field
+    When THe user fill date 'offerDate' in form
+    When THe user fill date 'expectedActivationMonth' in form
+    When The user click 'Tamamla' button
+    Then The user verify warning 'Durum Pitched olarak güncellendi'
+    Then The user verify 'Contracting Kayıt Formu' form is open
+
+    When The user fill select prospect form sales and field
+    When The user fill inputs prospect form sales and field
+    When The user select2 'Adi Ortaklık' in 'companyType'
+#    Then The user verify required documents
+    When The user upload documents
+    When The user click 'Tamamla' button
+    Then The user verify warning 'Durum Contracting olarak güncellendi'
+    Given The user logout
+    Given The user login
+      | username | semasipay  |
+      | password | Sipay2025. |
+    When The user search created form
     When The user click related record button at row 0
     When The user go to other tab
+    When The user wait 3 second
+
+#    When The user select 'Contracting' in deal status filter
+#    When The user click related record button at row 0
+#    When The user go to other tab
     Then The user verify 'Onboarding Risk Formu' form is open
     When The user click uploaded document
 

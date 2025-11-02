@@ -1,4 +1,4 @@
-@test @last
+@preprod
 Feature: Search Page Scenarios
 
   Background:

@@ -64,7 +64,7 @@ public class FormsPage extends BasePage {
     @FindBy(xpath = "//a[contains(@href,'/Enrich/EditItem/')]")
     private List<WebElement> mentionLinks;
 
-    @FindBy(xpath = "/html/body/div[2]/nav/div/div[3]/div/div[2]/div[2]/div/div[1]/div/div/div/p")
+    @FindBy(xpath = "//div[contains(@id,'notification')]/div/div/div/p")
     private List<WebElement> notificationValues;
 
     @FindBy(xpath = "//div[text()='Test Sipay']")

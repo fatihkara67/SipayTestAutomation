@@ -1,4 +1,4 @@
-
+@preprod
 Feature: Prod Field And Sales Cases
 
   Background:
@@ -19,7 +19,8 @@ Feature: Prod Field And Sales Cases
     Then The user verify 'otherPosInfo' is displayed
     When The user fill select prospect form sales and field
     When The user select2 'Olumlu' in 'communicationTracking'
-    When The user select date 14 10 2025 in 'newAppointment'
+    When THe user fill date 'newAppointment' in form
+#    When The user select date 14 10 2025 in 'newAppointment'
     When The user fill inputs prospect form sales and field
     When The user click 'Tamamla' button
     When The user wait 1 second

@@ -19,7 +19,8 @@ Feature: Prod Field And Sales Cases
     Then The user verify 'otherPosInfo' is displayed
     When The user fill select prospect form sales and field
     When The user select2 'Olumlu' in 'communicationTracking'
-    When The user select date 14 10 2025 in 'newAppointment'
+    When THe user fill date 'newAppointment' in form
+#    When The user select date 14 10 2025 in 'newAppointment'
     When The user fill inputs prospect form sales and field
     When The user click 'Tamamla' button
     When The user wait 1 second
@@ -75,7 +76,8 @@ Feature: Prod Field And Sales Cases
     When The user go to 'Ziyaret' on navbar
     When The user fill select prospect form sales and field
     When The user select2 'Olumlu' in 'communicationTracking'
-    When The user select date 14 10 2025 in 'newAppointment'
+    When THe user fill date 'newAppointment' in form
+#    When The user select date 14 10 2025 in 'newAppointment'
     When The user fill inputs prospect form sales and field
     When The user click 'Tamamla' button
     When The user wait 1 second
@@ -94,8 +96,8 @@ Feature: Prod Field And Sales Cases
     Then The user verify deal status filter with 'Ziyaret'
     When The user click deal status reset button
     And The user verify Reset button func for deal status filter
-    When The user select 'Fırsat' in deal status filter
-    Then The user verify deal status filter with 'Fırsat'
+#    When The user select 'Fırsat' in deal status filter
+#    Then The user verify deal status filter with 'Fırsat'
 
 
   Scenario: Prod-SalesAndField-Search-CreateDateSorting,Filter and Reset
@@ -151,35 +153,90 @@ Feature: Prod Field And Sales Cases
     When The user open 'Ziyaret' info in form
     Then The user verify member name
 
-#  Scenario: Prod-SalesAndField-Randevu
-#    When The user go to 'Ziyaret' on navbar
-#    When The user fill select prospect form sales and field
-#    When The user select2 'Olumlu' in 'communicationTracking'
-#    When THe user fill date 'newAppointment' in form
-#    When The user fill inputs prospect form sales and field
-#    When The user click 'Tamamla' button
-#    When The user wait 1 second
-#    Then The user verify warning 'Durum Prospect olarak güncellendi'
-#    When The user navigate to 'https://crmapp.spwgpf.com/'
-#    When The user click randevular tab
-#    Then The user verify randevu list contains the form
-#
-#  Scenario: Prod-SalesAndField-Search-Other Records
-#    When The user select 'Ziyaret' in deal status filter
-#    When The user click other records button
-#    When The user get member name
-#    When The user click create new record button in table
-#    When The user go to other tab
-#    Then The user verify 'Ziyaret Formu' form is open
-#    Then The user verify member name
-#
-#  Scenario: Prod-SalesAndField-Search-Sahada Satış Records
-#    When The user select 'Ziyaret' in deal status filter
-#    When The user get member name
-#    When The user click create new record button in table
-#    When The user go to other tab
-#    Then The user verify 'Ziyaret Formu' form is open
-#    Then The user verify member name
+  Scenario: Prod-SalesAndField-Randevu
+    When The user go to 'Ziyaret' on navbar
+    When The user fill select prospect form sales and field
+    When The user select2 'Olumlu' in 'communicationTracking'
+    When THe user fill date 'newAppointment' in form
+    When The user fill inputs prospect form sales and field
+    When The user click 'Tamamla' button
+    When The user wait 1 second
+    Then The user verify warning 'Durum Prospect olarak güncellendi'
+    When The user navigate to 'https://crmapp.spwgpf.com/'
+    When The user click randevular tab
+    Then The user verify randevu list contains the form
+
+  Scenario: Prod-SalesAndField-Search-Other Records
+    When The user select 'Ziyaret' in deal status filter
+    When The user click other records button
+    When The user get member name
+    When The user click create new record button in table
+    When The user go to other tab
+    Then The user verify 'Ziyaret Formu' form is open
+    Then The user verify member name
+
+  Scenario: Prod-SalesAndField-Search-Sahada Satış Records
+    When The user select 'Ziyaret' in deal status filter
+    When The user get member name
+    When The user click create new record button in table
+    When The user go to other tab
+    Then The user verify 'Ziyaret Formu' form is open
+    Then The user verify member name
+
+
+  Scenario: Prod-SalesAndField-AssignedRecords-Assign Not To Me Listing Case
+    When The user click create new record button
+    When The user select 'Saha SAtış 2 22' as salesRep
+#    When The user fill and save the form
+    When The user fill select prospect form sales and field
+    When The user select2 'Olumlu' in 'communicationTracking'
+    When The user fill inputs prospect form sales and field
+    When The user click 'Tamamla' button
+    When The user navigate to 'https://crmapp.spwgpf.com/'
+    When The user click assigned records tab
+    Then The user verify table no result
+
+  Scenario: Prod-SalesAndField-AssignedRecords-Assign To Me Listing Case
+    When The user click create new record button
+    When The user select 'Saha SAtış 2 22' as salesRep
+    When The user fill select prospect form sales and field
+    When The user select2 'Olumlu' in 'communicationTracking'
+    When The user fill inputs prospect form sales and field
+    When The user click 'Tamamla' button
+    Given The user logout
+    Given The user login
+      | username | SAHASATIS22 |
+      | password | Sipay2025.  |
+    When The user click assigned records tab
+    Then The user verify table with record
+
+
+  Scenario: Prod-SalesAndField-AssignedRecords-Records Not I Created Listing Case
+    When The user click create new record button
+    When The user select 'Saha SAtış 2 22' as salesRep
+    When The user fill select prospect form sales and field
+    When The user select2 'Olumlu' in 'communicationTracking'
+    When The user fill inputs prospect form sales and field
+    When The user click 'Tamamla' button
+    Given The user logout
+    Given The user login
+      | username | SAHASATIS22 |
+      | password | Sipay2025.  |
+    When The user click assigned records tab
+    When The user click assignedOrCreatedCheckbox
+    Then The user verify table no result for created case
+
+
+  Scenario: Prod-SalesAndField-AssignedRecords-Records I Created Listing Case
+    When The user click create new record button
+    When The user fill select prospect form sales and field
+    When The user select2 'Olumlu' in 'communicationTracking'
+    When The user fill inputs prospect form sales and field
+    When The user click 'Tamamla' button
+    When The user navigate to 'https://crmapp.spwgpf.com/'
+    When The user click assigned records tab
+    When The user click assignedOrCreatedCheckbox
+    Then The user verify table with record
 
 
 

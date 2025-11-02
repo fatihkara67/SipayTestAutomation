@@ -798,7 +798,7 @@ public class SearchStepDefs extends BaseStep {
                 "installmentUsageRate", "debitUsageRate", "creditUsageRate", "currentRate",
                 "estRevenue", "commissionRate", "estimatedIncome", "ownerTC", "partnerTC",
                 "authorizedTC", "authorized","walletMasterId","installmentCount","deviceQty","accountantEmail",
-                "accountantPhone","mccCode"
+                "accountantPhone","mccCode","installationAddress"
         );
 
         for (WebElement input : pages.formsPage().getFormInputs()) {
@@ -1100,7 +1100,7 @@ public class SearchStepDefs extends BaseStep {
 
         BrowserUtils.wait(1);
         pages.searchPage().getSearchButton().click();
-        BrowserUtils.wait(2);
+        BrowserUtils.wait(3);
     }
 
     @Then("The user verify warning2 {string}")
@@ -1235,7 +1235,7 @@ public class SearchStepDefs extends BaseStep {
 
             if (BrowserUtils.isElementDisplayed(By.xpath("//span[normalize-space(text())='" + historyAttribute.getText() + "']"))) {
                 String actualValue = Driver.getDriver().findElement
-                                (By.xpath("//span[normalize-space(text())='" + historyAttribute.getText() + "']/following-sibling::span")).getText();
+                                (By.xpath("//span[normalize-space(text())='" + historyAttribute.getText() + "']/following-sibling::div")).getText();
 
                 if (actualValue.equals("-")) {
                     actualValue = actualValue.replace("-","");
@@ -1285,6 +1285,7 @@ public class SearchStepDefs extends BaseStep {
 
     @Then("The user verify {string} with value {string}")
     public void theUserVerifyKeyWithValue(String key, String expectedValue) {
+        BrowserUtils.adjustScreenSize(80,Driver.getDriver());
 
         String keyValue = Driver.getDriver().
                 findElement(By.xpath("//span[normalize-space(.)='" + key + ":']/parent::div")).getText();
