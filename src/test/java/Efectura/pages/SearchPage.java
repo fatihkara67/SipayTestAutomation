@@ -126,10 +126,10 @@ public class SearchPage extends BasePage {
     @FindBy(xpath = "//div[2]/div/div[1]/div[3]/div[1]/h2")
     private WebElement searchResultHeader;
 
-    @FindBy(xpath = "//div[2]/div[11]/div[4]/div[1]/div/div/a")
+    @FindBy(xpath = "//div[4]/div[1]/div/div/a")
     private List<WebElement> uploadedDocumentLinks;
 
-    @FindBy(xpath = "//div[2]/div[11]/div[4]/div[1]/div/div/span")
+    @FindBy(xpath = "//div[4]/div[1]/div/div/span")
     private List<WebElement> uploadedDocumentNames;
 
     @FindBy(xpath = "//div/h3")

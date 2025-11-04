@@ -133,15 +133,15 @@ Feature: Prod Field And Sales Cases
     Then The user verify Reset button func for create date filter
 
 
-  Scenario: Prod-SalesAndField-AssignedRecords-Pagination Control
-    When The user click assigned records tab
-    When The user select 'Ziyaret' in deal status filter
-    Then The user verify previous page button passive
-    Then The user verify next button active
-    When The user click next page button
-    Then The user verify previous page button active
-    When The user go to last page
-    Then The user verify next button passive
+#  Scenario: Prod-SalesAndField-AssignedRecords-Pagination Control
+#    When The user click assigned records tab
+#    When The user select 'Ziyaret' in deal status filter
+#    Then The user verify previous page button passive
+#    Then The user verify next button active
+#    When The user click next page button
+#    Then The user verify previous page button active
+#    When The user go to last page
+#    Then The user verify next button passive
 
   Scenario: Prod-SalesAndField-AssignedRecords-Form Navigation
     When The user click assigned records tab

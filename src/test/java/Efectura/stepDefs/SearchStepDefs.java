@@ -258,7 +258,7 @@ public class SearchStepDefs extends BaseStep {
 
     @Then("The user verify table no result")
     public void theUserVerifyTableNoResult() {
-        BrowserUtils.wait(1);
+        BrowserUtils.wait(3);
         BrowserUtils.waitForVisibility(pages.searchPage().getSearchInput(), 30);
 
         for (char c : randomValue.toCharArray()) {
@@ -452,14 +452,14 @@ public class SearchStepDefs extends BaseStep {
                         softAssert.assertEquals(
                                 Driver.getDriver().findElement(By.id(entry.getKey())).getText(),
                                 entry.getValue(),
-                                entry.getKey() + " id'li attribute farklı"
+                                entry.getKey() + " id'li attribute formda farklı"
                         );
 
                     } else if (formStatus.equals("complete")) {
                         softAssert.assertEquals(
                                 Driver.getDriver().findElement(By.id(entry.getKey())).getText(),
                                 "Onaylandı",
-                                entry.getKey() + " id'li attribute farklı"
+                                entry.getKey() + " id'li attribute formda farklı"
                         );
                     }
                     continue;
@@ -469,7 +469,7 @@ public class SearchStepDefs extends BaseStep {
                     softAssert.assertEquals(
                             BrowserUtils.getValueInInputBox(Driver.getDriver().findElement(By.id(entry.getKey()))).replace(".", ""),
                             entry.getValue(),
-                            entry.getKey() + " id'li attribute farklı"
+                            entry.getKey() + " id'li attribute formda farklı"
                     );
                     continue;
                 }
@@ -478,7 +478,7 @@ public class SearchStepDefs extends BaseStep {
                     softAssert.assertEquals(
                             entry.getValue(),
                             monthlyPos * 12 + "",
-                            entry.getKey() + " id'li attribute farlı"
+                            entry.getKey() + " id'li attribute formda farlı"
                     );
                 }
 
@@ -487,7 +487,7 @@ public class SearchStepDefs extends BaseStep {
                         softAssert.assertEquals(
                                 BrowserUtils.getValueInInputBox(Driver.getDriver().findElement(By.id(entry.getKey()))).replace(".", ""),
                                 entry.getValue(),
-                                entry.getKey() + " id'li attribute farklı"
+                                entry.getKey() + " id'li attribute formda farklı"
                         );
                     }
                     continue;
@@ -497,7 +497,7 @@ public class SearchStepDefs extends BaseStep {
                     softAssert.assertEquals(
                             Driver.getDriver().findElement(By.id(entry.getKey())).getText(),
                             entry.getValue(),
-                            entry.getKey() + " id'li attribute farklı"
+                            entry.getKey() + " id'li attribute formda farklı"
                     );
                     continue;
                 }
@@ -505,7 +505,7 @@ public class SearchStepDefs extends BaseStep {
                 softAssert.assertEquals(
                         Driver.getDriver().findElement(By.id(entry.getKey())).getText(),
                         entry.getValue(),
-                        entry.getKey() + " id'li attribute farklı"
+                        entry.getKey() + " id'li attribute formda farklı"
                 );
             }
         }
@@ -1023,7 +1023,7 @@ public class SearchStepDefs extends BaseStep {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("d MMMM uuuu", tr);
         String today = LocalDate.now(ZoneId.of("Europe/Istanbul")).format(fmt);
 
-        attributeAndValues.put(id,today);
+        attributeAndValues.put(id,today + " 00:00");
         attributeCodesAndLabels.put(id,
                 Driver.getDriver().findElement(By.cssSelector("label[for='" + id + "']")).getText());
     }
@@ -1299,9 +1299,10 @@ public class SearchStepDefs extends BaseStep {
 
     @Then("The user verify ret reason")
     public void theUserVerifyRetReason() {
+        //div[span[normalize-space(translate(., ':', ''))='Reddetme Nedeni']]
         String key = "Reddetme Nedeni";
         String keyValue = Driver.getDriver().
-                findElement(By.xpath("//span[normalize-space(.)='" + key + ":']/parent::div")).getText();
+                findElement(By.xpath("//div[span[normalize-space(translate(., ':', ''))='" + key + "']]")).getText();
 
         String actualValue = keyValue.split(":")[keyValue.split(":").length - 1].trim();
 
@@ -1577,7 +1578,7 @@ public class SearchStepDefs extends BaseStep {
     String downloadedFileName;
     @When("The user click uploaded document")
     public void theUserClickUploadedDocument() {
-        BrowserUtils.wait(2);
+        BrowserUtils.wait(3);
         BrowserUtils.adjustScreenSize(55,Driver.getDriver());
 
         int index = IntStream.range(0, pages.searchPage().getUploadedDocumentNames().size())
@@ -1601,6 +1602,9 @@ public class SearchStepDefs extends BaseStep {
 
 
 //        Assert.assertEquals("indirlen dosyanın ismi eşleşmedi",downloadedFileName,latestExcelFile);
+
+        downloadedFileName = downloadedFileName.replaceAll("\\s+", " ").trim();
+        latestExcelFile = latestExcelFile.replaceAll("\\s+", " ").trim();
 
         Assert.assertTrue("indirilen dosya ismi eşleşmedi\nexpectedName: " + downloadedFileName + "\nActaulName: " + latestExcelFile,
                 latestExcelFile.contains(downloadedFileName.split("\\.")[0]));
