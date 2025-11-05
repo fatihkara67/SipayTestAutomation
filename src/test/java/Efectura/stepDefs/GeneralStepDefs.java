@@ -51,7 +51,7 @@ public class GeneralStepDefs extends BaseStep {
     @When("The user click assigned records tab")
     public void theUserClickAssignedRecordsTab() {
         pages.generalPage().getAssignedRecordsButton().click();
-        BrowserUtils.wait(3);
+        BrowserUtils.wait(5);
     }
 
 
@@ -171,7 +171,7 @@ public class GeneralStepDefs extends BaseStep {
 
     @When("The user open {string} info in form")
     public void theUserOpenProspectInfoInForm(String infoName) {
-        BrowserUtils.wait(5);
+        BrowserUtils.wait(6);
         BrowserUtils.adjustScreenSize(40,Driver.getDriver());
         WebElement infoTab = Driver.getDriver().findElement(By.xpath("//button[contains(.,'" + infoName + "')]"));
 //        BrowserUtils.safeClick(infoTab);

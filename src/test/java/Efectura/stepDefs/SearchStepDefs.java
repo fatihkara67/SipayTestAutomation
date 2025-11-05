@@ -1578,7 +1578,7 @@ public class SearchStepDefs extends BaseStep {
     String downloadedFileName;
     @When("The user click uploaded document")
     public void theUserClickUploadedDocument() {
-        BrowserUtils.wait(3);
+        BrowserUtils.wait(6);
         BrowserUtils.adjustScreenSize(55,Driver.getDriver());
 
         int index = IntStream.range(0, pages.searchPage().getUploadedDocumentNames().size())
@@ -1596,7 +1596,7 @@ public class SearchStepDefs extends BaseStep {
     @When("The user verify document is download")
     public void theUserVerifyDocumentIsDownload() {
         Assert.assertTrue("Dosya indirilemedi!",
-                BrowserUtils.isNewExcelDownloaded(System.getProperty("user.home") + "/Downloads",5));
+                BrowserUtils.isNewExcelDownloaded(System.getProperty("user.home") + "/Downloads",8));
 
         String latestExcelFile = BrowserUtils.getLatestExcelFileName(System.getProperty("user.home") + "/Downloads");
 

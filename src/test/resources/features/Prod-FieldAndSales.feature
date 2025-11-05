@@ -114,8 +114,8 @@ Feature: Prod Field And Sales Cases
 
   Scenario: Prod-SalesAndField-AssignedRecords-DealStatus Filter and Reset
     When The user click assigned records tab
-    When The user select 'Fırsat' in deal status filter
-    Then The user verify deal status filter with 'Fırsat'
+    When The user select 'Ziyaret' in deal status filter
+    Then The user verify deal status filter with 'Ziyaret'
     When The user click deal status reset button
     And The user verify Reset button func for deal status filter
 
@@ -145,7 +145,7 @@ Feature: Prod Field And Sales Cases
 
   Scenario: Prod-SalesAndField-AssignedRecords-Form Navigation
     When The user click assigned records tab
-    When The user select 'Fırsat' in deal status filter
+    When The user select 'Ziyaret' in deal status filter
     When The user get member name
     When The user click related record button at row 0
     When The user go to other tab

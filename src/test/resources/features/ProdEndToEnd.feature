@@ -115,7 +115,7 @@ Feature: Prod End To End Form Cases
     When The user search created form
     When The user click related record button at row 0
     When The user go to other tab
-    When The user wait 8 second
+    When The user wait 10 second
     When The user click 'Tamamla' button
     Then The user verify warning 'pleaseFillRequiredFields'
     When The user fill select prospect form sales and field
