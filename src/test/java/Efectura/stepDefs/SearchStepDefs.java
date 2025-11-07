@@ -1023,6 +1023,13 @@ public class SearchStepDefs extends BaseStep {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("d MMMM uuuu", tr);
         String today = LocalDate.now(ZoneId.of("Europe/Istanbul")).format(fmt);
 
+        if (id.equals("newAppointment")) {
+            attributeAndValues.put(id,today + " saat 00:00");
+        } else {
+            attributeAndValues.put(id,today);
+        }
+
+
         attributeAndValues.put(id,today + " 00:00");
         attributeCodesAndLabels.put(id,
                 Driver.getDriver().findElement(By.cssSelector("label[for='" + id + "']")).getText());

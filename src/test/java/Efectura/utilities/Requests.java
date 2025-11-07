@@ -2725,7 +2725,8 @@ public class Requests {
     }
 
     public static JSONObject sendWidget23Request() throws IOException {
-        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A415%7D&force=true";
+
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A415%7D";
 
         OkHttpClient client = InsecureHttp.newClient()
                 .newBuilder()
@@ -2735,40 +2736,45 @@ public class Requests {
                 .retryOnConnectionFailure(true)
                 .build();
 
-        String cookie = ConfigurationReader.getProperty("cookie"); // config'den al
+        String cookie = ConfigurationReader.getProperty("cookie");
 
         String body = """
     {
       "datasource": {"id":40,"type":"table"},
-      "force": true,
+      "force": false,
       "queries": [
         {
-          "filters":[{"col":"company_name","op":"NOT IN","val":["Test merchant"]}],
+          "filters":[
+            {"col":"company_name","op":"NOT IN","val":["Test merchant"]}
+          ],
           "extras":{
             "having":"",
             "where":"(month_start < toStartOfMonth(toStartOfMonth(today())-1) AND month_start >= toStartOfMonth(toStartOfMonth(toStartOfMonth(today())-1)-1))"
           },
           "applied_time_extras":{},
           "columns":[
-            {"expressionType":"SQL","label":"Month","sqlExpression":"CASE \\r\\n    WHEN toMonth(month_start) = 1 THEN 'January'\\r\\n    WHEN toMonth(month_start) = 2 THEN 'February'\\r\\n    WHEN toMonth(month_start) = 3 THEN 'March'\\r\\n    WHEN toMonth(month_start) = 4 THEN 'April'\\r\\n    WHEN toMonth(month_start) = 5 THEN 'May'\\r\\n    WHEN toMonth(month_start) = 6 THEN 'June'\\r\\n    WHEN toMonth(month_start) = 7 THEN 'July'\\r\\n    WHEN toMonth(month_start) = 8 THEN 'August'\\r\\n    WHEN toMonth(month_start) = 9 THEN 'September'\\r\\n    WHEN toMonth(month_start) = 10 THEN 'October'\\r\\n    WHEN toMonth(month_start) = 11 THEN 'November'\\r\\n    WHEN toMonth(month_start) = 12 THEN 'December'\\r\\nEND"},
+            {
+              "expressionType":"SQL",
+              "label":"Month",
+              "sqlExpression":"CASE \\r\\n    WHEN toMonth(month_start) = 1 THEN 'January'\\r\\n    WHEN toMonth(month_start) = 2 THEN 'February'\\r\\n    WHEN toMonth(month_start) = 3 THEN 'March'\\r\\n    WHEN toMonth(month_start) = 4 THEN 'April'\\r\\n    WHEN toMonth(month_start) = 5 THEN 'May'\\r\\n    WHEN toMonth(month_start) = 6 THEN 'June'\\r\\n    WHEN toMonth(month_start) = 7 THEN 'July'\\r\\n    WHEN toMonth(month_start) = 8 THEN 'August'\\r\\n    WHEN toMonth(month_start) = 9 THEN 'September'\\r\\n    WHEN toMonth(month_start) = 10 THEN 'October'\\r\\n    WHEN toMonth(month_start) = 11 THEN 'November'\\r\\n    WHEN toMonth(month_start) = 12 THEN 'December'\\r\\nEND"
+            },
             {"expressionType":"SQL","label":"Merchant Name","sqlExpression":"company_name"},
             {"expressionType":"SQL","label":"# Of Trx","sqlExpression":"trx_count"},
             {"expressionType":"SQL","label":"Volume (TL)","sqlExpression":"posvolume"}
           ],
-          "metrics": [],
-          "orderby": [],
-          "annotation_layers": [],
-          "row_limit": 30,
-          "series_limit": 0,
-          "order_desc": true,
-          "url_params": {"slice_id":"415"},
-          "custom_params": {},
-          "custom_form_data": {},
-          "post_processing": [],
-          "time_offsets": []
+          "orderby":[],
+          "annotation_layers":[],
+          "row_limit":30,
+          "series_limit":0,
+          "order_desc":true,
+          "url_params":{"slice_id":"415"},
+          "custom_params":{},
+          "custom_form_data":{},
+          "post_processing":[],
+          "time_offsets":[]
         }
       ],
-      "form_data": {
+      "form_data":{
         "datasource":"40__table",
         "viz_type":"table",
         "slice_id":415,
@@ -2776,7 +2782,11 @@ public class Requests {
         "groupby":[],
         "temporal_columns_lookup":{"month_start":true},
         "all_columns":[
-          {"expressionType":"SQL","label":"Month","sqlExpression":"CASE \\r\\n    WHEN toMonth(month_start) = 1 THEN 'January'\\r\\n    WHEN toMonth(month_start) = 2 THEN 'February'\\r\\n    WHEN toMonth(month_start) = 3 THEN 'March'\\r\\n    WHEN toMonth(month_start) = 4 THEN 'April'\\r\\n    WHEN toMonth(month_start) = 5 THEN 'May'\\r\\n    WHEN toMonth(month_start) = 6 THEN 'June'\\r\\n    WHEN toMonth(month_start) = 7 THEN 'July'\\r\\n    WHEN toMonth(month_start) = 8 THEN 'August'\\r\\n    WHEN toMonth(month_start) = 9 THEN 'September'\\r\\n    WHEN toMonth(month_start) = 10 THEN 'October'\\r\\n    WHEN toMonth(month_start) = 11 THEN 'November'\\r\\n    WHEN toMonth(month_start) = 12 THEN 'December'\\r\\nEND"},
+          {
+            "expressionType":"SQL",
+            "label":"Month",
+            "sqlExpression":"CASE \\r\\n    WHEN toMonth(month_start) = 1 THEN 'January'\\r\\n    WHEN toMonth(month_start) = 2 THEN 'February'\\r\\n    WHEN toMonth(month_start) = 3 THEN 'March'\\r\\n    WHEN toMonth(month_start) = 4 THEN 'April'\\r\\n    WHEN toMonth(month_start) = 5 THEN 'May'\\r\\n    WHEN toMonth(month_start) = 6 THEN 'June'\\r\\n    WHEN toMonth(month_start) = 7 THEN 'July'\\r\\n    WHEN toMonth(month_start) = 8 THEN 'August'\\r\\n    WHEN toMonth(month_start) = 9 THEN 'September'\\r\\n    WHEN toMonth(month_start) = 10 THEN 'October'\\r\\n    WHEN toMonth(month_start) = 11 THEN 'November'\\r\\n    WHEN toMonth(month_start) = 12 THEN 'December'\\r\\nEND"
+          },
           {"expressionType":"SQL","label":"Merchant Name","sqlExpression":"company_name"},
           {"expressionType":"SQL","label":"# Of Trx","sqlExpression":"trx_count"},
           {"expressionType":"SQL","label":"Volume (TL)","sqlExpression":"posvolume"}
@@ -2789,10 +2799,18 @@ public class Requests {
             "operator":"TEMPORAL_RANGE",
             "sqlExpression":"month_start < toStartOfMonth(toStartOfMonth(today())-1) AND month_start >= toStartOfMonth(toStartOfMonth(toStartOfMonth(today())-1)-1)"
           },
-          {"clause":"WHERE","expressionType":"SIMPLE","subject":"company_name","operator":"NOT_IN","comparator":["Test merchant"]}
+          {
+            "clause":"WHERE",
+            "expressionType":"SIMPLE",
+            "subject":"company_name",
+            "operator":"NOT_IN",
+            "comparator":["Test merchant"]
+          }
         ],
         "order_by_cols":[],
         "row_limit":"30",
+        "server_page_length":10,
+        "order_desc":true,
         "table_timestamp_format":"smart_date",
         "allow_render_html":true,
         "column_config":{
@@ -2804,6 +2822,124 @@ public class Requests {
         "show_cell_bars":false,
         "color_pn":true,
         "comparison_color_scheme":"Green",
+        "comparison_type":"values",
+        "result_format":"json",
+        "result_type":"full",
+        "include_time":false,
+        "force":false
+      },
+      "result_format":"json",
+      "result_type":"full"
+    }
+    """;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful())
+                throw new IOException("Unexpected code " + response);
+
+            return new JSONObject(response.body().string());
+        }
+    }
+
+    public static JSONObject sendWidget25Request() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A409%7D&force=true";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie"); // config’den al
+
+        String body = """
+    {
+      "datasource": {"id":40,"type":"table"},
+      "force": true,
+      "queries": [
+        {
+          "filters":[{"col":"company_name","op":"NOT IN","val":["Test merchant"]}],
+          "extras":{
+            "having":"",
+            "where":"(month_start >= toStartOfMonth(today()) AND month_start <toStartOfWeek(today()))"
+          },
+          "applied_time_extras":{},
+          "columns":[
+            {
+              "expressionType":"SQL",
+              "label":"Month",
+              "sqlExpression":"CASE \\r\\n    WHEN toMonth(month_start) = 1 THEN 'January'\\r\\n    WHEN toMonth(month_start) = 2 THEN 'February'\\r\\n    WHEN toMonth(month_start) = 3 THEN 'March'\\r\\n    WHEN toMonth(month_start) = 4 THEN 'April'\\r\\n    WHEN toMonth(month_start) = 5 THEN 'May'\\r\\n    WHEN toMonth(month_start) = 6 THEN 'June'\\r\\n    WHEN toMonth(month_start) = 7 THEN 'July'\\r\\n    WHEN toMonth(month_start) = 8 THEN 'August'\\r\\n    WHEN toMonth(month_start) = 9 THEN 'September'\\r\\n    WHEN toMonth(month_start) = 10 THEN 'October'\\r\\n    WHEN toMonth(month_start) = 11 THEN 'November'\\r\\n    WHEN toMonth(month_start) = 12 THEN 'December'\\r\\nEND"
+            },
+            {"expressionType":"SQL","label":"Merchant Name","sqlExpression":"company_name"},
+            {"expressionType":"SQL","label":"# Of Trx","sqlExpression":"trx_count"},
+            {"expressionType":"SQL","label":"Volume (TL)","sqlExpression":"posvolume"}
+          ],
+          "orderby":[],
+          "annotation_layers":[],
+          "row_limit":30,
+          "series_limit":0,
+          "order_desc":true,
+          "url_params":{"slice_id":"409"},
+          "custom_params":{},
+          "custom_form_data":{},
+          "post_processing":[],
+          "time_offsets":[]
+        }
+      ],
+      "form_data":{
+        "datasource":"40__table",
+        "viz_type":"table",
+        "slice_id":409,
+        "query_mode":"raw",
+        "groupby":[],
+        "temporal_columns_lookup":{"month_start":true},
+        "metrics":[],
+        "all_columns":[
+          {
+            "expressionType":"SQL",
+            "label":"Month",
+            "sqlExpression":"CASE \\r\\n    WHEN toMonth(month_start) = 1 THEN 'January'\\r\\n    WHEN toMonth(month_start) = 2 THEN 'February'\\r\\n    WHEN toMonth(month_start) = 3 THEN 'March'\\r\\n    WHEN toMonth(month_start) = 4 THEN 'April'\\r\\n    WHEN toMonth(month_start) = 5 THEN 'May'\\r\\n    WHEN toMonth(month_start) = 6 THEN 'June'\\r\\n    WHEN toMonth(month_start) = 7 THEN 'July'\\r\\n    WHEN toMonth(month_start) = 8 THEN 'August'\\r\\n    WHEN toMonth(month_start) = 9 THEN 'September'\\r\\n    WHEN toMonth(month_start) = 10 THEN 'October'\\r\\n    WHEN toMonth(month_start) = 11 THEN 'November'\\r\\n    WHEN toMonth(month_start) = 12 THEN 'December'\\r\\nEND"
+          },
+          {"expressionType":"SQL","label":"Merchant Name","sqlExpression":"company_name"},
+          {"expressionType":"SQL","label":"# Of Trx","sqlExpression":"trx_count"},
+          {"expressionType":"SQL","label":"Volume (TL)","sqlExpression":"posvolume"}
+        ],
+        "percent_metrics":[],
+        "adhoc_filters":[
+          {
+            "clause":"WHERE",
+            "expressionType":"SQL",
+            "subject":"month_start",
+            "operator":"TEMPORAL_RANGE",
+            "sqlExpression":"month_start >= toStartOfMonth(today()) AND month_start <toStartOfWeek(today())"
+          },
+          {"clause":"WHERE","expressionType":"SIMPLE","subject":"company_name","operator":"NOT_IN","comparator":["Test merchant"]}
+        ],
+        "order_by_cols":[],
+        "row_limit":"30",
+        "table_timestamp_format":"smart_date",
+        "allow_render_html":true,
+        "column_config":{
+          "# Of Trx":{"d3NumberFormat":",d","d3SmallNumberFormat":",d","horizontalAlign":"center"},
+          "Merchant Name":{"horizontalAlign":"center"},
+          "Month":{"horizontalAlign":"center"},
+          "Volume (TL)":{"d3NumberFormat":",.2f","d3SmallNumberFormat":",.2f","horizontalAlign":"center"}
+        },
+        "show_cell_bars":false,
+        "color_pn":true,
+        "comparison_color_scheme":"Green",
+        "conditional_formatting":[],
         "extra_form_data":{},
         "force":true,
         "result_format":"json",
@@ -2826,10 +2962,1107 @@ public class Requests {
 
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-            String respStr = response.body().string();
-            return new JSONObject(respStr);
+            return new JSONObject(response.body().string());
         }
     }
+
+    public static JSONObject sendWidget30Request() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A421%7D&force=true";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie"); // config’den al
+
+        String body = """
+    {
+      "datasource": {"id":42,"type":"table"},
+      "force": true,
+      "queries": [
+        {
+          "filters": [],
+          "extras": {
+            "having": "",
+            "where": "(week_start >= toStartOfMonth(toStartOfMonth(today())-1) AND week_start <toStartOfWeek(today()))"
+          },
+          "applied_time_extras": {},
+          "columns": [
+            { "columnType":"BASE_AXIS", "expressionType":"SQL", "label":"Week", "sqlExpression":"week_label" }
+          ],
+          "metrics": [
+            {
+              "aggregate":"SUM",
+              "column":{"column_name":"live_new_merchants","id":485,"type":"UInt64","type_generic":0},
+              "expressionType":"SIMPLE",
+              "hasCustomLabel": true,
+              "label":"New Merchants"
+            },
+            {
+              "expressionType":"SQL",
+              "label":"MAX(replaceAll(toString(week_start), '-', ''))",
+              "sqlExpression":"MAX(replaceAll(toString(week_start), '-', ''))"
+            }
+          ],
+          "orderby": [
+            [
+              {
+                "expressionType":"SQL",
+                "label":"MAX(replaceAll(toString(week_start), '-', ''))",
+                "sqlExpression":"MAX(replaceAll(toString(week_start), '-', ''))"
+              },
+              false
+            ]
+          ],
+          "annotation_layers": [],
+          "row_limit": 1000,
+          "series_columns": [],
+          "series_limit": 0,
+          "series_limit_metric": {
+            "expressionType":"SQL",
+            "label":"MAX(replaceAll(toString(week_start), '-', ''))",
+            "sqlExpression":"MAX(replaceAll(toString(week_start), '-', ''))"
+          },
+          "order_desc": true,
+          "url_params": {"slice_id":"421"},
+          "custom_params": {},
+          "custom_form_data": {},
+          "time_offsets": [],
+          "post_processing": [
+            {
+              "operation":"pivot",
+              "options":{
+                "index":["Week"],
+                "columns":[],
+                "aggregates":{
+                  "New Merchants":{"operator":"mean"},
+                  "MAX(replaceAll(toString(week_start), '-', ''))":{"operator":"mean"}
+                },
+                "drop_missing_columns": false
+              }
+            },
+            { "operation":"sort", "options":{"by":"MAX(replaceAll(toString(week_start), '-', ''))","ascending": true} },
+            { "operation":"flatten" }
+          ]
+        }
+      ],
+      "form_data": {
+        "datasource":"42__table",
+        "viz_type":"echarts_timeseries_line",
+        "slice_id":421,
+        "x_axis": { "expressionType":"SQL", "label":"Week", "sqlExpression":"week_label" },
+        "x_axis_sort":"MAX(replaceAll(toString(week_start), '-', ''))",
+        "x_axis_sort_asc": true,
+        "metrics": [
+          {
+            "aggregate":"SUM",
+            "column":{"column_name":"live_new_merchants","id":485,"type":"UInt64","type_generic":0},
+            "expressionType":"SIMPLE",
+            "hasCustomLabel": true,
+            "label":"New Merchants"
+          }
+        ],
+        "groupby": [],
+        "adhoc_filters": [
+          {
+            "clause":"WHERE",
+            "expressionType":"SQL",
+            "subject":"week_start",
+            "operator":"TEMPORAL_RANGE",
+            "sqlExpression":"week_start >= toStartOfMonth(toStartOfMonth(today())-1) AND week_start <toStartOfWeek(today())"
+          }
+        ],
+        "timeseries_limit_metric": {
+          "expressionType":"SQL",
+          "label":"MAX(replaceAll(toString(week_start), '-', ''))",
+          "sqlExpression":"MAX(replaceAll(toString(week_start), '-', ''))"
+        },
+        "order_desc": true,
+        "row_limit": 1000,
+        "truncate_metric": true,
+        "show_empty_columns": true,
+        "comparison_type":"values",
+        "annotation_layers": [],
+        "forecastPeriods": 10,
+        "forecastInterval": 0.8,
+        "x_axis_title_margin": 15,
+        "y_axis_title_margin": 15,
+        "y_axis_title_position":"Left",
+        "sort_series_type":"sum",
+        "color_scheme":"supersetColors",
+        "seriesType":"line",
+        "show_value": true,
+        "only_total": true,
+        "opacity": 0.2,
+        "markerSize": 6,
+        "show_legend": true,
+        "legendType":"scroll",
+        "legendOrientation":"top",
+        "x_axis_time_format":"smart_date",
+        "xAxisLabelRotation": 45,
+        "rich_tooltip": true,
+        "showTooltipTotal": true,
+        "showTooltipPercentage": true,
+        "tooltipTimeFormat":"smart_date",
+        "y_axis_format":"SMART_NUMBER",
+        "truncateXAxis": true,
+        "y_axis_bounds":[null, null],
+        "extra_form_data": {},
+        "force": true,
+        "result_format":"json",
+        "result_type":"full"
+      },
+      "result_format":"json",
+      "result_type":"full"
+    }
+    """;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+            return new JSONObject(response.body().string());
+        }
+    }
+
+    public static JSONObject sendWidget31Request() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A416%7D&force=true";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie"); // config’den al
+
+        String body = """
+    {
+      "datasource": {"id":42,"type":"table"},
+      "force": true,
+      "queries": [
+        {
+          "filters": [],
+          "extras": {
+            "having": "",
+            "where": "(week_start >= toStartOfMonth(toStartOfMonth(today())-1) AND week_start <toStartOfWeek(today()))"
+          },
+          "applied_time_extras": {},
+          "columns": [
+            { "expressionType":"SQL", "label":"Week", "sqlExpression":"week_label" }
+          ],
+          "metrics": [
+            {
+              "aggregate":"SUM",
+              "column":{"column_name":"live_new_merchants","id":485,"type":"UInt64","type_generic":0},
+              "datasourceWarning":false,
+              "expressionType":"SIMPLE",
+              "hasCustomLabel":true,
+              "label":"New Merchants",
+              "optionName":"metric_jebmnygtfqp_mlii2oiu4sn",
+              "sqlExpression":null
+            }
+          ],
+          "orderby":[
+            [
+              {
+                "aggregate":"SUM",
+                "column":{"column_name":"live_new_merchants","id":485,"type":"UInt64","type_generic":0},
+                "datasourceWarning":false,
+                "expressionType":"SIMPLE",
+                "hasCustomLabel":true,
+                "label":"New Merchants",
+                "optionName":"metric_jebmnygtfqp_mlii2oiu4sn",
+                "sqlExpression":null
+              },
+              false
+            ]
+          ],
+          "annotation_layers":[],
+          "row_limit":1000,
+          "series_limit":0,
+          "order_desc":true,
+          "url_params":{"slice_id":"416"},
+          "custom_params":{},
+          "custom_form_data":{},
+          "post_processing":[],
+          "time_offsets":[]
+        },
+        {
+          "filters": [],
+          "extras": {
+            "having": "",
+            "where": "(week_start >= toStartOfMonth(toStartOfMonth(today())-1) AND week_start <toStartOfWeek(today()))"
+          },
+          "applied_time_extras": {},
+          "columns": [],
+          "metrics": [
+            {
+              "aggregate":"SUM",
+              "column":{"column_name":"live_new_merchants","id":485,"type":"UInt64","type_generic":0},
+              "datasourceWarning":false,
+              "expressionType":"SIMPLE",
+              "hasCustomLabel":true,
+              "label":"New Merchants",
+              "optionName":"metric_jebmnygtfqp_mlii2oiu4sn",
+              "sqlExpression":null
+            }
+          ],
+          "annotation_layers":[],
+          "row_limit":0,
+          "row_offset":0,
+          "series_limit":0,
+          "url_params":{"slice_id":"416"},
+          "custom_params":{},
+          "custom_form_data":{},
+          "post_processing":[],
+          "time_offsets":[]
+        }
+      ],
+      "form_data": {
+        "datasource":"42__table",
+        "viz_type":"table",
+        "slice_id":416,
+        "query_mode":"aggregate",
+        "groupby":[{"expressionType":"SQL","label":"Week","sqlExpression":"week_label"}],
+        "temporal_columns_lookup":{"week_start":true,"week_end":true},
+        "metrics":[
+          {
+            "aggregate":"SUM",
+            "column":{"column_name":"live_new_merchants","id":485,"type":"UInt64","type_generic":0},
+            "datasourceWarning":false,
+            "expressionType":"SIMPLE",
+            "hasCustomLabel":true,
+            "label":"New Merchants",
+            "optionName":"metric_jebmnygtfqp_mlii2oiu4sn",
+            "sqlExpression":null
+          }
+        ],
+        "all_columns":[
+          {"expressionType":"SQL","label":"Week","sqlExpression":"week_label"},
+          {"expressionType":"SQL","label":"New Merchants","sqlExpression":"live_new_merchants"}
+        ],
+        "percent_metrics":[],
+        "adhoc_filters":[
+          {
+            "clause":"WHERE",
+            "datasourceWarning":false,
+            "expressionType":"SQL",
+            "filterOptionName":"filter_18vnbi5td2h_xd0ccixb9ze",
+            "isExtra":false,
+            "isNew":false,
+            "operator":"TEMPORAL_RANGE",
+            "sqlExpression":"week_start >= toStartOfMonth(toStartOfMonth(today())-1) AND week_start <toStartOfWeek(today())",
+            "subject":"week_start"
+          }
+        ],
+        "order_by_cols":["[\\"week_start\\", true]"],
+        "row_limit":1000,
+        "order_desc":true,
+        "show_totals":true,
+        "table_timestamp_format":"smart_date",
+        "allow_render_html":true,
+        "column_config":{
+          "New Merchants":{"horizontalAlign":"center"},
+          "Referred Lead":{"horizontalAlign":"center"},
+          "Week":{"horizontalAlign":"center"}
+        },
+        "show_cell_bars":false,
+        "color_pn":true,
+        "comparison_color_scheme":"Green",
+        "conditional_formatting":[],
+        "comparison_type":"values",
+        "extra_form_data":{},
+        "force":true,
+        "result_format":"json",
+        "result_type":"full"
+      },
+      "result_format":"json",
+      "result_type":"full"
+    }
+    """;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+            String resp = response.body().string();
+            return new JSONObject(resp);
+        }
+    }
+
+    public static JSONObject sendWidget32Request() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A422%7D&force=true";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie"); // config’den al
+
+        String body = """
+    {
+      "datasource": {"id":4,"type":"table"},
+      "force": true,
+      "queries": [
+        {
+          "filters": [
+            {"col":"Expected Activation Month","op":"TEMPORAL_RANGE","val":"No filter"},
+            {"col":"Partner","op":"NOT IN","val":[null]}
+          ],
+          "extras": {
+            "having": "",
+            "where": "(CreatedOn >= DATEADD(\\r\\n          week, -4,\\r\\n          DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date))\\r\\n      )\\r\\n  AND CreatedOn <  DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date)))"
+          },
+          "applied_time_extras": {},
+          "columns": [
+            {
+              "columnType":"BASE_AXIS",
+              "datasourceWarning":true,
+              "expressionType":"SQL",
+              "label":"Week",
+              "sqlExpression":"CONCAT(\\r\\n  FORMAT(\\r\\n    DATEADD(WEEK, DATEDIFF(WEEK, 0, CreatedOn), 0),\\r\\n    'd MMMM', 'en-US'\\r\\n  ),\\r\\n  N' – ',\\r\\n  FORMAT(\\r\\n    DATEADD(DAY, 6, DATEADD(WEEK, DATEDIFF(WEEK, 0, CreatedOn), 0)),\\r\\n    'd MMMM', 'en-US'\\r\\n  )\\r\\n)\\r\\n"
+            }
+          ],
+          "metrics": [
+            {
+              "aggregate":"COUNT_DISTINCT",
+              "column":{"column_name":"deal_id","id":232,"type":"INT","type_generic":0},
+              "datasourceWarning":false,
+              "expressionType":"SIMPLE",
+              "hasCustomLabel":true,
+              "label":"Referred Leads",
+              "optionName":"metric_6o31cn49chx_7u2qqtp6oih",
+              "sqlExpression":null
+            },
+            {
+              "aggregate":"MAX",
+              "column":{"column_name":"CreatedOn","id":70,"is_dttm":true,"type":"DATETIME","type_generic":2},
+              "datasourceWarning":false,
+              "expressionType":"SIMPLE",
+              "hasCustomLabel":false,
+              "label":"MAX(CreatedOn)",
+              "optionName":"metric_ebcwlfsjuds_gc0zf42navt",
+              "sqlExpression":null
+            }
+          ],
+          "orderby":[
+            [
+              {
+                "aggregate":"MAX",
+                "column":{"column_name":"CreatedOn","id":70,"is_dttm":true,"type":"DATETIME","type_generic":2},
+                "datasourceWarning":false,
+                "expressionType":"SIMPLE",
+                "hasCustomLabel":false,
+                "label":"MAX(CreatedOn)",
+                "optionName":"metric_ebcwlfsjuds_gc0zf42navt",
+                "sqlExpression":null
+              },
+              false
+            ]
+          ],
+          "annotation_layers": [],
+          "row_limit": 1000,
+          "series_columns": [],
+          "series_limit": 0,
+          "series_limit_metric": {
+            "aggregate":"MAX",
+            "column":{"column_name":"CreatedOn","id":70,"is_dttm":true,"type":"DATETIME","type_generic":2},
+            "datasourceWarning":false,
+            "expressionType":"SIMPLE",
+            "hasCustomLabel":false,
+            "label":"MAX(CreatedOn)",
+            "optionName":"metric_ebcwlfsjuds_gc0zf42navt",
+            "sqlExpression":null
+          },
+          "order_desc": true,
+          "url_params":{"slice_id":"422"},
+          "custom_params":{},
+          "custom_form_data":{},
+          "time_offsets":[],
+          "post_processing":[
+            {
+              "operation":"pivot",
+              "options":{
+                "index":["Week"],
+                "columns":[],
+                "aggregates":{
+                  "Referred Leads":{"operator":"mean"},
+                  "MAX(CreatedOn)":{"operator":"mean"}
+                },
+                "drop_missing_columns":false
+              }
+            },
+            { "operation":"sort","options":{"by":"MAX(CreatedOn)","ascending":true} },
+            { "operation":"flatten" }
+          ]
+        }
+      ],
+      "form_data": {
+        "datasource":"4__table",
+        "viz_type":"echarts_timeseries_line",
+        "slice_id":422,
+        "x_axis":{
+          "datasourceWarning":true,
+          "expressionType":"SQL",
+          "label":"Week",
+          "sqlExpression":"CONCAT(\\r\\n  FORMAT(\\r\\n    DATEADD(WEEK, DATEDIFF(WEEK, 0, CreatedOn), 0),\\r\\n    'd MMMM', 'en-US'\\r\\n  ),\\r\\n  N' – ',\\r\\n  FORMAT(\\r\\n    DATEADD(DAY, 6, DATEADD(WEEK, DATEDIFF(WEEK, 0, CreatedOn), 0)),\\r\\n    'd MMMM', 'en-US'\\r\\n  )\\r\\n)\\r\\n"
+        },
+        "x_axis_sort":"MAX(CreatedOn)",
+        "x_axis_sort_asc": true,
+        "metrics": [
+          {
+            "aggregate":"COUNT_DISTINCT",
+            "column":{"column_name":"deal_id","id":232,"type":"INT","type_generic":0},
+            "datasourceWarning":false,
+            "expressionType":"SIMPLE",
+            "hasCustomLabel":true,
+            "label":"Referred Leads",
+            "optionName":"metric_6o31cn49chx_7u2qqtp6oih",
+            "sqlExpression":null
+          }
+        ],
+        "groupby": [],
+        "adhoc_filters": [
+          {"clause":"WHERE","expressionType":"SIMPLE","subject":"Expected Activation Month","operator":"TEMPORAL_RANGE","comparator":"No filter"},
+          {"clause":"WHERE","expressionType":"SIMPLE","subject":"Partner","operator":"NOT_IN","comparator":[null]},
+          {
+            "clause":"WHERE",
+            "datasourceWarning":true,
+            "expressionType":"SQL",
+            "subject":"CreatedOn",
+            "operator":"TEMPORAL_RANGE",
+            "sqlExpression":"CreatedOn >= DATEADD(\\r\\n          week, -4,\\r\\n          DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date))\\r\\n      )\\r\\n  AND CreatedOn <  DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date))"
+          }
+        ],
+        "timeseries_limit_metric": {
+          "aggregate":"MAX",
+          "column":{"column_name":"CreatedOn","id":70,"is_dttm":true,"type":"DATETIME","type_generic":2},
+          "datasourceWarning":false,
+          "expressionType":"SIMPLE",
+          "hasCustomLabel":false,
+          "label":"MAX(CreatedOn)",
+          "optionName":"metric_ebcwlfsjuds_gc0zf42navt",
+          "sqlExpression":null
+        },
+        "order_desc": true,
+        "row_limit": 1000,
+        "truncate_metric": true,
+        "show_empty_columns": true,
+        "comparison_type":"values",
+        "annotation_layers": [],
+        "forecastPeriods": 10,
+        "forecastInterval": 0.8,
+        "x_axis_title_margin": 15,
+        "y_axis_title_margin": 15,
+        "y_axis_title_position":"Left",
+        "sort_series_type":"sum",
+        "color_scheme":"supersetColors",
+        "seriesType":"line",
+        "show_value": true,
+        "only_total": true,
+        "opacity": 0.2,
+        "markerSize": 6,
+        "show_legend": true,
+        "legendType":"scroll",
+        "legendOrientation":"top",
+        "x_axis_time_format":"smart_date",
+        "xAxisLabelRotation": 45,
+        "rich_tooltip": true,
+        "showTooltipTotal": true,
+        "showTooltipPercentage": true,
+        "tooltipTimeFormat":"smart_date",
+        "y_axis_format":"SMART_NUMBER",
+        "truncateXAxis": true,
+        "y_axis_bounds":[null, null],
+        "extra_form_data": {},
+        "force": true,
+        "result_format":"json",
+        "result_type":"full"
+      },
+      "result_format":"json",
+      "result_type":"full"
+    }
+    """;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+            return new JSONObject(response.body().string());
+        }
+    }
+
+    public static JSONObject sendWidget33Request() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A417%7D&force=true";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie"); // config’den al
+
+        String body = """
+    {
+      "datasource": {"id":4,"type":"table"},
+      "force": true,
+      "queries": [
+        {
+          "filters":[{"col":"Expected Activation Month","op":"TEMPORAL_RANGE","val":"No filter"}],
+          "extras":{
+            "having":"",
+            "where":"(Partner IS NOT NULL) AND (DealCreatedOn >= DATEADD(\\r\\n          week, -4,\\r\\n          DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date))\\r\\n      )\\r\\n  AND DealCreatedOn <  DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date)))"
+          },
+          "applied_time_extras":{},
+          "columns":[
+            {
+              "datasourceWarning":false,
+              "expressionType":"SQL",
+              "label":"Week",
+              "sqlExpression":"CONCAT(\\r\\n  FORMAT(\\r\\n    DATEADD(WEEK, DATEDIFF(WEEK, 0, DealCreatedOn), 0),\\r\\n    'd MMMM', 'en-US'\\r\\n  ),\\r\\n  N' – ',\\r\\n  FORMAT(\\r\\n    DATEADD(DAY, 6, DATEADD(WEEK, DATEDIFF(WEEK, 0, DealCreatedOn), 0)),\\r\\n    'd MMMM', 'en-US'\\r\\n  )\\r\\n)\\r\\n"
+            }
+          ],
+          "metrics":[
+            {
+              "aggregate":"COUNT_DISTINCT",
+              "column":{"column_name":"deal_id","id":232,"type":"INT","type_generic":0},
+              "datasourceWarning":false,
+              "expressionType":"SIMPLE",
+              "hasCustomLabel":true,
+              "label":"Referred Leads",
+              "optionName":"metric_6o31cn49chx_7u2qqtp6oih",
+              "sqlExpression":null
+            }
+          ],
+          "orderby":[
+            [
+              {
+                "aggregate":"MAX",
+                "column":{"column_name":"CreatedOn","id":70,"is_dttm":true,"type":"DATETIME","type_generic":2},
+                "datasourceWarning":false,
+                "expressionType":"SIMPLE",
+                "hasCustomLabel":false,
+                "label":"MAX(CreatedOn)",
+                "optionName":"metric_ebcwlfsjuds_gc0zf42navt",
+                "sqlExpression":null
+              },
+              true
+            ]
+          ],
+          "annotation_layers":[],
+          "row_limit":1000,
+          "series_limit":0,
+          "series_limit_metric":{
+            "aggregate":"MAX",
+            "column":{"column_name":"CreatedOn","id":70,"is_dttm":true,"type":"DATETIME","type_generic":2},
+            "datasourceWarning":false,
+            "expressionType":"SIMPLE",
+            "hasCustomLabel":false,
+            "label":"MAX(CreatedOn)",
+            "optionName":"metric_ebcwlfsjuds_gc0zf42navt",
+            "sqlExpression":null
+          },
+          "order_desc":false,
+          "url_params":{"slice_id":"417"},
+          "custom_params":{},
+          "custom_form_data":{},
+          "post_processing":[],
+          "time_offsets":[]
+        },
+        {
+          "filters":[{"col":"Expected Activation Month","op":"TEMPORAL_RANGE","val":"No filter"}],
+          "extras":{
+            "having":"",
+            "where":"(Partner IS NOT NULL) AND (DealCreatedOn >= DATEADD(\\r\\n          week, -4,\\r\\n          DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date))\\r\\n      )\\r\\n  AND DealCreatedOn <  DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date)))"
+          },
+          "applied_time_extras":{},
+          "columns":[],
+          "metrics":[
+            {
+              "aggregate":"COUNT_DISTINCT",
+              "column":{"column_name":"deal_id","id":232,"type":"INT","type_generic":0},
+              "datasourceWarning":false,
+              "expressionType":"SIMPLE",
+              "hasCustomLabel":true,
+              "label":"Referred Leads",
+              "optionName":"metric_6o31cn49chx_7u2qqtp6oih",
+              "sqlExpression":null
+            }
+          ],
+          "annotation_layers":[],
+          "row_limit":0,
+          "row_offset":0,
+          "series_limit":0,
+          "series_limit_metric":{
+            "aggregate":"MAX",
+            "column":{"column_name":"CreatedOn","id":70,"is_dttm":true,"type":"DATETIME","type_generic":2},
+            "datasourceWarning":false,
+            "expressionType":"SIMPLE",
+            "hasCustomLabel":false,
+            "label":"MAX(CreatedOn)",
+            "optionName":"metric_ebcwlfsjuds_gc0zf42navt",
+            "sqlExpression":null
+          },
+          "url_params":{"slice_id":"417"},
+          "custom_params":{},
+          "custom_form_data":{},
+          "post_processing":[],
+          "time_offsets":[]
+        }
+      ],
+      "form_data":{
+        "datasource":"4__table",
+        "viz_type":"table",
+        "slice_id":417,
+        "query_mode":"aggregate",
+        "groupby":[
+          {
+            "datasourceWarning":false,
+            "expressionType":"SQL",
+            "label":"Week",
+            "sqlExpression":"CONCAT(\\r\\n  FORMAT(\\r\\n    DATEADD(WEEK, DATEDIFF(WEEK, 0, DealCreatedOn), 0),\\r\\n    'd MMMM', 'en-US'\\r\\n  ),\\r\\n  N' – ',\\r\\n  FORMAT(\\r\\n    DATEADD(DAY, 6, DATEADD(WEEK, DATEDIFF(WEEK, 0, DealCreatedOn), 0)),\\r\\n    'd MMMM', 'en-US'\\r\\n  )\\r\\n)\\r\\n"
+          }
+        ],
+        "time_grain_sqla":"P1D",
+        "temporal_columns_lookup":{"Expected Activation Month":true,"CreatedOn":true,"DealCreatedOn":true},
+        "metrics":[
+          {
+            "aggregate":"COUNT_DISTINCT",
+            "column":{"column_name":"deal_id","id":232,"type":"INT","type_generic":0},
+            "datasourceWarning":false,
+            "expressionType":"SIMPLE",
+            "hasCustomLabel":true,
+            "label":"Referred Leads",
+            "optionName":"metric_6o31cn49chx_7u2qqtp6oih",
+            "sqlExpression":null
+          }
+        ],
+        "adhoc_filters":[
+          {"clause":"WHERE","expressionType":"SIMPLE","subject":"Expected Activation Month","operator":"TEMPORAL_RANGE","comparator":"No filter"},
+          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"Partner IS NOT NULL"},
+          {
+            "clause":"WHERE",
+            "expressionType":"SQL",
+            "subject":"CreatedOn",
+            "operator":"TEMPORAL_RANGE",
+            "sqlExpression":"DealCreatedOn >= DATEADD(\\r\\n          week, -4,\\r\\n          DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date))\\r\\n      )\\r\\n  AND DealCreatedOn <  DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date))"
+          }
+        ],
+        "timeseries_limit_metric":{
+          "aggregate":"MAX",
+          "column":{"column_name":"CreatedOn","id":70,"is_dttm":true,"type":"DATETIME","type_generic":2},
+          "datasourceWarning":false,
+          "expressionType":"SIMPLE",
+          "hasCustomLabel":false,
+          "label":"MAX(CreatedOn)",
+          "optionName":"metric_ebcwlfsjuds_gc0zf42navt",
+          "sqlExpression":null
+        },
+        "order_desc": false,
+        "row_limit": 1000,
+        "show_totals": true,
+        "table_timestamp_format":"smart_date",
+        "allow_render_html": true,
+        "column_config":{
+          "Referred Leads":{"horizontalAlign":"center"},
+          "Week":{"horizontalAlign":"center"}
+        },
+        "color_pn": true,
+        "comparison_color_scheme":"Green",
+        "comparison_type":"values",
+        "force": true,
+        "result_format":"json",
+        "result_type":"full"
+      },
+      "result_format":"json",
+      "result_type":"full"
+    }
+    """;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+            return new JSONObject(response.body().string());
+        }
+    }
+
+    public static JSONObject sendWidget34Request() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A423%7D&force=true";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie"); // properties’ten al
+
+        String body = """
+    {
+      "datasource": { "id": 4, "type": "table" },
+      "force": true,
+      "queries": [
+        {
+          "filters": [
+            { "col": "Expected Activation Month", "op": "TEMPORAL_RANGE", "val": "No filter" },
+            { "col": "Partner", "op": "NOT IN", "val": ["Not Defined", "TANIMLI_DEGIL", null] },
+            { "col": "Sales Stage", "op": "NOT IN", "val": [null, "LeadRet", "ContractRet", "PitchedRet", "Ret", "ProspectRet", "Live"] }
+          ],
+          "extras": {
+            "having": "",
+            "where": "(CreatedOn >= DATEADD(\\r\\n          week, -4,\\r\\n          DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date))\\r\\n      )\\r\\n  AND CreatedOn <  DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date)))"
+          },
+          "applied_time_extras": {},
+          "columns": ["Partner"],
+          "metrics": [
+            {
+              "aggregate": "COUNT_DISTINCT",
+              "column": { "column_name": "deal_id", "id": 232, "type": "INT", "type_generic": 0 },
+              "datasourceWarning": false,
+              "expressionType": "SIMPLE",
+              "hasCustomLabel": true,
+              "label": "Referred Leads",
+              "optionName": "metric_6o31cn49chx_7u2qqtp6oih",
+              "sqlExpression": null
+            }
+          ],
+          "orderby": [
+            [
+              {
+                "aggregate": "COUNT_DISTINCT",
+                "column": { "column_name": "deal_id", "id": 232, "type": "INT", "type_generic": 0 },
+                "datasourceWarning": false,
+                "expressionType": "SIMPLE",
+                "hasCustomLabel": true,
+                "label": "Referred Leads",
+                "optionName": "metric_6o31cn49chx_7u2qqtp6oih",
+                "sqlExpression": null
+              },
+              false
+            ]
+          ],
+          "annotation_layers": [],
+          "row_limit": 5,
+          "series_limit": 0,
+          "order_desc": true,
+          "url_params": { "slice_id": "423" },
+          "custom_params": {},
+          "custom_form_data": {}
+        }
+      ],
+      "form_data": {
+        "datasource": "4__table",
+        "viz_type": "pie",
+        "slice_id": 423,
+        "url_params": { "slice_id": "423" },
+        "groupby": ["Partner"],
+        "metric": {
+          "aggregate": "COUNT_DISTINCT",
+          "column": { "column_name": "deal_id", "id": 232, "type": "INT", "type_generic": 0 },
+          "datasourceWarning": false,
+          "expressionType": "SIMPLE",
+          "hasCustomLabel": true,
+          "label": "Referred Leads",
+          "optionName": "metric_6o31cn49chx_7u2qqtp6oih",
+          "sqlExpression": null
+        },
+        "adhoc_filters": [
+          { "clause": "WHERE", "expressionType": "SIMPLE", "subject": "Expected Activation Month", "operator": "TEMPORAL_RANGE", "comparator": "No filter" },
+          { "clause": "WHERE", "expressionType": "SIMPLE", "subject": "Partner", "operator": "NOT IN", "comparator": ["Not Defined", "TANIMLI_DEGIL", null] },
+          {
+            "clause": "WHERE",
+            "expressionType": "SQL",
+            "subject": "CreatedOn",
+            "operator": "TEMPORAL_RANGE",
+            "sqlExpression": "CreatedOn >= DATEADD(\\r\\n          week, -4,\\r\\n          DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date))\\r\\n      )\\r\\n  AND CreatedOn <  DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date))"
+          },
+          { "clause": "WHERE", "expressionType": "SIMPLE", "subject": "Sales Stage", "operator": "NOT IN", "comparator": [null, "LeadRet", "ContractRet", "PitchedRet", "Ret", "ProspectRet", "Live"] }
+        ],
+        "row_limit": "5",
+        "sort_by_metric": true,
+        "color_scheme": "supersetColors",
+        "show_labels_threshold": 1,
+        "show_legend": true,
+        "legendType": "scroll",
+        "legendOrientation": "bottom",
+        "label_type": "value_percent",
+        "number_format": "SMART_NUMBER",
+        "date_format": "smart_date",
+        "show_labels": true,
+        "labels_outside": true,
+        "label_line": true,
+        "outerRadius": 45,
+        "donut": true,
+        "innerRadius": 25,
+        "extra_form_data": {},
+        "force": true,
+        "result_format": "json",
+        "result_type": "full"
+      },
+      "result_format": "json",
+      "result_type": "full"
+    }
+    """;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+            return new JSONObject(response.body().string());
+        }
+    }
+
+    public static JSONObject sendWidget35Request() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A418%7D&force=true";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie"); // properties dosyandan al
+
+        String body = """
+    {
+      "datasource": {"id":4,"type":"table"},
+      "force": true,
+      "queries": [
+        {
+          "filters": [
+            {"col":"Expected Activation Month","op":"TEMPORAL_RANGE","val":"No filter"},
+            {"col":"Partner","op":"NOT IN","val":["Not Defined","TANIMLI_DEGIL",null]},
+            {"col":"Sales Stage","op":"NOT IN","val":[null,"LeadRet","ContractRet","PitchedRet","Ret","ProspectRet","Live"]}
+          ],
+          "extras": {
+            "having": "",
+            "where": "(CreatedOn >= DATEADD(\\r\\n          week, -4,\\r\\n          DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date))\\r\\n      )\\r\\n  AND CreatedOn <  DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date)))"
+          },
+          "applied_time_extras": {},
+          "columns": ["Partner"],
+          "metrics": [
+            {
+              "aggregate": "COUNT_DISTINCT",
+              "column": {"column_name":"deal_id","id":232,"type":"INT","type_generic":0},
+              "datasourceWarning": false,
+              "expressionType": "SIMPLE",
+              "hasCustomLabel": true,
+              "label": "Referred Leads",
+              "optionName": "metric_6o31cn49chx_7u2qqtp6oih",
+              "sqlExpression": null
+            }
+          ],
+          "orderby": [
+            [
+              {
+                "aggregate": "COUNT_DISTINCT",
+                "column": {"column_name":"deal_id","id":232,"type":"INT","type_generic":0},
+                "datasourceWarning": false,
+                "expressionType": "SIMPLE",
+                "hasCustomLabel": false,
+                "label": "COUNT_DISTINCT(deal_id)",
+                "optionName": "metric_ebcwlfsjuds_gc0zf42navt",
+                "sqlExpression": null
+              },
+              false
+            ]
+          ],
+          "annotation_layers": [],
+          "row_limit": 5,
+          "series_limit": 0,
+          "series_limit_metric": {
+            "aggregate": "COUNT_DISTINCT",
+            "column": {"column_name":"deal_id","id":232,"type":"INT","type_generic":0},
+            "datasourceWarning": false,
+            "expressionType": "SIMPLE",
+            "hasCustomLabel": false,
+            "label": "COUNT_DISTINCT(deal_id)",
+            "optionName": "metric_ebcwlfsjuds_gc0zf42navt",
+            "sqlExpression": null
+          },
+          "order_desc": true,
+          "url_params": {"slice_id":"418"},
+          "custom_params": {},
+          "custom_form_data": {},
+          "post_processing": [],
+          "time_offsets": []
+        },
+        {
+          "filters": [
+            {"col":"Expected Activation Month","op":"TEMPORAL_RANGE","val":"No filter"},
+            {"col":"Partner","op":"NOT IN","val":["Not Defined","TANIMLI_DEGIL",null]},
+            {"col":"Sales Stage","op":"NOT IN","val":[null,"LeadRet","ContractRet","PitchedRet","Ret","ProspectRet","Live"]}
+          ],
+          "extras": {
+            "having": "",
+            "where": "(CreatedOn >= DATEADD(\\r\\n          week, -4,\\r\\n          DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date))\\r\\n      )\\r\\n  AND CreatedOn <  DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date)))"
+          },
+          "applied_time_extras": {},
+          "columns": [],
+          "metrics": [
+            {
+              "aggregate": "COUNT_DISTINCT",
+              "column": {"column_name":"deal_id","id":232,"type":"INT","type_generic":0},
+              "datasourceWarning": false,
+              "expressionType": "SIMPLE",
+              "hasCustomLabel": true,
+              "label": "Referred Leads",
+              "optionName": "metric_6o31cn49chx_7u2qqtp6oih",
+              "sqlExpression": null
+            }
+          ],
+          "annotation_layers": [],
+          "row_limit": 0,
+          "row_offset": 0,
+          "series_limit": 0,
+          "series_limit_metric": {
+            "aggregate": "COUNT_DISTINCT",
+            "column": {"column_name":"deal_id","id":232,"type":"INT","type_generic":0},
+            "datasourceWarning": false,
+            "expressionType": "SIMPLE",
+            "hasCustomLabel": false,
+            "label": "COUNT_DISTINCT(deal_id)",
+            "optionName": "metric_ebcwlfsjuds_gc0zf42navt",
+            "sqlExpression": null
+          },
+          "url_params": {"slice_id":"418"},
+          "custom_params": {},
+          "custom_form_data": {},
+          "post_processing": [],
+          "time_offsets": []
+        }
+      ],
+      "form_data": {
+        "datasource": "4__table",
+        "viz_type": "table",
+        "slice_id": 418,
+        "url_params": {"slice_id":"418"},
+        "query_mode": "aggregate",
+        "groupby": ["Partner"],
+        "temporal_columns_lookup": {"Expected Activation Month":true,"CreatedOn":true,"DealCreatedOn":true},
+        "metrics": [
+          {
+            "aggregate": "COUNT_DISTINCT",
+            "column": {"column_name":"deal_id","id":232,"type":"INT","type_generic":0},
+            "datasourceWarning": false,
+            "expressionType": "SIMPLE",
+            "hasCustomLabel": true,
+            "label": "Referred Leads",
+            "optionName": "metric_6o31cn49chx_7u2qqtp6oih",
+            "sqlExpression": null
+          }
+        ],
+        "adhoc_filters": [
+          {"clause":"WHERE","expressionType":"SIMPLE","subject":"Expected Activation Month","operator":"TEMPORAL_RANGE","comparator":"No filter"},
+          {"clause":"WHERE","expressionType":"SIMPLE","subject":"Partner","operator":"NOT IN","comparator":["Not Defined","TANIMLI_DEGIL",null]},
+          {"clause":"WHERE","expressionType":"SQL","subject":"CreatedOn","operator":"TEMPORAL_RANGE","sqlExpression":"CreatedOn >= DATEADD(\\r\\n          week, -4,\\r\\n          DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date))\\r\\n      )\\r\\n  AND CreatedOn <  DATEADD(day, - ((DATEDIFF(day, 0, CAST(GETDATE() AS date)) + 1) % 7), CAST(GETDATE() AS date))"},
+          {"clause":"WHERE","expressionType":"SIMPLE","subject":"Sales Stage","operator":"NOT IN","comparator":[null,"LeadRet","ContractRet","PitchedRet","Ret","ProspectRet","Live"]}
+        ],
+        "timeseries_limit_metric": {
+          "aggregate":"COUNT_DISTINCT",
+          "column":{"column_name":"deal_id","id":232,"type":"INT","type_generic":0},
+          "datasourceWarning":false,
+          "expressionType":"SIMPLE",
+          "hasCustomLabel":false,
+          "label":"COUNT_DISTINCT(deal_id)",
+          "optionName":"metric_ebcwlfsjuds_gc0zf42navt",
+          "sqlExpression":null
+        },
+        "row_limit":"5",
+        "order_desc": true,
+        "show_totals": true,
+        "table_timestamp_format": "smart_date",
+        "allow_render_html": true,
+        "column_config": {
+          "Partner": {"horizontalAlign":"center"},
+          "Referred Leads": {"horizontalAlign":"center"}
+        },
+        "show_cell_bars": false,
+        "color_pn": true,
+        "comparison_color_scheme": "Green",
+        "extra_form_data": {},
+        "force": true,
+        "result_format": "json",
+        "result_type": "full"
+      },
+      "result_format": "json",
+      "result_type": "full"
+    }
+    """;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+            return new JSONObject(response.body().string());
+        }
+    }
+
+
+
+
+
 
 
 

@@ -66,5 +66,27 @@ Feature: Widget Scenarios
   Scenario: Scenario 13
     Given The user send widget22 request
     Given The user send widget23 request
-#    Then The user verify scenario13
+    Then The user verify scenario13
+
+  Scenario: Scenario 15
+    Given The user send widget22 request
+    Given The user send widget25 request
+    Then The user verify scenario15
+
+  Scenario: Scenario 16
+    Given The user send widget30 request
+    Given The user send widget31 request
+    Then The user verify scenario16
+
+  Scenario: Scenario 17
+    Given The user send widget32 request
+    Given The user send widget33 request
+    Then The user verify scenario17
+
+  Scenario: Scenario 18
+    Given The user send widget34 request
+    Given The user send widget35 request
+    Then The user verify scenario18
+
+
 
