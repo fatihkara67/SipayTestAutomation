@@ -789,6 +789,68 @@ public class BrowserUtils {
         }
     }
 
+    public static Duration navigateAndMeasure(WebDriver driver, String url) {
+        long t0 = System.nanoTime();
+
+        driver.navigate().to(url);
+
+        // Sabit 60 saniye timeout
+        Duration timeout = Duration.ofSeconds(60);
+
+        new WebDriverWait(driver, timeout).until(d ->
+                ((JavascriptExecutor) d)
+                        .executeScript("return document.readyState")
+                        .equals("complete")
+        );
+
+        long t1 = System.nanoTime();
+        return Duration.ofNanos(t1 - t0);
+    }
+
+    public static Duration clickAndMeasureFullNavigation(WebDriver driver, By clickable) {
+        WebElement oldRoot = driver.findElement(By.tagName("html"));
+        long t0 = System.nanoTime();
+
+        driver.findElement(clickable).click();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        // 1) Eski DOM gitsin (tam sayfa navigasyonu için kritik)
+        wait.until(ExpectedConditions.stalenessOf(oldRoot));
+
+        // 2) Yeni sayfada readyState=complete
+        wait.until(d -> ((JavascriptExecutor) d).executeScript("return document.readyState").equals("complete"));
+
+        long t1 = System.nanoTime();
+        return Duration.ofNanos(t1 - t0);
+    }
+
+    public static Duration clickAndMeasureFullNavigation(WebDriver driver, WebElement elementToClick) {
+        // Eski HTML kökünü referans al (navigasyon algılamak için)
+        WebElement oldRoot = driver.findElement(By.tagName("html"));
+
+        long t0 = System.nanoTime();
+
+        // Tıklama
+        elementToClick.click();
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+
+        // 1) Eski DOM yok olsun (tam sayfa yüklenmesini takip etmek için kritik)
+        wait.until(ExpectedConditions.stalenessOf(oldRoot));
+
+        // 2) Yeni sayfanın readyState COMPLETE olmasını bekle
+        wait.until(d ->
+                ((JavascriptExecutor) d)
+                        .executeScript("return document.readyState")
+                        .equals("complete")
+        );
+
+        long t1 = System.nanoTime();
+        return Duration.ofNanos(t1 - t0);
+    }
+
+
 
 
 }

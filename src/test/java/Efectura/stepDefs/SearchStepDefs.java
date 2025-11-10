@@ -275,7 +275,7 @@ public class SearchStepDefs extends BaseStep {
     @Then("The user verify table with record")
     public void theUserVerifyTableWithRecord() {
 
-        BrowserUtils.wait(1);
+        BrowserUtils.wait(3);
 
         for (char c : randomValue.toCharArray()) {
             pages.searchPage().getSearchInput().sendKeys(Character.toString(c));
@@ -296,7 +296,7 @@ public class SearchStepDefs extends BaseStep {
 
     @Then("The user verify table no result for created case")
     public void theUserVerifyTableNoResultForCreatedCase() {
-        BrowserUtils.wait(2);
+        BrowserUtils.wait(3);
         BrowserUtils.waitForVisibility(pages.searchPage().getSearchInput(), 30);
 
         for (char c : randomValue.toCharArray()) {
@@ -1030,7 +1030,7 @@ public class SearchStepDefs extends BaseStep {
         }
 
 
-        attributeAndValues.put(id,today + " 00:00");
+//        attributeAndValues.put(id,today);
         attributeCodesAndLabels.put(id,
                 Driver.getDriver().findElement(By.cssSelector("label[for='" + id + "']")).getText());
     }
@@ -1510,21 +1510,23 @@ public class SearchStepDefs extends BaseStep {
     @When("The user take screenshot")
     public void theUserTakeScreenshot() {
 //        BrowserUtils.setZoom(Driver.getDriver(),60);
+        String chatId = "-4570445477";
+        String testChatId = "-1002156506449";
         BrowserUtils.wait(20);
         String path = BrowserUtils.getScreenshot("dashboard");
         System.out.println("Path: " + path);
-        BrowserUtils.sendFileToTelegram(path,"-4570445477");
+        BrowserUtils.sendFileToTelegram(path,chatId);
 
         Driver.getDriver().switchTo().frame(pages.formsPage().getCardReportDashboard());
         Driver.getDriver().switchTo().frame(0);
 
-        for (int i = 1; i < 6; i++) {
+        for (int i = 1; i < 5; i++) {
             pages.formsPage().getTeamDashboardTabs().get(i).click();
             BrowserUtils.wait(4);
 
             path = BrowserUtils.getScreenshot(pages.formsPage().getTeamDashboardTabs().get(i).getText());
             System.out.println("Path: " + path);
-            BrowserUtils.sendFileToTelegram(path,"-4570445477");
+            BrowserUtils.sendFileToTelegram(path,chatId);
 
         }
 

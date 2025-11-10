@@ -2725,8 +2725,239 @@ public class Requests {
     }
 
     public static JSONObject sendWidget23Request() throws IOException {
-
         final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A415%7D";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie"); // session=<...> değeri
+
+        String body = """
+    {
+      "datasource": {"id": 40, "type": "table"},
+      "force": false,
+      "queries": [
+        {
+          "filters": [
+            {"col": "company_name", "op": "NOT IN", "val": ["Test merchant"]}
+          ],
+          "extras": {
+            "having": "",
+            "where": "(month_start < toStartOfMonth(toStartOfMonth(today())-1) AND month_start >= toStartOfMonth(toStartOfMonth(toStartOfMonth(today())-1)-1))"
+          },
+          "applied_time_extras": {},
+          "columns": [
+            {"datasourceWarning": false, "expressionType": "SQL", "label": "Month", "sqlExpression": "CASE \\r\\n    WHEN toMonth(month_start) = 1 THEN 'January'\\r\\n    WHEN toMonth(month_start) = 2 THEN 'February'\\r\\n    WHEN toMonth(month_start) = 3 THEN 'March'\\r\\n    WHEN toMonth(month_start) = 4 THEN 'April'\\r\\n    WHEN toMonth(month_start) = 5 THEN 'May'\\r\\n    WHEN toMonth(month_start) = 6 THEN 'June'\\r\\n    WHEN toMonth(month_start) = 7 THEN 'July'\\r\\n    WHEN toMonth(month_start) = 8 THEN 'August'\\r\\n    WHEN toMonth(month_start) = 9 THEN 'September'\\r\\n    WHEN toMonth(month_start) = 10 THEN 'October'\\r\\n    WHEN toMonth(month_start) = 11 THEN 'November'\\r\\n    WHEN toMonth(month_start) = 12 THEN 'December'\\r\\nEND"},
+            {"datasourceWarning": false, "expressionType": "SQL", "label": "Merchant Name", "sqlExpression": "company_name"},
+            {"datasourceWarning": false, "expressionType": "SQL", "label": "# Of Trx", "sqlExpression": "trx_count"},
+            {"datasourceWarning": false, "expressionType": "SQL", "label": "Volume (TL)", "sqlExpression": "posvolume"}
+          ],
+          "orderby": [],
+          "annotation_layers": [],
+          "row_limit": 30,
+          "series_limit": 0,
+          "order_desc": true,
+          "url_params": {
+            "dashboard_page_id": "MgZI7Yvj6TzEPtC9kExvN",
+            "form_data_key": "c5n1i9NwiUe2_7CKwUk552437w3KQRmnoCdqI8ZC2xqDh3Alp6TJwB-woK3s09uo",
+            "slice_id": "415"
+          },
+          "custom_params": {},
+          "custom_form_data": {},
+          "post_processing": [],
+          "time_offsets": []
+        }
+      ],
+      "form_data": {
+        "datasource": "40__table",
+        "viz_type": "table",
+        "slice_id": 415,
+        "url_params": {
+          "dashboard_page_id": "MgZI7Yvj6TzEPtC9kExvN",
+          "form_data_key": "c5n1i9NwiUe2_7CKwUk552437w3KQRmnoCdqI8ZC2xqDh3Alp6TJwB-woK3s09uo",
+          "slice_id": "415"
+        },
+        "query_mode": "raw",
+        "groupby": [],
+        "temporal_columns_lookup": {"month_start": true},
+        "all_columns": [
+          {"datasourceWarning": false, "expressionType": "SQL", "label": "Month", "sqlExpression": "CASE \\r\\n    WHEN toMonth(month_start) = 1 THEN 'January'\\r\\n    WHEN toMonth(month_start) = 2 THEN 'February'\\r\\n    WHEN toMonth(month_start) = 3 THEN 'March'\\r\\n    WHEN toMonth(month_start) = 4 THEN 'April'\\r\\n    WHEN toMonth(month_start) = 5 THEN 'May'\\r\\n    WHEN toMonth(month_start) = 6 THEN 'June'\\r\\n    WHEN toMonth(month_start) = 7 THEN 'July'\\r\\n    WHEN toMonth(month_start) = 8 THEN 'August'\\r\\n    WHEN toMonth(month_start) = 9 THEN 'September'\\r\\n    WHEN toMonth(month_start) = 10 THEN 'October'\\r\\n    WHEN toMonth(month_start) = 11 THEN 'November'\\r\\n    WHEN toMonth(month_start) = 12 THEN 'December'\\r\\nEND"},
+          {"datasourceWarning": false, "expressionType": "SQL", "label": "Merchant Name", "sqlExpression": "company_name"},
+          {"datasourceWarning": false, "expressionType": "SQL", "label": "# Of Trx", "sqlExpression": "trx_count"},
+          {"datasourceWarning": false, "expressionType": "SQL", "label": "Volume (TL)", "sqlExpression": "posvolume"}
+        ],
+        "percent_metrics": [],
+        "adhoc_filters": [
+          {"clause": "WHERE", "comparator": null, "datasourceWarning": false, "expressionType": "SQL", "filterOptionName": "filter_gii2uvdv5x9_4ei8d8mm5g3", "isExtra": false, "isNew": false, "operator": "TEMPORAL_RANGE", "sqlExpression": "month_start < toStartOfMonth(toStartOfMonth(today())-1) AND month_start >= toStartOfMonth(toStartOfMonth(toStartOfMonth(today())-1)-1)", "subject": "month_start"},
+          {"clause": "WHERE", "comparator": ["Test merchant"], "datasourceWarning": false, "expressionType": "SIMPLE", "filterOptionName": "filter_rrde8t5xof_iy250ablezo", "isExtra": false, "isNew": false, "operator": "NOT IN", "operatorId": "NOT_IN", "sqlExpression": null, "subject": "company_name"}
+        ],
+        "order_by_cols": [],
+        "row_limit": "30",
+        "server_page_length": 10,
+        "order_desc": true,
+        "table_timestamp_format": "smart_date",
+        "allow_render_html": true,
+        "column_config": {
+          "# Of Trx": {"d3NumberFormat": ",d", "d3SmallNumberFormat": ",d", "horizontalAlign": "center"},
+          "Merchant Name": {"horizontalAlign": "center"},
+          "Month": {"horizontalAlign": "center"},
+          "Volume (TL)": {"d3NumberFormat": ",d", "d3SmallNumberFormat": ",d", "horizontalAlign": "center"}
+        },
+        "show_cell_bars": false,
+        "color_pn": true,
+        "comparison_color_scheme": "Green",
+        "conditional_formatting": [],
+        "comparison_type": "values",
+        "extra_form_data": {},
+        "force": false,
+        "result_format": "json",
+        "result_type": "full",
+        "include_time": false
+      },
+      "result_format": "json",
+      "result_type": "full"
+    }
+    """;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+            return new JSONObject(response.body().string());
+        }
+    }
+
+    public static JSONObject sendWidget24Request() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A410%7D";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie"); // properties: cookie=session=<...>
+
+        String body = """
+    {
+      "datasource": {"id": 40, "type": "table"},
+      "force": false,
+      "queries": [
+        {
+          "filters": [
+            {"col": "company_name", "op": "NOT IN", "val": ["Test merchant"]}
+          ],
+          "extras": {
+            "having": "",
+            "where": "(month_start < toStartOfMonth(today()) AND month_start >= toStartOfMonth(toStartOfMonth(today())-1))"
+          },
+          "applied_time_extras": {},
+          "columns": [
+            {"datasourceWarning": false, "expressionType": "SQL", "label": "Month", "sqlExpression": "CASE \\r\\n    WHEN toMonth(month_start) = 1 THEN 'January'\\r\\n    WHEN toMonth(month_start) = 2 THEN 'February'\\r\\n    WHEN toMonth(month_start) = 3 THEN 'March'\\r\\n    WHEN toMonth(month_start) = 4 THEN 'April'\\r\\n    WHEN toMonth(month_start) = 5 THEN 'May'\\r\\n    WHEN toMonth(month_start) = 6 THEN 'June'\\r\\n    WHEN toMonth(month_start) = 7 THEN 'July'\\r\\n    WHEN toMonth(month_start) = 8 THEN 'August'\\r\\n    WHEN toMonth(month_start) = 9 THEN 'September'\\r\\n    WHEN toMonth(month_start) = 10 THEN 'October'\\r\\n    WHEN toMonth(month_start) = 11 THEN 'November'\\r\\n    WHEN toMonth(month_start) = 12 THEN 'December'\\r\\nEND"},
+            {"datasourceWarning": false, "expressionType": "SQL", "label": "Merchant Name", "sqlExpression": "company_name"},
+            {"datasourceWarning": false, "expressionType": "SQL", "label": "# Of Trx", "sqlExpression": "trx_count"},
+            {"datasourceWarning": false, "expressionType": "SQL", "label": "Volume (TL)", "sqlExpression": "posvolume"}
+          ],
+          "orderby": [],
+          "annotation_layers": [],
+          "row_limit": 30,
+          "series_limit": 0,
+          "order_desc": true,
+          "url_params": {
+            "dashboard_page_id": "MgZI7Yvj6TzEPtC9kExvN",
+            "form_data_key": "CMAcKJnwbJK-NOxPKGCOSWhIqAoaFWOPb4GnUjfhWTejB_E_Jk-Q7-hvRDAMsRC8",
+            "slice_id": "410"
+          },
+          "custom_params": {},
+          "custom_form_data": {},
+          "post_processing": [],
+          "time_offsets": []
+        }
+      ],
+      "form_data": {
+        "datasource": "40__table",
+        "viz_type": "table",
+        "slice_id": 410,
+        "url_params": {
+          "dashboard_page_id": "MgZI7Yvj6TzEPtC9kExvN",
+          "form_data_key": "CMAcKJnwbJK-NOxPKGCOSWhIqAoaFWOPb4GnUjfhWTejB_E_Jk-Q7-hvRDAMsRC8",
+          "slice_id": "410"
+        },
+        "query_mode": "raw",
+        "groupby": [],
+        "temporal_columns_lookup": {"month_start": true},
+        "all_columns": [
+          {"datasourceWarning": false, "expressionType": "SQL", "label": "Month", "sqlExpression": "CASE \\r\\n    WHEN toMonth(month_start) = 1 THEN 'January'\\r\\n    WHEN toMonth(month_start) = 2 THEN 'February'\\r\\n    WHEN toMonth(month_start) = 3 THEN 'March'\\r\\n    WHEN toMonth(month_start) = 4 THEN 'April'\\r\\n    WHEN toMonth(month_start) = 5 THEN 'May'\\r\\n    WHEN toMonth(month_start) = 6 THEN 'June'\\r\\n    WHEN toMonth(month_start) = 7 THEN 'July'\\r\\n    WHEN toMonth(month_start) = 8 THEN 'August'\\r\\n    WHEN toMonth(month_start) = 9 THEN 'September'\\r\\n    WHEN toMonth(month_start) = 10 THEN 'October'\\r\\n    WHEN toMonth(month_start) = 11 THEN 'November'\\r\\n    WHEN toMonth(month_start) = 12 THEN 'December'\\r\\nEND"},
+          {"datasourceWarning": false, "expressionType": "SQL", "label": "Merchant Name", "sqlExpression": "company_name"},
+          {"datasourceWarning": false, "expressionType": "SQL", "label": "# Of Trx", "sqlExpression": "trx_count"},
+          {"datasourceWarning": false, "expressionType": "SQL", "label": "Volume (TL)", "sqlExpression": "posvolume"}
+        ],
+        "percent_metrics": [],
+        "adhoc_filters": [
+          {"clause": "WHERE", "comparator": null, "datasourceWarning": false, "expressionType": "SQL", "filterOptionName": "filter_gii2uvdv5x9_4ei8d8mm5g3", "isExtra": false, "isNew": false, "operator": "TEMPORAL_RANGE", "sqlExpression": "month_start < toStartOfMonth(today()) AND month_start >= toStartOfMonth(toStartOfMonth(today())-1)", "subject": "month_start"},
+          {"clause": "WHERE", "comparator": ["Test merchant"], "datasourceWarning": false, "expressionType": "SIMPLE", "filterOptionName": "filter_vuhsw5p9h8n_xybdggb96bl", "isExtra": false, "isNew": false, "operator": "NOT IN", "operatorId": "NOT_IN", "sqlExpression": null, "subject": "company_name"}
+        ],
+        "order_by_cols": [],
+        "row_limit": "30",
+        "server_page_length": 10,
+        "order_desc": true,
+        "table_timestamp_format": "smart_date",
+        "allow_render_html": true,
+        "column_config": {
+          "# Of Trx": {"d3NumberFormat": ",d", "d3SmallNumberFormat": ",d", "horizontalAlign": "center"},
+          "Merchant Name": {"horizontalAlign": "center"},
+          "Month": {"horizontalAlign": "center"},
+          "Volume (TL)": {"d3NumberFormat": ",d", "d3SmallNumberFormat": ",d", "horizontalAlign": "center"}
+        },
+        "show_cell_bars": false,
+        "color_pn": true,
+        "comparison_color_scheme": "Green",
+        "conditional_formatting": [],
+        "comparison_type": "values",
+        "extra_form_data": {},
+        "force": false,
+        "result_format": "json",
+        "result_type": "full",
+        "include_time": false
+      },
+      "result_format": "json",
+      "result_type": "full"
+    }
+    """;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+            return new JSONObject(response.body().string());
+        }
+    }
+
+    public static JSONObject sendWidget25Request() throws Exception {
+
+        final String url =
+                "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A409%7D";
 
         OkHttpClient client = InsecureHttp.newClient()
                 .newBuilder()
@@ -2742,22 +2973,19 @@ public class Requests {
     {
       "datasource": {"id":40,"type":"table"},
       "force": false,
-      "queries": [
+      "queries":[
         {
           "filters":[
             {"col":"company_name","op":"NOT IN","val":["Test merchant"]}
           ],
           "extras":{
             "having":"",
-            "where":"(month_start < toStartOfMonth(toStartOfMonth(today())-1) AND month_start >= toStartOfMonth(toStartOfMonth(toStartOfMonth(today())-1)-1))"
+            "where":"(month_start >= toStartOfMonth(today()) AND month_start <toStartOfWeek(today()))"
           },
           "applied_time_extras":{},
           "columns":[
-            {
-              "expressionType":"SQL",
-              "label":"Month",
-              "sqlExpression":"CASE \\r\\n    WHEN toMonth(month_start) = 1 THEN 'January'\\r\\n    WHEN toMonth(month_start) = 2 THEN 'February'\\r\\n    WHEN toMonth(month_start) = 3 THEN 'March'\\r\\n    WHEN toMonth(month_start) = 4 THEN 'April'\\r\\n    WHEN toMonth(month_start) = 5 THEN 'May'\\r\\n    WHEN toMonth(month_start) = 6 THEN 'June'\\r\\n    WHEN toMonth(month_start) = 7 THEN 'July'\\r\\n    WHEN toMonth(month_start) = 8 THEN 'August'\\r\\n    WHEN toMonth(month_start) = 9 THEN 'September'\\r\\n    WHEN toMonth(month_start) = 10 THEN 'October'\\r\\n    WHEN toMonth(month_start) = 11 THEN 'November'\\r\\n    WHEN toMonth(month_start) = 12 THEN 'December'\\r\\nEND"
-            },
+            {"expressionType":"SQL","label":"Month","sqlExpression":
+              "CASE \\r\\n    WHEN toMonth(month_start) = 1 THEN 'January'\\r\\n    WHEN toMonth(month_start) = 2 THEN 'February'\\r\\n    WHEN toMonth(month_start) = 3 THEN 'March'\\r\\n    WHEN toMonth(month_start) = 4 THEN 'April'\\r\\n    WHEN toMonth(month_start) = 5 THEN 'May'\\r\\n    WHEN toMonth(month_start) = 6 THEN 'June'\\r\\n    WHEN toMonth(month_start) = 7 THEN 'July'\\r\\n    WHEN toMonth(month_start) = 8 THEN 'August'\\r\\n    WHEN toMonth(month_start) = 9 THEN 'September'\\r\\n    WHEN toMonth(month_start) = 10 THEN 'October'\\r\\n    WHEN toMonth(month_start) = 11 THEN 'November'\\r\\n    WHEN toMonth(month_start) = 12 THEN 'December'\\r\\nEND"},
             {"expressionType":"SQL","label":"Merchant Name","sqlExpression":"company_name"},
             {"expressionType":"SQL","label":"# Of Trx","sqlExpression":"trx_count"},
             {"expressionType":"SQL","label":"Volume (TL)","sqlExpression":"posvolume"}
@@ -2767,7 +2995,11 @@ public class Requests {
           "row_limit":30,
           "series_limit":0,
           "order_desc":true,
-          "url_params":{"slice_id":"415"},
+          "url_params":{
+            "dashboard_page_id":"MgZI7Yvj6TzEPtC9kExvN",
+            "form_data_key":"ETVmzp0tvt54B5Auy7Xf9_wI-XJMywnyFK_pPPtZo5b8gWllBb48qewozjaF0kV2",
+            "slice_id":"409"
+          },
           "custom_params":{},
           "custom_form_data":{},
           "post_processing":[],
@@ -2777,34 +3009,36 @@ public class Requests {
       "form_data":{
         "datasource":"40__table",
         "viz_type":"table",
-        "slice_id":415,
+        "slice_id":409,
+        "url_params":{
+          "dashboard_page_id":"MgZI7Yvj6TzEPtC9kExvN",
+          "form_data_key":"ETVmzp0tvt54B5Auy7Xf9_wI-XJMywnyFK_pPPtZo5b8gWllBb48qewozjaF0kV2",
+          "slice_id":"409"
+        },
         "query_mode":"raw",
         "groupby":[],
         "temporal_columns_lookup":{"month_start":true},
+        "metrics":[],
         "all_columns":[
-          {
-            "expressionType":"SQL",
-            "label":"Month",
-            "sqlExpression":"CASE \\r\\n    WHEN toMonth(month_start) = 1 THEN 'January'\\r\\n    WHEN toMonth(month_start) = 2 THEN 'February'\\r\\n    WHEN toMonth(month_start) = 3 THEN 'March'\\r\\n    WHEN toMonth(month_start) = 4 THEN 'April'\\r\\n    WHEN toMonth(month_start) = 5 THEN 'May'\\r\\n    WHEN toMonth(month_start) = 6 THEN 'June'\\r\\n    WHEN toMonth(month_start) = 7 THEN 'July'\\r\\n    WHEN toMonth(month_start) = 8 THEN 'August'\\r\\n    WHEN toMonth(month_start) = 9 THEN 'September'\\r\\n    WHEN toMonth(month_start) = 10 THEN 'October'\\r\\n    WHEN toMonth(month_start) = 11 THEN 'November'\\r\\n    WHEN toMonth(month_start) = 12 THEN 'December'\\r\\nEND"
-          },
+          {"expressionType":"SQL","label":"Month","sqlExpression":
+            "CASE \\r\\n    WHEN toMonth(month_start) = 1 THEN 'January'\\r\\n    WHEN toMonth(month_start) = 2 THEN 'February'\\r\\n    WHEN toMonth(month_start) = 3 THEN 'March'\\r\\n    WHEN toMonth(month_start) = 4 THEN 'April'\\r\\n    WHEN toMonth(month_start) = 5 THEN 'May'\\r\\n    WHEN toMonth(month_start) = 6 THEN 'June'\\r\\n    WHEN toMonth(month_start) = 7 THEN 'July'\\r\\n    WHEN toMonth(month_start) = 8 THEN 'August'\\r\\n    WHEN toMonth(month_start) = 9 THEN 'September'\\r\\n    WHEN toMonth(month_start) = 10 THEN 'October'\\r\\n    WHEN toMonth(month_start) = 11 THEN 'November'\\r\\n    WHEN toMonth(month_start) = 12 THEN 'December'\\r\\nEND"},
           {"expressionType":"SQL","label":"Merchant Name","sqlExpression":"company_name"},
           {"expressionType":"SQL","label":"# Of Trx","sqlExpression":"trx_count"},
           {"expressionType":"SQL","label":"Volume (TL)","sqlExpression":"posvolume"}
         ],
+        "percent_metrics":[],
         "adhoc_filters":[
           {
             "clause":"WHERE",
-            "expressionType":"SQL",
-            "subject":"month_start",
             "operator":"TEMPORAL_RANGE",
-            "sqlExpression":"month_start < toStartOfMonth(toStartOfMonth(today())-1) AND month_start >= toStartOfMonth(toStartOfMonth(toStartOfMonth(today())-1)-1)"
+            "sqlExpression":"month_start >= toStartOfMonth(today()) AND month_start <toStartOfWeek(today())",
+            "subject":"month_start"
           },
           {
             "clause":"WHERE",
-            "expressionType":"SIMPLE",
-            "subject":"company_name",
-            "operator":"NOT_IN",
-            "comparator":["Test merchant"]
+            "operator":"NOT IN",
+            "comparator":["Test merchant"],
+            "subject":"company_name"
           }
         ],
         "order_by_cols":[],
@@ -2817,131 +3051,15 @@ public class Requests {
           "# Of Trx":{"d3NumberFormat":",d","d3SmallNumberFormat":",d","horizontalAlign":"center"},
           "Merchant Name":{"horizontalAlign":"center"},
           "Month":{"horizontalAlign":"center"},
-          "Volume (TL)":{"d3NumberFormat":",d","d3SmallNumberFormat":",d","horizontalAlign":"center"}
-        },
-        "show_cell_bars":false,
-        "color_pn":true,
-        "comparison_color_scheme":"Green",
-        "comparison_type":"values",
-        "result_format":"json",
-        "result_type":"full",
-        "include_time":false,
-        "force":false
-      },
-      "result_format":"json",
-      "result_type":"full"
-    }
-    """;
-
-        Request request = new Request.Builder()
-                .url(url)
-                .post(RequestBody.create(body, MediaType.parse("application/json")))
-                .addHeader("Accept", "application/json")
-                .addHeader("Content-Type", "application/json")
-                .addHeader("User-Agent", "OkHttp Bot")
-                .addHeader("Cookie", "session=" + cookie)
-                .build();
-
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful())
-                throw new IOException("Unexpected code " + response);
-
-            return new JSONObject(response.body().string());
-        }
-    }
-
-    public static JSONObject sendWidget25Request() throws IOException {
-        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A409%7D&force=true";
-
-        OkHttpClient client = InsecureHttp.newClient()
-                .newBuilder()
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)
-                .retryOnConnectionFailure(true)
-                .build();
-
-        String cookie = ConfigurationReader.getProperty("cookie"); // config’den al
-
-        String body = """
-    {
-      "datasource": {"id":40,"type":"table"},
-      "force": true,
-      "queries": [
-        {
-          "filters":[{"col":"company_name","op":"NOT IN","val":["Test merchant"]}],
-          "extras":{
-            "having":"",
-            "where":"(month_start >= toStartOfMonth(today()) AND month_start <toStartOfWeek(today()))"
-          },
-          "applied_time_extras":{},
-          "columns":[
-            {
-              "expressionType":"SQL",
-              "label":"Month",
-              "sqlExpression":"CASE \\r\\n    WHEN toMonth(month_start) = 1 THEN 'January'\\r\\n    WHEN toMonth(month_start) = 2 THEN 'February'\\r\\n    WHEN toMonth(month_start) = 3 THEN 'March'\\r\\n    WHEN toMonth(month_start) = 4 THEN 'April'\\r\\n    WHEN toMonth(month_start) = 5 THEN 'May'\\r\\n    WHEN toMonth(month_start) = 6 THEN 'June'\\r\\n    WHEN toMonth(month_start) = 7 THEN 'July'\\r\\n    WHEN toMonth(month_start) = 8 THEN 'August'\\r\\n    WHEN toMonth(month_start) = 9 THEN 'September'\\r\\n    WHEN toMonth(month_start) = 10 THEN 'October'\\r\\n    WHEN toMonth(month_start) = 11 THEN 'November'\\r\\n    WHEN toMonth(month_start) = 12 THEN 'December'\\r\\nEND"
-            },
-            {"expressionType":"SQL","label":"Merchant Name","sqlExpression":"company_name"},
-            {"expressionType":"SQL","label":"# Of Trx","sqlExpression":"trx_count"},
-            {"expressionType":"SQL","label":"Volume (TL)","sqlExpression":"posvolume"}
-          ],
-          "orderby":[],
-          "annotation_layers":[],
-          "row_limit":30,
-          "series_limit":0,
-          "order_desc":true,
-          "url_params":{"slice_id":"409"},
-          "custom_params":{},
-          "custom_form_data":{},
-          "post_processing":[],
-          "time_offsets":[]
-        }
-      ],
-      "form_data":{
-        "datasource":"40__table",
-        "viz_type":"table",
-        "slice_id":409,
-        "query_mode":"raw",
-        "groupby":[],
-        "temporal_columns_lookup":{"month_start":true},
-        "metrics":[],
-        "all_columns":[
-          {
-            "expressionType":"SQL",
-            "label":"Month",
-            "sqlExpression":"CASE \\r\\n    WHEN toMonth(month_start) = 1 THEN 'January'\\r\\n    WHEN toMonth(month_start) = 2 THEN 'February'\\r\\n    WHEN toMonth(month_start) = 3 THEN 'March'\\r\\n    WHEN toMonth(month_start) = 4 THEN 'April'\\r\\n    WHEN toMonth(month_start) = 5 THEN 'May'\\r\\n    WHEN toMonth(month_start) = 6 THEN 'June'\\r\\n    WHEN toMonth(month_start) = 7 THEN 'July'\\r\\n    WHEN toMonth(month_start) = 8 THEN 'August'\\r\\n    WHEN toMonth(month_start) = 9 THEN 'September'\\r\\n    WHEN toMonth(month_start) = 10 THEN 'October'\\r\\n    WHEN toMonth(month_start) = 11 THEN 'November'\\r\\n    WHEN toMonth(month_start) = 12 THEN 'December'\\r\\nEND"
-          },
-          {"expressionType":"SQL","label":"Merchant Name","sqlExpression":"company_name"},
-          {"expressionType":"SQL","label":"# Of Trx","sqlExpression":"trx_count"},
-          {"expressionType":"SQL","label":"Volume (TL)","sqlExpression":"posvolume"}
-        ],
-        "percent_metrics":[],
-        "adhoc_filters":[
-          {
-            "clause":"WHERE",
-            "expressionType":"SQL",
-            "subject":"month_start",
-            "operator":"TEMPORAL_RANGE",
-            "sqlExpression":"month_start >= toStartOfMonth(today()) AND month_start <toStartOfWeek(today())"
-          },
-          {"clause":"WHERE","expressionType":"SIMPLE","subject":"company_name","operator":"NOT_IN","comparator":["Test merchant"]}
-        ],
-        "order_by_cols":[],
-        "row_limit":"30",
-        "table_timestamp_format":"smart_date",
-        "allow_render_html":true,
-        "column_config":{
-          "# Of Trx":{"d3NumberFormat":",d","d3SmallNumberFormat":",d","horizontalAlign":"center"},
-          "Merchant Name":{"horizontalAlign":"center"},
-          "Month":{"horizontalAlign":"center"},
           "Volume (TL)":{"d3NumberFormat":",.2f","d3SmallNumberFormat":",.2f","horizontalAlign":"center"}
         },
         "show_cell_bars":false,
         "color_pn":true,
         "comparison_color_scheme":"Green",
         "conditional_formatting":[],
+        "comparison_type":"values",
         "extra_form_data":{},
-        "force":true,
+        "force":false,
         "result_format":"json",
         "result_type":"full",
         "include_time":false
@@ -2956,12 +3074,14 @@ public class Requests {
                 .post(RequestBody.create(body, MediaType.parse("application/json")))
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")
-                .addHeader("User-Agent", "OkHttp Bot")
                 .addHeader("Cookie", "session=" + cookie)
+                .addHeader("User-Agent", "OkHttp Bot")
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+            if (!response.isSuccessful()) {
+                throw new RuntimeException("Response code: " + response.code());
+            }
             return new JSONObject(response.body().string());
         }
     }

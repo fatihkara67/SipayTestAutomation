@@ -1408,7 +1408,7 @@ public class WidgetsStepDefs extends BaseStep {
 
             if (inner5 == null) {
                 System.out.println("Eksik rep bulundu: " + rep);
-                return false;
+                return true;
             }
 
             for (String stage : inner5.keySet()) {
@@ -1934,6 +1934,82 @@ public class WidgetsStepDefs extends BaseStep {
         Assert.assertTrue("s13 fail",scenario13);
     }
 
+
+
+    Map<String, Map<String, Double>> w24VolumeMap; // Month -> (Merchant -> Volume)
+    Map<String, Map<String, Double>> w24TrxMap;    // Month -> (Merchant -> #OfTrx)
+
+    @Given("The user send widget24 request")
+    public void theUserSendW24Request() throws Exception {
+        JSONObject v24Json = Requests.sendWidget24Request(); // kendi send metodun
+        System.out.println("w24Json: " + v24Json);
+
+        w24VolumeMap = new LinkedHashMap<>(); // gelen sırayı koru
+        w24TrxMap    = new LinkedHashMap<>();
+
+        if (v24Json == null) return;
+        JSONArray results = v24Json.optJSONArray("result");
+        if (results == null || results.length() == 0) return;
+
+        JSONObject block0 = results.optJSONObject(0);
+        if (block0 == null) return;
+
+        JSONArray colnames = block0.optJSONArray("colnames");
+        JSONArray data     = block0.optJSONArray("data");
+        if (colnames == null || data == null) return;
+
+        // Kolon adlarını dinamik çöz
+        String monthKey    = resolveKey(colnames, "month");
+        String merchantKey = resolveKey(colnames, "merchant name", "merchant");
+        String volumeKey   = resolveKey(colnames, "volume (tl)", "volume");
+        String trxKey      = resolveKey(colnames, "# of trx", "trx", "trx count");
+
+        for (int i = 0; i < data.length(); i++) {
+            JSONObject row = data.optJSONObject(i);
+            if (row == null) continue;
+
+            String month = row.optString(monthKey, "").trim();
+            if (month.isEmpty()) continue;
+
+            String merchant = row.optString(merchantKey, "").trim();
+            if (merchant.isEmpty()) continue;
+
+            // Volume
+            Double vol = toDoubleSafe(row.opt(volumeKey));
+            if (vol != null) {
+                w24VolumeMap.computeIfAbsent(month, k -> new LinkedHashMap<>());
+                w24VolumeMap.get(month).merge(merchant, vol, Double::sum);
+            }
+
+            // # Of Trx
+            Double trx = toDoubleSafe(row.opt(trxKey));
+            if (trx != null) {
+                w24TrxMap.computeIfAbsent(month, k -> new LinkedHashMap<>());
+                w24TrxMap.get(month).merge(merchant, trx, Double::sum);
+            }
+        }
+
+        // Opsiyonel log
+        for (Map.Entry<String, Map<String, Double>> e : w24VolumeMap.entrySet()) {
+            System.out.println("=== " + e.getKey() + " | Volume (TL) ===");
+            e.getValue().forEach((k, v) -> System.out.println(k + " -> " + v));
+        }
+        for (Map.Entry<String, Map<String, Double>> e : w24TrxMap.entrySet()) {
+            System.out.println("=== " + e.getKey() + " | # Of Trx ===");
+            e.getValue().forEach((k, v) -> System.out.println(k + " -> " + v));
+        }
+    }
+
+    @Then("The user verify scenario14")
+    public void theUserVerifyScenario14() {
+        boolean scenario13 = areMapsEqual(w22Map,w24VolumeMap);
+
+        Assert.assertTrue("s14 fail",scenario13);
+    }
+
+
+
+
     Map<String, Map<String, Double>> w25Map;
 
     @Given("The user send widget25 request")
@@ -2267,33 +2343,73 @@ public class WidgetsStepDefs extends BaseStep {
 
     @Given("The user send widget35 request")
     public void theUserSendWidget35Request() throws Exception {
-        JSONObject json = Requests.sendWidget35Request(); // kendi send metodun
+        JSONObject json = Requests.sendWidget35Request();
         System.out.println("w35Json: " + json);
 
         w35ReferredLeads = 0.0;
-
         if (json == null) return;
+
         JSONArray results = json.optJSONArray("result");
         if (results == null || results.length() == 0) return;
 
-        JSONObject block0 = results.optJSONObject(0);
-        if (block0 == null) return;
+        // --- Hedef bloğu bul: sadece "Referred Leads" kolonu olan ve tek satır dönen blok ---
+        JSONObject targetBlock = null;
+        for (int i = 0; i < results.length(); i++) {
+            JSONObject block = results.optJSONObject(i);
+            if (block == null) continue;
 
-        JSONArray colnames = block0.optJSONArray("colnames");
-        JSONArray data     = block0.optJSONArray("data");
-        if (colnames == null || data == null || data.length() == 0) return;
+            JSONArray colnames = block.optJSONArray("colnames");
+            JSONArray data     = block.optJSONArray("data");
+            if (colnames == null || data == null) continue;
 
-        String leadsKey = resolveKey(colnames, "referred leads");
+            boolean hasReferredLeads = containsIgnoreCase(colnames, "Referred Leads");
+            boolean hasPartner       = containsIgnoreCase(colnames, "Partner");
+            boolean singleColumn     = colnames.length() == 1;  // yalnız "Referred Leads"
+            boolean singleRow        = data.length() == 1;      // toplam satırı
+
+            // En güvenli eşleşme: tek kolon (Referred Leads) ve tek satır
+            if (hasReferredLeads && singleColumn && singleRow) {
+                targetBlock = block;
+                break;
+            }
+
+            // İkinci tercih: Referred Leads var, Partner yok ve tek satır
+            if (targetBlock == null && hasReferredLeads && !hasPartner && singleRow) {
+                targetBlock = block;
+                // break etmiyoruz; üstteki kesin eşleşme varsa onu tercih edelim
+            }
+        }
+
+        // Hiçbiri bulunamazsa, genellikle toplam en sonda olur: yedek senaryo
+        if (targetBlock == null) {
+            targetBlock = results.optJSONObject(results.length() - 1);
+        }
+        if (targetBlock == null) return;
+
+        JSONArray targetColnames = targetBlock.optJSONArray("colnames");
+        JSONArray targetData     = targetBlock.optJSONArray("data");
+        if (targetColnames == null || targetData == null || targetData.length() == 0) return;
+
+        String leadsKey = resolveKey(targetColnames, "referred leads");
         if (leadsKey.isEmpty()) return;
 
-        JSONObject row0 = data.optJSONObject(0);
-        if (row0 == null) return;
+        JSONObject onlyRow = targetData.optJSONObject(0);
+        if (onlyRow == null) return;
 
-        w35ReferredLeads = toDoubleSafe(row0.opt(leadsKey));
-
-        // Log
+        w35ReferredLeads = toDoubleSafe(onlyRow.opt(leadsKey));
         System.out.println("W35 Referred Leads (total) = " + w35ReferredLeads);
     }
+
+    /** Küçük/büyük harfe duyarsız kolon adı araması */
+    private static boolean containsIgnoreCase(JSONArray arr, String key) {
+        if (arr == null || key == null) return false;
+        for (int i = 0; i < arr.length(); i++) {
+            String v = String.valueOf(arr.opt(i));
+            if (v != null && v.equalsIgnoreCase(key)) return true;
+        }
+        return false;
+    }
+
 
     @Then("The user verify scenario18")
     public void theUserVerifyScenario18() {

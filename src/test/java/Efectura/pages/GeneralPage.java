@@ -2,6 +2,7 @@ package Efectura.pages;
 
 import Efectura.utilities.BrowserUtils;
 import lombok.Getter;
+import org.apache.xmlbeans.impl.xb.xsdschema.ListDocument;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -110,6 +111,13 @@ public class GeneralPage extends BasePage {
 
     @FindBy(xpath = "//tbody/tr[1]/td")
     private List<WebElement> historyFirstRowValues;
+
+    @FindBy(xpath = "//div[@class='home-page-item']/span")
+    private List<WebElement> fletumQuickAccessTabs;
+
+    @FindBy(xpath = "//a[@title='Düzenle']")
+    private WebElement editButton;
+
 
     private final List<String> adiAndXbRequiredDocuments = List.of("Kimlik","Üye İşyeri Bilgi Formu","Oran Şablonu");
     private final List<String> sahisRequiredDocuments = List.of("Kimlik","Vergi Levhası","İmza Beyannamesi","İkametgah Belgesi","Üye İşyeri Bilgi Formu","Oran Şablonu");

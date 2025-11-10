@@ -283,4 +283,41 @@ public class GeneralStepDefs extends BaseStep {
         }
     }
 
+    @Given("The user go to {string} and measure load time")
+    public void theUserGoToProdAppAndMeasureLoadTime(String pageName) {
+        Duration timeDuration = BrowserUtils.navigateAndMeasure(Driver.getDriver(),ConfigurationReader.getProperty(pageName));
+        double sec = timeDuration.toNanos() / 1_000_000_000.0;
+        System.out.println("Sec: " + sec);
+        BrowserUtils.wait(2);
+    }
+
+    @Then("The user click submit button and mesaure time")
+    public void theUserClickSubmitButtonAndMesaureTime() {
+        Duration timeDuration = BrowserUtils.clickAndMeasureFullNavigation(Driver.getDriver(),pages.formsPage().getLoginButton());
+        double sec = timeDuration.toNanos() / 1_000_000_000.0;
+        System.out.println("Sec: " + sec);
+        BrowserUtils.wait(2);
+    }
+
+    @Then("The user click {string} in quick access and measure time")
+    public void theUserClickDigitalAssetInQuickAccessAndMeasureTime(String tabName) {
+        WebElement target = pages.generalPage().getFletumQuickAccessTabs().stream()
+                .filter(el -> el.getText().trim().equals(tabName))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Tab bulunamadı!"));
+
+        Duration timeDuration = BrowserUtils.clickAndMeasureFullNavigation(Driver.getDriver(),target);
+        double sec = timeDuration.toNanos() / 1_000_000_000.0;
+        System.out.println("Sec: " + sec);
+        BrowserUtils.wait(2);
+
+    }
+
+    @Then("The user click edit item button and measure time")
+    public void theUserClickEditItemButtonAndMeasureTime() {
+        Duration timeDuration = BrowserUtils.clickAndMeasureFullNavigation(Driver.getDriver(),pages.generalPage().getEditButton());
+        double sec = timeDuration.toNanos() / 1_000_000_000.0;
+        System.out.println("Sec: " + sec);
+        BrowserUtils.wait(2);
+    }
 }
