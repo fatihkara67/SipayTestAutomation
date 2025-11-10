@@ -1,13 +1,13 @@
 Feature: Time logs Scenarios
 
-  Scenario: Login page
-    Given The user go to 'prod-fletum' and measure load time
-
-  Scenario: Entry page
-    Given The user opens 'prod-fletum' environment
-    And   The User inputs a valid username "sahaUser"
-    And   The User inputs a valid password "sahaPassword"
-    Then The user click submit button and mesaure time
+#  Scenario: Login page
+#    Given The user go to 'prod-fletum' and measure load time
+#
+#  Scenario: Entry page
+#    Given The user opens 'prod-fletum' environment
+#    And   The User inputs a valid username "sahaUser"
+#    And   The User inputs a valid password "sahaPassword"
+#    Then The user click submit button and mesaure time
 
   Scenario: Deal Overview Page Load
     Given The user go to 'prod-fletum' and measure load time

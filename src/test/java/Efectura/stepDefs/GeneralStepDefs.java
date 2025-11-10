@@ -8,8 +8,8 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -18,6 +18,7 @@ import java.util.*;
 import static Efectura.utilities.BrowserUtils.isElementDisplayed;
 
 public class GeneralStepDefs extends BaseStep {
+    SoftAssert softAssert = new SoftAssert();
 
     String env;
     @Given("The user go to {string} environment")
@@ -289,6 +290,7 @@ public class GeneralStepDefs extends BaseStep {
         double sec = timeDuration.toNanos() / 1_000_000_000.0;
         System.out.println("Sec: " + sec);
         BrowserUtils.wait(2);
+        softAssert.assertTrue(sec <= 2,"Login ekranı 2 saniyeden geç geldi");
     }
 
     @Then("The user click submit button and mesaure time")
@@ -297,6 +299,7 @@ public class GeneralStepDefs extends BaseStep {
         double sec = timeDuration.toNanos() / 1_000_000_000.0;
         System.out.println("Sec: " + sec);
         BrowserUtils.wait(2);
+        softAssert.assertTrue(sec <= 2,"Giriş ekranı ekranı 2 saniyeden geç geldi");
     }
 
     @Then("The user click {string} in quick access and measure time")
@@ -311,6 +314,8 @@ public class GeneralStepDefs extends BaseStep {
         System.out.println("Sec: " + sec);
         BrowserUtils.wait(2);
 
+        softAssert.assertTrue(sec <= 2,"Deal overview ekranı 2 saniyeden geç geldi");
+
     }
 
     @Then("The user click edit item button and measure time")
@@ -319,5 +324,6 @@ public class GeneralStepDefs extends BaseStep {
         double sec = timeDuration.toNanos() / 1_000_000_000.0;
         System.out.println("Sec: " + sec);
         BrowserUtils.wait(2);
+        softAssert.assertTrue(sec <= 2,"Edit Item ekranı 2 saniyeden geç geldi");
     }
 }
