@@ -1,3 +1,4 @@
+@widget @spy @last-prod @last
 Feature: Time logs Scenarios
 
 #  Scenario: Login page

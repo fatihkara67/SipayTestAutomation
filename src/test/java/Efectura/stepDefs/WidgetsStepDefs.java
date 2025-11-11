@@ -2339,7 +2339,7 @@ public class WidgetsStepDefs extends BaseStep {
         w34ByPartner.forEach((p,v) -> System.out.println(p + " -> " + v));
     }
 
-    double w35ReferredLeads; // tek toplam
+    double w35ReferredLeads; // partner satırlarının toplamı
 
     @Given("The user send widget35 request")
     public void theUserSendWidget35Request() throws Exception {
@@ -2352,8 +2352,10 @@ public class WidgetsStepDefs extends BaseStep {
         JSONArray results = json.optJSONArray("result");
         if (results == null || results.length() == 0) return;
 
-        // --- Hedef bloğu bul: sadece "Referred Leads" kolonu olan ve tek satır dönen blok ---
+        // --- Hedef blok: Partner + Referred Leads kolonları olan ve birden fazla satır dönen blok ---
         JSONObject targetBlock = null;
+        int bestRowCount = -1;
+
         for (int i = 0; i < results.length(); i++) {
             JSONObject block = results.optJSONObject(i);
             if (block == null) continue;
@@ -2364,26 +2366,45 @@ public class WidgetsStepDefs extends BaseStep {
 
             boolean hasReferredLeads = containsIgnoreCase(colnames, "Referred Leads");
             boolean hasPartner       = containsIgnoreCase(colnames, "Partner");
-            boolean singleColumn     = colnames.length() == 1;  // yalnız "Referred Leads"
-            boolean singleRow        = data.length() == 1;      // toplam satırı
+            boolean singleColumn     = colnames.length() == 1;   // alt toplam bloğunu elemek için
+            boolean singleRow        = data.length() == 1;
 
-            // En güvenli eşleşme: tek kolon (Referred Leads) ve tek satır
+            // Alt toplam bloğunu bilinçli olarak dışla (tek kolon ve tek satır)
             if (hasReferredLeads && singleColumn && singleRow) {
-                targetBlock = block;
-                break;
+                continue;
             }
 
-            // İkinci tercih: Referred Leads var, Partner yok ve tek satır
-            if (targetBlock == null && hasReferredLeads && !hasPartner && singleRow) {
-                targetBlock = block;
-                // break etmiyoruz; üstteki kesin eşleşme varsa onu tercih edelim
+            // Öncelik: Partner + Referred Leads + çok satır
+            if (hasReferredLeads && hasPartner) {
+                int rowCount = data.length();
+                if (rowCount > bestRowCount) {
+                    bestRowCount = rowCount;
+                    targetBlock = block;
+                }
             }
         }
 
-        // Hiçbiri bulunamazsa, genellikle toplam en sonda olur: yedek senaryo
+        // Eğer Partner+ReferredLeads bulunamadıysa, Referred Leads içeren ve tek kolon/tek satır olmayan herhangi bir bloğu dene
         if (targetBlock == null) {
-            targetBlock = results.optJSONObject(results.length() - 1);
+            for (int i = 0; i < results.length(); i++) {
+                JSONObject block = results.optJSONObject(i);
+                if (block == null) continue;
+
+                JSONArray colnames = block.optJSONArray("colnames");
+                JSONArray data     = block.optJSONArray("data");
+                if (colnames == null || data == null) continue;
+
+                boolean hasReferredLeads = containsIgnoreCase(colnames, "Referred Leads");
+                boolean singleColumn     = colnames.length() == 1;
+                boolean singleRow        = data.length() == 1;
+
+                if (hasReferredLeads && !(singleColumn && singleRow)) {
+                    targetBlock = block;
+                    break;
+                }
+            }
         }
+
         if (targetBlock == null) return;
 
         JSONArray targetColnames = targetBlock.optJSONArray("colnames");
@@ -2393,11 +2414,20 @@ public class WidgetsStepDefs extends BaseStep {
         String leadsKey = resolveKey(targetColnames, "referred leads");
         if (leadsKey.isEmpty()) return;
 
-        JSONObject onlyRow = targetData.optJSONObject(0);
-        if (onlyRow == null) return;
+        // --- Toplamı partner satırlarından hesapla ---
+        double sum = 0.0;
+        for (int i = 0; i < targetData.length(); i++) {
+            Object rowObj = targetData.opt(i);
+            if (rowObj instanceof JSONObject) {
+                JSONObject row = (JSONObject) rowObj;
+                sum += toDoubleSafe(row.opt(leadsKey));
+            } else {
+                // Beklenmedik tiplerde (ör. primitive) güvenli atla
+            }
+        }
 
-        w35ReferredLeads = toDoubleSafe(onlyRow.opt(leadsKey));
-        System.out.println("W35 Referred Leads (total) = " + w35ReferredLeads);
+        w35ReferredLeads = sum;
+        System.out.println("W35 Referred Leads (sum of rows) = " + w35ReferredLeads);
     }
 
     /** Küçük/büyük harfe duyarsız kolon adı araması */
@@ -2409,6 +2439,7 @@ public class WidgetsStepDefs extends BaseStep {
         }
         return false;
     }
+
 
 
     @Then("The user verify scenario18")
