@@ -30,7 +30,7 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
                 "rerun:target/rerun.txt"
         },
         // Hangi senaryoların çalıştırılacağını belirten etiket
-        tags ="@preprod",
+        tags ="@spy",
         features ="src/test/resources/features",
         glue  = "Efectura/stepDefs",
         dryRun = false
@@ -62,8 +62,8 @@ public class TestRunner extends AbstractTestNGCucumberTests {
             return;
         }
 
-        // 4) Telegram'a gönder
-        BrowserUtils.sendFileToTelegram(finalReportPath.toString(), "-4570445477");
+        // 4) Telegram'a gönder   -4570445477
+        BrowserUtils.sendFileToTelegram(finalReportPath.toString(), "-1002156506449");
 
         BrowserUtils.renameFile(
                 renamedReport.toString(),

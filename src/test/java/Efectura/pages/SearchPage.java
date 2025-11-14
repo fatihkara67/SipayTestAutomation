@@ -60,7 +60,7 @@ public class SearchPage extends BasePage {
     @FindBy(xpath = "//*[@id='root']/div/main/div/div/div[1]/div/button")
     private WebElement createNewRecordButton;
 
-    @FindBy(xpath = "//button[text()='Ara']")
+    @FindBy(xpath = "//span[text()='Ara']")
     private WebElement searchButton;
 
     @FindBy(xpath = "//*[contains(@id,'content-')]/div[3]/div[3]/div/div[2]/button[1]")

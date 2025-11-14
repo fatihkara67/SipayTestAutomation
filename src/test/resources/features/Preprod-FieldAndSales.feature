@@ -4,7 +4,7 @@ Feature: Prod Field And Sales Cases
   Background:
     Given The user go to 'test-app' environment
     Given The user login
-      | username | SAHASATIS2 |
+      | username | sahasatis2 |
       | password | Sipay2025. |
 
 

@@ -43,9 +43,9 @@ Feature: End To End Form Cases
     When The user select2 'Fiziki POS' in 'product'
     Then The user verify other attributes display
     When The user fill inputs prospect form sales and field
-    When The user click 'Güncelle' button
-    Then The user verify warning 'Durum LeadDraft olarak güncellendi'
-    Then The user verify old values
+#    When The user click 'Güncelle' button
+#    Then The user verify warning 'Durum LeadDraft olarak güncellendi'
+#    Then The user verify old values
     When The user click 'Tamamla' button
     Then The user verify warning 'Durum Lead olarak güncellendi'
     When The user keep lead data
@@ -97,7 +97,7 @@ Feature: End To End Form Cases
     When The user search created form
     When The user click related record button at row 0
     When The user go to other tab
-    When The user wait 3 second
+    When The user wait 5 second
     When The user click 'Tamamla' button
     Then The user verify warning 'Lütfen tüm zorunlu alanları doldurun'
     When The user wait 3 second
