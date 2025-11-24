@@ -790,7 +790,7 @@ public class SearchStepDefs extends BaseStep {
 
     @When("The user fill inputs prospect form sales and field")
     public void theUserFillInputsProspectFormSalesAndField() {
-        randomValue = UUID.randomUUID().toString();
+        randomValue = UUID.randomUUID().toString() + "Ç";
         System.out.println(randomValue);
 
         // Özel format gerektiren alan listesi (genel adımın korunmuş hâli)
