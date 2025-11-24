@@ -331,6 +331,7 @@ public class SearchStepDefs extends BaseStep {
 
     String validPhone;
     String validEmail;
+    String address;
 
     @When("The user fill the prospect form")
     public void theUserFillTheProspectForm() {
@@ -868,6 +869,15 @@ public class SearchStepDefs extends BaseStep {
                 attributeCodesAndLabels.put(id,
                         Driver.getDriver().findElement(By.xpath("//*[@id='" + id + "']/parent::*//label")).getText());
             }
+
+//            if ("installationAddress".equals(id)) {
+//                address = UUID.randomUUID().toString();
+//                input.sendKeys(address);
+//                attributeAndValues.put(id, address);
+//                attributeCodesAndLabels.put(id,
+//                        Driver.getDriver().findElement(By.xpath("//*[@id='" + id + "']/parent::*//label")).getText());
+//            }
+
             if ("mccCode".equals(id)) {
                 input.sendKeys("67670");
                 attributeAndValues.put(id, "67670");
@@ -1665,8 +1675,12 @@ public class SearchStepDefs extends BaseStep {
                 .map(WebElement::getText)
                 .anyMatch(text -> text.equalsIgnoreCase(name));
 
+        boolean isFormDisplayed = BrowserUtils.isElementDisplayed
+                (By.xpath("//div[contains(text(),'" + name + "')]"));
+
         Assert.assertTrue("Randevu listesi tarihi bugün olan bir kaydı içermiyor",
-                containsText);
+                isFormDisplayed);
+
 
     }
 

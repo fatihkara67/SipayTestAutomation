@@ -41,6 +41,7 @@ Feature: Prod Field And Sales Cases
     When The user fill inputs prospect form sales and field
     When The user click 'Cihaz Ekle' button
     When The user wait 3 second
+    When The user enter 'Geçici Adres' into 'installationAddress'
     When The user click 'Tamamla' button
     Then The user verify warning 'Durum Lead olarak güncellendi'
     When The user keep lead data
