@@ -357,91 +357,347 @@ public class Requests {
         }
     }
 
-    public static JSONObject sendWidget3Request() throws IOException {
-        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A222%7D&force=true";
+    public static JSONObject sendWidget3Request() {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A222%7D";
 
         OkHttpClient client = InsecureHttp.newClient()
                 .newBuilder()
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(7, TimeUnit.SECONDS)
+                .readTimeout(7, TimeUnit.SECONDS)
+                .writeTimeout(7, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
                 .build();
 
-        String cookie = ConfigurationReader.getProperty("cookie"); // config’den al
+        String cookie = ConfigurationReader.getProperty("cookie");
 
         String body = """
-    {
-      "datasource": {"id":36,"type":"table"},
-      "force": true,
-      "queries": [{
-        "filters":[{"col":"SalesRep","op":"NOT IN","val":["Test Sipay"]}],
-        "extras":{
-          "having":"",
-          "where":"(StageDate >= toStartOfWeek(today())) AND (SalesStage IS NOT NULL) AND (SalesStage NOT IN ('ContractRet', 'LeadRet', 'PitchedRet', 'Ret', 'ProspectRet'))"
-        },
-        "applied_time_extras":{},
-        "columns":[
-          {"columnType":"BASE_AXIS","sqlExpression":"SalesRep","label":"SalesRep","expressionType":"SQL"},
-          {"expressionType":"SQL","label":"Sales Stage","sqlExpression":"StageAggr"}
-        ],
-        "metrics":[{"aggregate":"COUNT_DISTINCT","column":{"column_name":"AssetId","id":384,"type":"INT"},"expressionType":"SIMPLE","label":"Customer Count"}],
-        "orderby":[[{"aggregate":"COUNT_DISTINCT","column":{"column_name":"AssetId","id":384,"type":"INT"},"expressionType":"SIMPLE","label":"Customer Count"},false]],
-        "annotation_layers":[],
-        "row_limit":50000,
-        "series_columns":[{"expressionType":"SQL","label":"Sales Stage","sqlExpression":"StageAggr"}],
-        "series_limit":0,
-        "order_desc":true,
-        "url_params":{"slice_id":"222"},
-        "custom_params":{},
-        "custom_form_data":{},
-        "time_offsets":[],
-        "post_processing":[
-          {"operation":"pivot","options":{"index":["SalesRep"],"columns":["Sales Stage"],"aggregates":{"Customer Count":{"operator":"mean"}},"drop_missing_columns":false}},
-          {"operation":"rename","options":{"columns":{"Customer Count":null},"level":0,"inplace":true}},
-          {"operation":"flatten"}
-        ]
-      }],
-      "form_data":{
-        "datasource":"36__table","viz_type":"echarts_timeseries_bar","slice_id":222,
-        "groupby":[{"expressionType":"SQL","label":"Sales Stage","sqlExpression":"StageAggr"}],
-        "metrics":[{"aggregate":"COUNT_DISTINCT","column":{"column_name":"AssetId","id":384,"type":"INT"},"expressionType":"SIMPLE","label":"Customer Count"}],
-        "adhoc_filters":[
-          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"StageDate >= toStartOfWeek(today())"},
-          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"SalesStage IS NOT NULL"},
-          {"clause":"WHERE","expressionType":"SIMPLE","subject":"SalesRep","operator":"NOT_IN","comparator":["Test Sipay"]},
-          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"SalesStage NOT IN ('ContractRet', 'LeadRet', 'PitchedRet', 'Ret', 'ProspectRet')"}
-        ],
-        "row_limit":50000
-      },
-      "result_format":"json","result_type":"full"
-    }
-    """;
+            {
+              "datasource": {
+                "id": 36,
+                "type": "table"
+              },
+              "force": false,
+              "queries": [
+                {
+                  "filters": [
+                    {
+                      "col": "SalesRep",
+                      "op": "NOT IN",
+                      "val": [
+                        "Test Sipay"
+                      ]
+                    }
+                  ],
+                  "extras": {
+                    "having": "",
+                    "where": "(StageDate >= toStartOfWeek(today())) AND (SalesStage IS NOT NULL) AND (SalesStage NOT ILIKE '%RET%')"
+                  },
+                  "applied_time_extras": {},
+                  "columns": [
+                    {
+                      "columnType": "BASE_AXIS",
+                      "sqlExpression": "SalesRep",
+                      "label": "SalesRep",
+                      "expressionType": "SQL"
+                    },
+                    {
+                      "expressionType": "SQL",
+                      "label": "Sales Stage",
+                      "sqlExpression": "StageAggr"
+                    }
+                  ],
+                  "metrics": [
+                    {
+                      "aggregate": "COUNT_DISTINCT",
+                      "column": {
+                        "advanced_data_type": null,
+                        "changed_on": "2025-08-12T16:11:02.352726",
+                        "column_name": "AssetId",
+                        "created_on": "2025-08-12T16:11:02.352724",
+                        "description": null,
+                        "expression": null,
+                        "extra": null,
+                        "filterable": true,
+                        "groupby": true,
+                        "id": 384,
+                        "is_active": true,
+                        "is_dttm": false,
+                        "python_date_format": null,
+                        "type": "INT",
+                        "type_generic": 0,
+                        "uuid": "5a95266a-8162-4daa-9419-0e378a6aafdc",
+                        "verbose_name": null
+                      },
+                      "datasourceWarning": false,
+                      "expressionType": "SIMPLE",
+                      "hasCustomLabel": true,
+                      "label": "Customer Count",
+                      "optionName": "metric_w67h0a7x6fk_2zllxkz1jgr",
+                      "sqlExpression": null
+                    }
+                  ],
+                  "orderby": [
+                    [
+                      {
+                        "aggregate": "COUNT_DISTINCT",
+                        "column": {
+                          "advanced_data_type": null,
+                          "changed_on": "2025-08-12T16:11:02.352726",
+                          "column_name": "AssetId",
+                          "created_on": "2025-08-12T16:11:02.352724",
+                          "description": null,
+                          "expression": null,
+                          "extra": null,
+                          "filterable": true,
+                          "groupby": true,
+                          "id": 384,
+                          "is_active": true,
+                          "is_dttm": false,
+                          "python_date_format": null,
+                          "type": "INT",
+                          "type_generic": 0,
+                          "uuid": "5a95266a-8162-4daa-9419-0e378a6aafdc",
+                          "verbose_name": null
+                        },
+                        "datasourceWarning": false,
+                        "expressionType": "SIMPLE",
+                        "hasCustomLabel": true,
+                        "label": "Customer Count",
+                        "optionName": "metric_w67h0a7x6fk_2zllxkz1jgr",
+                        "sqlExpression": null
+                      },
+                      false
+                    ]
+                  ],
+                  "annotation_layers": [],
+                  "row_limit": 50000,
+                  "series_columns": [
+                    {
+                      "expressionType": "SQL",
+                      "label": "Sales Stage",
+                      "sqlExpression": "StageAggr"
+                    }
+                  ],
+                  "series_limit": 0,
+                  "order_desc": true,
+                  "url_params": {
+                    "dashboard_page_id": "MgZI7Yvj6TzEPtC9kExvN",
+                    "form_data_key": "pTlipsLFEqO4LK8wDiBRyqZL4jV9zHWWh7RWSZO68Tcd8SArjHiDI6mAaobfPeN4",
+                    "slice_id": "222"
+                  },
+                  "custom_params": {},
+                  "custom_form_data": {},
+                  "time_offsets": [],
+                  "post_processing": [
+                    {
+                      "operation": "pivot",
+                      "options": {
+                        "index": [
+                          "SalesRep"
+                        ],
+                        "columns": [
+                          "Sales Stage"
+                        ],
+                        "aggregates": {
+                          "Customer Count": {
+                            "operator": "mean"
+                          }
+                        },
+                        "drop_missing_columns": false
+                      }
+                    },
+                    {
+                      "operation": "rename",
+                      "options": {
+                        "columns": {
+                          "Customer Count": null
+                        },
+                        "level": 0,
+                        "inplace": true
+                      }
+                    },
+                    {
+                      "operation": "flatten"
+                    }
+                  ]
+                }
+              ],
+              "form_data": {
+                "datasource": "36__table",
+                "viz_type": "echarts_timeseries_bar",
+                "slice_id": 222,
+                "url_params": {
+                  "dashboard_page_id": "MgZI7Yvj6TzEPtC9kExvN",
+                  "form_data_key": "pTlipsLFEqO4LK8wDiBRyqZL4jV9zHWWh7RWSZO68Tcd8SArjHiDI6mAaobfPeN4",
+                  "slice_id": "222"
+                },
+                "x_axis": "SalesRep",
+                "x_axis_sort_series": "name",
+                "x_axis_sort_series_ascending": false,
+                "metrics": [
+                  {
+                    "aggregate": "COUNT_DISTINCT",
+                    "column": {
+                      "advanced_data_type": null,
+                      "changed_on": "2025-08-12T16:11:02.352726",
+                      "column_name": "AssetId",
+                      "created_on": "2025-08-12T16:11:02.352724",
+                      "description": null,
+                      "expression": null,
+                      "extra": null,
+                      "filterable": true,
+                      "groupby": true,
+                      "id": 384,
+                      "is_active": true,
+                      "is_dttm": false,
+                      "python_date_format": null,
+                      "type": "INT",
+                      "type_generic": 0,
+                      "uuid": "5a95266a-8162-4daa-9419-0e378a6aafdc",
+                      "verbose_name": null
+                    },
+                    "datasourceWarning": false,
+                    "expressionType": "SIMPLE",
+                    "hasCustomLabel": true,
+                    "label": "Customer Count",
+                    "optionName": "metric_w67h0a7x6fk_2zllxkz1jgr",
+                    "sqlExpression": null
+                  }
+                ],
+                "groupby": [
+                  {
+                    "expressionType": "SQL",
+                    "label": "Sales Stage",
+                    "sqlExpression": "StageAggr"
+                  }
+                ],
+                "adhoc_filters": [
+                  {
+                    "expressionType": "SQL",
+                    "sqlExpression": "StageDate >= toStartOfWeek(today())",
+                    "clause": "WHERE",
+                    "subject": "CreatedOn",
+                    "operator": "TEMPORAL_RANGE",
+                    "operatorId": "TEMPORAL_RANGE",
+                    "comparator": null,
+                    "isExtra": false,
+                    "isNew": false,
+                    "datasourceWarning": false,
+                    "filterOptionName": "filter_pe8t08a1hlo_d64xn8mjfl"
+                  },
+                  {
+                    "expressionType": "SQL",
+                    "sqlExpression": "SalesStage IS NOT NULL",
+                    "clause": "WHERE",
+                    "subject": null,
+                    "operator": null,
+                    "comparator": null,
+                    "isExtra": false,
+                    "isNew": false,
+                    "datasourceWarning": false,
+                    "filterOptionName": "filter_ng9a3kuyjli_km3hsu4md6"
+                  },
+                  {
+                    "expressionType": "SIMPLE",
+                    "subject": "SalesRep",
+                    "operator": "NOT IN",
+                    "operatorId": "NOT_IN",
+                    "comparator": [
+                      "Test Sipay"
+                    ],
+                    "clause": "WHERE",
+                    "sqlExpression": null,
+                    "isExtra": false,
+                    "isNew": false,
+                    "datasourceWarning": false,
+                    "filterOptionName": "filter_9vk4xkqre4n_348iwu9ew0k"
+                  },
+                  {
+                    "expressionType": "SQL",
+                    "sqlExpression": "SalesStage NOT ILIKE '%RET%'",
+                    "clause": "WHERE",
+                    "subject": null,
+                    "operator": null,
+                    "comparator": null,
+                    "isExtra": false,
+                    "isNew": false,
+                    "datasourceWarning": false,
+                    "filterOptionName": "filter_hvagzuof8e9_movljtu97i"
+                  }
+                ],
+                "row_limit": 50000,
+                "truncate_metric": true,
+                "show_empty_columns": true,
+                "annotation_layers": [],
+                "orientation": "horizontal",
+                "x_axis_title_margin": 15,
+                "y_axis_title_margin": 15,
+                "y_axis_title_position": "Left",
+                "sort_series_type": "name",
+                "sort_series_ascending": true,
+                "color_scheme": "supersetColors",
+                "show_value": true,
+                "stack": "Stack",
+                "only_total": true,
+                "show_legend": true,
+                "legendType": "scroll",
+                "legendOrientation": "bottom",
+                "x_axis_time_format": "smart_date",
+                "y_axis_format": "SMART_NUMBER",
+                "logAxis": false,
+                "truncateXAxis": true,
+                "y_axis_bounds": [
+                  null,
+                  null
+                ],
+                "rich_tooltip": true,
+                "showTooltipTotal": true,
+                "showTooltipPercentage": true,
+                "tooltipTimeFormat": "smart_date",
+                "extra_form_data": {},
+                "force": false,
+                "result_format": "json",
+                "result_type": "full"
+              },
+              "result_format": "json",
+              "result_type": "full"
+            }
+            """;
 
         Request request = new Request.Builder()
                 .url(url)
-                .post(RequestBody.create(body, MediaType.parse("application/json")))
                 .addHeader("Accept", "application/json")
                 .addHeader("Content-Type", "application/json")
-                .addHeader("User-Agent", "OkHttp Bot")
-                .addHeader("Cookie", "session=" + cookie)
+                .addHeader("Accept-Language", "en-US,en;q=0.9,tr;q=0.8")
+                .addHeader("Origin", "https://crm-dashboard.spwgpf.com")
+                .addHeader("Referer", "https://crm-dashboard.spwgpf.com/explore/?form_data_key=pTlipsLFEqO4LK8wDiBRyqZL4jV9zHWWh7RWSZO68Tcd8SArjHiDI6mAaobfPeN4&dashboard_page_id=MgZI7Yvj6TzEPtC9kExvN&slice_id=222")
+                .addHeader("User-Agent", "Mozilla/5.0")
+                .addHeader("Cookie", cookie)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
                 .build();
 
-        try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-            String respStr = response.body().string();
+        try (Response resp = client.newCall(request).execute()) {
+            if (!resp.isSuccessful()) {
+                String err = resp.body() != null ? resp.body().string() : "";
+                throw new IOException("Unexpected code " + resp.code() + " - " + err);
+            }
+            String respStr = resp.body() != null ? resp.body().string() : "{}";
             return new JSONObject(respStr);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
+
 
     public static JSONObject sendWidget40Request() {
         final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A436%7D&force=true";
 
         OkHttpClient client = InsecureHttp.newClient()
                 .newBuilder()
-                .connectTimeout(timeoutValue, TimeUnit.SECONDS)
-                .readTimeout(timeoutValue, TimeUnit.SECONDS)
-                .writeTimeout(timeoutValue, TimeUnit.SECONDS)
+                .connectTimeout(6, TimeUnit.SECONDS)
+                .readTimeout(6, TimeUnit.SECONDS)
+                .writeTimeout(6, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true)
                 .build();
 

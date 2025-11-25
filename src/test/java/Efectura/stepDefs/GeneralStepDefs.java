@@ -290,7 +290,7 @@ public class GeneralStepDefs extends BaseStep {
         double sec = timeDuration.toNanos() / 1_000_000_000.0;
         System.out.println("Sec: " + sec);
         BrowserUtils.wait(2);
-        softAssert.assertTrue(sec <= 2,"Login ekranı 2 saniyeden geç geldi");
+        softAssert.assertTrue(sec <= 2,"Login ekranı 2 saniyeden geç geldi (" + sec + " saniye)");
     }
 
     @Then("The user click submit button and mesaure time")
@@ -299,7 +299,7 @@ public class GeneralStepDefs extends BaseStep {
         double sec = timeDuration.toNanos() / 1_000_000_000.0;
         System.out.println("Sec: " + sec);
         BrowserUtils.wait(2);
-        softAssert.assertTrue(sec <= 2,"Giriş ekranı ekranı 2 saniyeden geç geldi");
+        softAssert.assertTrue(sec <= 2,"Giriş ekranı ekranı 2 saniyeden geç geldi (" + sec + " saniye)");
     }
 
     @Then("The user click {string} in quick access and measure time")
@@ -314,16 +314,24 @@ public class GeneralStepDefs extends BaseStep {
         System.out.println("Sec: " + sec);
         BrowserUtils.wait(2);
 
-        softAssert.assertTrue(sec <= 2,"Deal overview ekranı 2 saniyeden geç geldi");
+        softAssert.assertTrue(sec <= 2,"Deal overview ekranı 2 saniyeden geç geldi (" + sec + " saniye)");
 
     }
 
     @Then("The user click edit item button and measure time")
     public void theUserClickEditItemButtonAndMeasureTime() {
+        BrowserUtils.adjustScreenSize(15,Driver.getDriver());
+        BrowserUtils.wait(10);
         Duration timeDuration = BrowserUtils.clickAndMeasureFullNavigation(Driver.getDriver(),pages.generalPage().getEditButton());
         double sec = timeDuration.toNanos() / 1_000_000_000.0;
         System.out.println("Sec: " + sec);
         BrowserUtils.wait(2);
-        softAssert.assertTrue(sec <= 2,"Edit Item ekranı 2 saniyeden geç geldi");
+        softAssert.assertTrue(sec <= 2,"Edit Item ekranı 2 saniyeden geç geldi (" + sec + " saniye)");
     }
+
+    @Given("The user assert all 2")
+    public void theUserAssertAll() {
+        softAssert.assertAll();
+    }
+
 }

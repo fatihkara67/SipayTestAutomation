@@ -227,7 +227,7 @@ public class SearchStepDefs extends BaseStep {
 
         BrowserUtils.wait(1);
         pages.searchPage().getSearchButton().click();
-        BrowserUtils.wait(4);
+        BrowserUtils.wait(6);
 
         System.out.println(pages.searchPage().getRecordTitles().stream()
                 .map(WebElement::getText).collect(Collectors.toList()));

@@ -17,3 +17,4 @@ Feature: Time logs Scenarios
     Then The user click submit button and mesaure time
     Then The user click 'Digital Asset' in quick access and measure time
     Then The user click edit item button and measure time
+    Then The user assert all 2
