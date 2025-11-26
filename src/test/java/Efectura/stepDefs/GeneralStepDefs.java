@@ -40,7 +40,7 @@ public class GeneralStepDefs extends BaseStep {
 
     @Then("The user verify warning {string}")
     public void theUserVerifyWarning(String warningText) {
-        BrowserUtils.wait(2);
+        BrowserUtils.wait(1);
         BrowserUtils.waitForVisibility(pages.generalPage().getWarningElement(),45);
         String url = Driver.getDriver().getCurrentUrl();
         System.out.println("Url: " + url);

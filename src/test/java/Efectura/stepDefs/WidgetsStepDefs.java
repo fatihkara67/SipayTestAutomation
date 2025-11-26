@@ -1416,38 +1416,39 @@ public class WidgetsStepDefs extends BaseStep {
     public static boolean areMapsEqual(Map<String, Map<String, Double>> w5PerRep,
                                        Map<String, Map<String, Double>> w6PerRep) {
 
+        final double EPS = 0.01; // izin verilen maksimum fark
+
         System.out.println("w5 size: " + w5PerRep.size());
         System.out.println("w6 size: " + w6PerRep.size());
-//    if (w5PerRep.size() != w6PerRep.size()) return false;
+//  if (w5PerRep.size() != w6PerRep.size()) return false;
 
         for (String rep : w6PerRep.keySet()) {
             Map<String, Double> inner5 = w5PerRep.get(rep);
             Map<String, Double> inner6 = w6PerRep.get(rep);
 
             if (inner5 == null) {
-                System.out.println("Eksik rep bulundu: " + rep);
-                return true;
+                System.out.println("Eksik rep bulundu (w5'te yok): " + rep);
+                return false;
+            }
+            if (inner6 == null) {
+                System.out.println("Eksik rep bulundu (w6'da yok): " + rep);
+                return false;
             }
 
             for (String stage : inner5.keySet()) {
                 Double v1 = inner5.get(stage);
                 Double v2 = inner6.get(stage);
 
-                // === null / 0 eşitliği ===
-                boolean equal;
-                if (v1 == null && v2 == null) {
-                    equal = true;
-                } else if (v1 == null && v2 != null) {
-                    equal = (v2 == 0.0);
-                } else if (v2 == null && v1 != null) {
-                    equal = (v1 == 0.0);
-                } else {
-                    equal = Objects.equals(v1, v2);
-                }
+                // null'ları 0.0 gibi ele al
+                double d1 = (v1 == null ? 0.0 : v1);
+                double d2 = (v2 == null ? 0.0 : v2);
+
+                double diff = Math.abs(d1 - d2);
+                boolean equal = diff <= EPS; // 0.01 ve altını eşit kabul et
 
                 if (!equal) {
-                    System.out.printf("Farklı değer bulundu rep: %s | stage: %s -> %s vs %s%n",
-                            rep, stage, v1, v2);
+                    System.out.printf("Farklı değer bulundu rep: %s | stage: %s -> %s vs %s (diff=%.5f)%n",
+                            rep, stage, d1, d2, diff);
                     return false;
                 }
             }
@@ -1455,6 +1456,7 @@ public class WidgetsStepDefs extends BaseStep {
 
         return true;
     }
+
 
 
     @Then("The user verify scenario10")

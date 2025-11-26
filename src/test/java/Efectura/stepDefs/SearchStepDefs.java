@@ -433,7 +433,7 @@ public class SearchStepDefs extends BaseStep {
 
         button.click();
 //        BrowserUtils.safeClick(button);
-        BrowserUtils.wait(1);
+        BrowserUtils.wait(2);
         if (buttonName.equals("Kaydet"))
             formStatus = "save";
         if (buttonName.equals("Tamamla"))
@@ -1144,7 +1144,7 @@ public class SearchStepDefs extends BaseStep {
 
     @Then("The user verify risk revise reason and explanation")
     public void theUserVerifyRiskReviseReasonAndExplanation() {
-        softAssert.assertEquals(Driver.getDriver().findElement(By.id("reviseReason")).getText(),"Yasaklı sektör",
+        softAssert.assertEquals(Driver.getDriver().findElement(By.id("reviseReason")).getText(),"Bilgi Talebi",
                 "Risk Revize sebebi seçilenden farklı");
 
 
@@ -1694,5 +1694,22 @@ public class SearchStepDefs extends BaseStep {
     public void theUserClickCreateNewRecordButtonInTable() {
         pages.searchPage().getCreateNewRecordButtons().get(0).click();
         BrowserUtils.wait(1);
+    }
+
+    String contractNote;
+    @When("The user fill note area")
+    public void theUserFillNoteArea() {
+        WebElement noteInputBox = Driver.getDriver().findElement(By.cssSelector("div[contenteditable='true']"));
+        contractNote = UUID.randomUUID().toString();
+        noteInputBox.sendKeys(contractNote);
+        System.out.println("NOTE: " + BrowserUtils.getValueInInputBox
+                (Driver.getDriver().findElement(By.xpath("//div/div/div/div[2]/div/div/p"))));
+    }
+
+    @Then("The user verify contract note")
+    public void theUserVerifyContractNote() {
+        String actual = Driver.getDriver().findElement(By.xpath("//div/div/div/div[2]/div/div/p")).getText();
+        softAssert.assertTrue(actual.contains(contractNote),
+                "Contract note girilenden farklı formda");
     }
 }

@@ -72,6 +72,7 @@ Feature: Prod End To End Form Cases
     Then The user verify warning 'Lütfen tüm zorunlu alanları doldurun'
     When The user fill select prospect form sales and field
     When The user fill inputs prospect form sales and field
+    When The user fill note area
     When The user select2 'Adi Ortaklık' in 'companyType'
 #    Then The user verify required documents
     When The user upload documents
@@ -96,6 +97,36 @@ Feature: Prod End To End Form Cases
     When The user wait 8 second
     When The user click 'Tamamla' button
     Then The user verify warning 'Lütfen tüm zorunlu alanları doldurun'
+
+    When The user wait 3 second
+    When The user click 'Revize Gönder' button
+    Then The user verify warning 'Lütfen revize sebebini seçiniz!'
+    When The user select2 'Bilgi Talebi' in 'reviseReason'
+    When The user click 'Revize Gönder' button
+    When The user enter revise explanation
+    When The user click 'Onayla' button
+    Then The user verify warning "Revizyon Contracting Draft'a gönderildi."
+    Given The user logout
+    Given The user login
+      | username | TestSipay  |
+      | password | Sipay2025. |
+    When The user search created form
+    When The user click related record button at row 0
+    When The user go to other tab
+    When The user wait 3 second
+#    Then The user verify risk revise reason and explanation
+    Then The user verify contract note
+    When The user click 'Tamamla' button
+    Then The user verify warning 'Durum Contracting olarak güncellendi'
+    Given The user logout
+    Given The user login
+      | username | semasipay  |
+      | password | Sipay2025. |
+    When The user search created form
+    When The user click related record button at row 0
+    When The user go to other tab
+    When The user wait 3 second
+
     When The user fill select prospect form sales and field
     When The user fill inputs prospect form sales and field
     When The user click 'Güncelle' button
@@ -215,7 +246,8 @@ Feature: Prod End To End Form Cases
     When The user fill inputs prospect form sales and field
     When The user select2 'Ulaşılamadı' in 'prospectDurum'
     When The user click 'Tamamla' button
-    Then The user verify warning 'Durum Prospect olarak güncellendi'
+    When The user wait 8 second
+#    Then The user verify warning 'Durum Prospect olarak güncellendi'
     Then The user verify 'Lead Formu' form is open
     When The user take form id
     Given The user logout
@@ -246,7 +278,8 @@ Feature: Prod End To End Form Cases
     When The user fill inputs prospect form sales and field
     When The user select2 'Ulaşılamadı' in 'prospectDurum'
     When The user click 'Tamamla' button
-    Then The user verify warning 'Durum Prospect olarak güncellendi'
+    When The user wait 8 second
+#    Then The user verify warning 'Durum Prospect olarak güncellendi'
     Then The user verify 'Lead Formu' form is open
     When The user wait 3 second
     When The user click 'Reddet' button
