@@ -425,11 +425,14 @@ public class WidgetsStepDefs extends BaseStep {
 
     @Then("The user verify scenario6")
     public void theUserVerifyScenario6() {
-        Assert.assertEquals("Senaryo 6 pilot sayılar eşleşmedi",
-                totalPilotW4, totalPilotW41, 0.01);
+//        Assert.assertEquals("Senaryo 6 pilot sayılar eşleşmedi",
+//                totalPilotW4, totalPilotW41, 0.01);
+//
+//        Assert.assertEquals("Senaryo 6 live sayılar eşleşmedi",
+//                totalLiveW4, totalLiveW41, 0.01);
 
-        Assert.assertEquals("Senaryo 6 live sayılar eşleşmedi",
-                totalLiveW4, totalLiveW41, 0.01);
+        Assert.assertEquals("Senaryo 6 implementation sayılar eşleşmedi",
+                totalImplementationW4, totalImplementationW41, 0.01);
     }
 
 
@@ -549,7 +552,7 @@ public class WidgetsStepDefs extends BaseStep {
 //        Assert.assertEquals("Senaryo 7 live sayılar eşleşmedi",
 //                totalLiveW42, totalLiveW3SpecS7, 0.01);
 
-        Assert.assertEquals("Senaryo 7 live sayılar eşleşmedi",
+        Assert.assertEquals("Senaryo 7 implementation sayılar eşleşmedi",
                 totalImplW42, totalImplW3SpecS7, 0.01);
     }
 
@@ -685,7 +688,7 @@ public class WidgetsStepDefs extends BaseStep {
 //        Assert.assertEquals("Senaryo 8 live sayılar eşleşmedi",
 //                totalLiveW43, totalLiveW4SpecS8, 0.01);
 
-        Assert.assertEquals("Senaryo 8 live sayılar eşleşmedi",
+        Assert.assertEquals("Senaryo 8 implementation sayılar eşleşmedi",
                 totalImplW43, totalImplW4SpecS8, 0.01);
     }
 

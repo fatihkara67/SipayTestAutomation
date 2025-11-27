@@ -290,7 +290,7 @@ public class GeneralStepDefs extends BaseStep {
         double sec = timeDuration.toNanos() / 1_000_000_000.0;
         System.out.println("Sec: " + sec);
         BrowserUtils.wait(2);
-        softAssert.assertTrue(sec <= 2,"Login ekranı 2 saniyeden geç geldi (" + sec + " saniye)");
+        softAssert.assertTrue(sec <= 2,"Login ekrani 2 saniyeden gec geldi (" + sec + " saniye)");
     }
 
     @Then("The user click submit button and mesaure time")
@@ -299,7 +299,7 @@ public class GeneralStepDefs extends BaseStep {
         double sec = timeDuration.toNanos() / 1_000_000_000.0;
         System.out.println("Sec: " + sec);
         BrowserUtils.wait(2);
-        softAssert.assertTrue(sec <= 2,"Giriş ekranı ekranı 2 saniyeden geç geldi (" + sec + " saniye)");
+        softAssert.assertTrue(sec <= 2,"Giris ekrani 2 saniyeden gec geldi (" + sec + " saniye)");
     }
 
     @Then("The user click {string} in quick access and measure time")
@@ -314,7 +314,7 @@ public class GeneralStepDefs extends BaseStep {
         System.out.println("Sec: " + sec);
         BrowserUtils.wait(2);
 
-        softAssert.assertTrue(sec <= 2,"Deal overview ekranı 2 saniyeden geç geldi (" + sec + " saniye)");
+        softAssert.assertTrue(sec <= 2,"Deal overview ekrani 2 saniyeden gec geldi (" + sec + " saniye)");
 
     }
 
@@ -326,7 +326,7 @@ public class GeneralStepDefs extends BaseStep {
         double sec = timeDuration.toNanos() / 1_000_000_000.0;
         System.out.println("Sec: " + sec);
         BrowserUtils.wait(2);
-        softAssert.assertTrue(sec <= 2,"Edit Item ekranı 2 saniyeden geç geldi (" + sec + " saniye)");
+        softAssert.assertTrue(sec <= 2,"Edit Item ekrani 2 saniyeden gec geldi (" + sec + " saniye)");
     }
 
     @Given("The user assert all 2")
