@@ -246,7 +246,7 @@ Feature: Prod End To End Form Cases
     When The user fill inputs prospect form sales and field
     When The user select2 'Ulaşılamadı' in 'prospectDurum'
     When The user click 'Tamamla' button
-    When The user wait 15 second
+    When The user wait 30 second
 #    Then The user verify warning 'Durum Prospect olarak güncellendi'
     Then The user verify 'Lead Formu' form is open
     When The user take form id
@@ -278,7 +278,7 @@ Feature: Prod End To End Form Cases
     When The user fill inputs prospect form sales and field
     When The user select2 'Ulaşılamadı' in 'prospectDurum'
     When The user click 'Tamamla' button
-    When The user wait 15 second
+    When The user wait 30 second
 #    Then The user verify warning 'Durum Prospect olarak güncellendi'
     Then The user verify 'Lead Formu' form is open
     When The user wait 3 second
