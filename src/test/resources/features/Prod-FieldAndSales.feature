@@ -54,7 +54,7 @@ Feature: Prod Field And Sales Cases
     When The user click 'Tamamla' button
     Then The user verify warning 'Durum Pitched olarak güncellendi'
     When The user keep pitched data
-    Then The user verify 'Contracting Kayıt Formu' form is open
+    Then The user verify 'Saha Satış Kontrat Formu' form is open
     When The user open 'Satış Bilgileri' info in form
     Then The user verify old values
     When The user take form id

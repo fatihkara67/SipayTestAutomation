@@ -247,12 +247,14 @@ public class SearchStepDefs extends BaseStep {
         pages.searchPage().getGoToRelatedRecordButtons().get(rowNumber).click();
     }
 
+    String formNamex = "Prospect";
     @Then("The user verify {string} form is open")
     public void theUserVerifyFormIsOpen(String formName) {
         BrowserUtils.wait(3);
         BrowserUtils.waitForVisibility(Driver.getDriver().findElement(By.xpath("//*[@id=\"root\"]/div/main/div/div/div[2]//fieldset")), 45);
         Assert.assertEquals(formName, Driver.getDriver().
                 findElement(By.xpath("//*[@id='root']/div/main/div/div/div[1]//h3")).getText());
+        formNamex = formName;
 
     }
 
@@ -453,14 +455,14 @@ public class SearchStepDefs extends BaseStep {
                         softAssert.assertEquals(
                                 Driver.getDriver().findElement(By.id(entry.getKey())).getText(),
                                 entry.getValue(),
-                                entry.getKey() + " id'li attribute formda farklı"
+                                entry.getKey() + " id'li attribute formda farklı. Form: " + formNamex
                         );
 
                     } else if (formStatus.equals("complete")) {
                         softAssert.assertEquals(
                                 Driver.getDriver().findElement(By.id(entry.getKey())).getText(),
                                 "Onaylandı",
-                                entry.getKey() + " id'li attribute formda farklı"
+                                entry.getKey() + " id'li attribute formda farklı. Form: " + formNamex
                         );
                     }
                     continue;
@@ -470,7 +472,7 @@ public class SearchStepDefs extends BaseStep {
                     softAssert.assertEquals(
                             BrowserUtils.getValueInInputBox(Driver.getDriver().findElement(By.id(entry.getKey()))).replace(".", ""),
                             entry.getValue(),
-                            entry.getKey() + " id'li attribute formda farklı"
+                            entry.getKey() + " id'li attribute formda farklı. Form: " + formNamex
                     );
                     continue;
                 }
@@ -479,7 +481,7 @@ public class SearchStepDefs extends BaseStep {
                     softAssert.assertEquals(
                             entry.getValue(),
                             monthlyPos * 12 + "",
-                            entry.getKey() + " id'li attribute formda farlı"
+                            entry.getKey() + " id'li attribute formda farlı. Form: " + formNamex
                     );
                 }
 
@@ -488,7 +490,7 @@ public class SearchStepDefs extends BaseStep {
                         softAssert.assertEquals(
                                 BrowserUtils.getValueInInputBox(Driver.getDriver().findElement(By.id(entry.getKey()))).replace(".", ""),
                                 entry.getValue(),
-                                entry.getKey() + " id'li attribute formda farklı"
+                                entry.getKey() + " id'li attribute formda farklı. Form: " + formNamex
                         );
                     }
                     continue;
@@ -498,7 +500,7 @@ public class SearchStepDefs extends BaseStep {
                     softAssert.assertEquals(
                             Driver.getDriver().findElement(By.id(entry.getKey())).getText(),
                             entry.getValue(),
-                            entry.getKey() + " id'li attribute formda farklı"
+                            entry.getKey() + " id'li attribute formda farklı. Form: " + formNamex
                     );
                     continue;
                 }
@@ -506,7 +508,7 @@ public class SearchStepDefs extends BaseStep {
                 softAssert.assertEquals(
                         Driver.getDriver().findElement(By.id(entry.getKey())).getText(),
                         entry.getValue(),
-                        entry.getKey() + " id'li attribute formda farklı"
+                        entry.getKey() + " id'li attribute formda farklı. Form: " + formNamex
                 );
             }
         }
@@ -526,14 +528,14 @@ public class SearchStepDefs extends BaseStep {
                         softAssert.assertEquals(
                                 Driver.getDriver().findElement(By.id(entry.getKey())).getText(),
                                 entry.getValue(),
-                                entry.getKey() + " id'li attribute farklı"
+                                entry.getKey() + " id'li attribute farklı. Form: " + formNamex
                         );
 
                     } else if (formStatus.equals("complete")) {
                         softAssert.assertEquals(
                                 Driver.getDriver().findElement(By.id(entry.getKey())).getText(),
                                 "Onaylandı",
-                                entry.getKey() + " id'li attribute farklı"
+                                entry.getKey() + " id'li attribute farklı. Form: " + formNamex
                         );
                     }
                     continue;
@@ -543,7 +545,7 @@ public class SearchStepDefs extends BaseStep {
                     softAssert.assertEquals(
                             BrowserUtils.getValueInInputBox(Driver.getDriver().findElement(By.id(entry.getKey()))).replace(".", ""),
                             entry.getValue(),
-                            entry.getKey() + " id'li attribute farklı"
+                            entry.getKey() + " id'li attribute farklı. Form: " + formNamex
                     );
                     continue;
                 }
@@ -552,7 +554,7 @@ public class SearchStepDefs extends BaseStep {
                     softAssert.assertEquals(
                             entry.getValue(),
                             monthlyPos * 12 + "",
-                            entry.getKey() + " id'li attribute farlı"
+                            entry.getKey() + " id'li attribute farlı. Form: " + formNamex
                     );
                 }
 
@@ -561,7 +563,7 @@ public class SearchStepDefs extends BaseStep {
                         softAssert.assertEquals(
                                 BrowserUtils.getValueInInputBox(Driver.getDriver().findElement(By.id(entry.getKey()))).replace(".", ""),
                                 entry.getValue(),
-                                entry.getKey() + " id'li attribute farklı"
+                                entry.getKey() + " id'li attribute farklı. Form: " + formNamex
                         );
                     }
                     continue;
@@ -571,7 +573,7 @@ public class SearchStepDefs extends BaseStep {
                     softAssert.assertEquals(
                             Driver.getDriver().findElement(By.id(entry.getKey())).getText(),
                             entry.getValue(),
-                            entry.getKey() + " id'li attribute farklı"
+                            entry.getKey() + " id'li attribute farklı. Form: " + formNamex
                     );
                     continue;
                 }
@@ -579,7 +581,7 @@ public class SearchStepDefs extends BaseStep {
                 softAssert.assertEquals(
                         Driver.getDriver().findElement(By.id(entry.getKey())).getText(),
                         entry.getValue(),
-                        entry.getKey() + " id'li attribute farklı"
+                        entry.getKey() + " id'li attribute farklı. Form: " + formNamex
                 );
             }
         }
