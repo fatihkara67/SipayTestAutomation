@@ -162,6 +162,62 @@ Feature: Prod End To End Form Cases
     Given The user assert all
 
 
+  Scenario: Chat
+    Given The user login
+      | username | TestSipay  |
+      | password | Sipay2025. |
+    When The user go to 'Prospect' on navbar
+    When The user fill select prospect form sales and field
+    When The user fill inputs prospect form sales and field
+    When The user select2 'Ulaşılamadı' in 'prospectDurum'
+    When The user click 'Tamamla' button
+    When The user wait 60 second
+#    Then The user verify warning 'Durum Prospect olarak güncellendi'
+    Then The user verify 'Lead Formu' form is open
+    When The user take form id
+    Given The user logout
+    Given The user login
+      | username | semasipay  |
+      | password | Sipay2025. |
+#    Then The user verify operation revise reason and explanation
+    When The user search created form
+    When The user click related record button at row 0
+    When The user go to other tab
+    When The user wait 6 second
+    When The user mention '@testsipay'
+    Given The user opens 'prod-fletum' environment
+    And   The User inputs a valid username "sahaUser"
+    And   The User inputs a valid password "sahaPassword"
+    And   The User clicks the Submit button
+    Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
+    Then The user verify notification
+    Then The user verify link
+
+
+  Scenario: Ret Control
+    Given The user login
+      | username | TestSipay  |
+      | password | Sipay2025. |
+    When The user go to 'Prospect' on navbar
+    When The user fill select prospect form sales and field
+    When The user fill inputs prospect form sales and field
+    When The user select2 'Ulaşılamadı' in 'prospectDurum'
+    When The user click 'Tamamla' button
+    When The user wait 60 second
+#    Then The user verify warning 'Durum Prospect olarak güncellendi'
+    Then The user verify 'Lead Formu' form is open
+    When The user wait 3 second
+    When The user click 'Reddet' button
+    When The user cancel the form
+    When The user click 'Onayla' button
+    Then The user verify warning 'Durum LeadRet olarak güncellendi'
+    When The user navigate to 'https://crmapp.spwgpf.com/'
+    When The user search created form
+    Then The user verify 'Deal Durumu' with value 'LeadRet'
+    Then The user verify ret reason
+    Given The user assert all
+
+
 
   Scenario: Prod Item And Association Control
     Given The user login
@@ -236,61 +292,6 @@ Feature: Prod End To End Form Cases
     When The user click uploaded document
     When The user verify document is download
 
-
-  Scenario: Chat
-    Given The user login
-      | username | TestSipay  |
-      | password | Sipay2025. |
-    When The user go to 'Prospect' on navbar
-    When The user fill select prospect form sales and field
-    When The user fill inputs prospect form sales and field
-    When The user select2 'Ulaşılamadı' in 'prospectDurum'
-    When The user click 'Tamamla' button
-    When The user wait 60 second
-#    Then The user verify warning 'Durum Prospect olarak güncellendi'
-    Then The user verify 'Lead Formu' form is open
-    When The user take form id
-    Given The user logout
-    Given The user login
-      | username | semasipay  |
-      | password | Sipay2025. |
-#    Then The user verify operation revise reason and explanation
-    When The user search created form
-    When The user click related record button at row 0
-    When The user go to other tab
-    When The user wait 6 second
-    When The user mention '@testsipay'
-    Given The user opens 'prod-fletum' environment
-    And   The User inputs a valid username "sahaUser"
-    And   The User inputs a valid password "sahaPassword"
-    And   The User clicks the Submit button
-    Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
-    Then The user verify notification
-    Then The user verify link
-
-
-  Scenario: Ret Control
-    Given The user login
-      | username | TestSipay  |
-      | password | Sipay2025. |
-    When The user go to 'Prospect' on navbar
-    When The user fill select prospect form sales and field
-    When The user fill inputs prospect form sales and field
-    When The user select2 'Ulaşılamadı' in 'prospectDurum'
-    When The user click 'Tamamla' button
-    When The user wait 60 second
-#    Then The user verify warning 'Durum Prospect olarak güncellendi'
-    Then The user verify 'Lead Formu' form is open
-    When The user wait 3 second
-    When The user click 'Reddet' button
-    When The user cancel the form
-    When The user click 'Onayla' button
-    Then The user verify warning 'Durum LeadRet olarak güncellendi'
-    When The user navigate to 'https://crmapp.spwgpf.com/'
-    When The user search created form
-    Then The user verify 'Deal Durumu' with value 'LeadRet'
-    Then The user verify ret reason
-    Given The user assert all
 
 
 
