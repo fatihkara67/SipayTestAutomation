@@ -1810,26 +1810,34 @@ public class Requests {
 
         String body = """
     {
-      "datasource": {"id":36,"type":"table"},
+      "datasource": { "id": 36, "type": "table" },
       "force": true,
       "queries": [
         {
           "filters": [],
           "extras": {
             "having": "",
-            "where": "(StageDate >= toStartOfWeek(today())) AND (SalesStage NOT IN ('Live', 'Growth')) AND (SalesStage IS NOT NULL)"
+            "where": "(StageDate >= toStartOfWeek(today())) AND (SalesStage NOT IN ('Live', 'Growth')) AND (SalesStage IS NOT NULL) AND (SalesRep IS NOT NULL)"
           },
           "applied_time_extras": {},
           "columns": [
-            { "expressionType":"SQL", "label":"Sales Stage", "sqlExpression":"StageAggr" }
+            {
+              "expressionType": "SQL",
+              "label": "Sales Stage",
+              "sqlExpression": "StageAggr"
+            }
           ],
           "metrics": [
             {
-              "aggregate":"COUNT_DISTINCT",
-              "column":{"column_name":"AssetId","id":384,"type":"INT"},
-              "expressionType":"SIMPLE",
+              "aggregate": "COUNT_DISTINCT",
+              "column": {
+                "column_name": "AssetId",
+                "id": 384,
+                "type": "INT"
+              },
+              "expressionType": "SIMPLE",
               "hasCustomLabel": true,
-              "label":"Customer Count"
+              "label": "Customer Count"
             }
           ],
           "annotation_layers": [],
@@ -1839,40 +1847,76 @@ public class Requests {
           "orderby": [
             [
               {
-                "aggregate":"COUNT_DISTINCT",
-                "column":{"column_name":"AssetId","id":384,"type":"INT"},
-                "expressionType":"SIMPLE",
-                "label":"Customer Count"
+                "aggregate": "COUNT_DISTINCT",
+                "column": {
+                  "column_name": "AssetId",
+                  "id": 384,
+                  "type": "INT"
+                },
+                "expressionType": "SIMPLE",
+                "label": "Customer Count"
               },
               false
             ]
           ],
-          "url_params": { "slice_id":"180" },
+          "url_params": {
+            "slice_id": "180"
+          },
           "custom_params": {},
           "custom_form_data": {}
         }
       ],
       "form_data": {
-        "datasource":"36__table",
-        "viz_type":"pie",
-        "slice_id":180,
-        "groupby":[{ "expressionType":"SQL","label":"Sales Stage","sqlExpression":"StageAggr" }],
-        "metric":{
-          "aggregate":"COUNT_DISTINCT",
-          "column":{"column_name":"AssetId","id":384,"type":"INT"},
-          "expressionType":"SIMPLE",
-          "hasCustomLabel": true,
-          "label":"Customer Count"
-        },
-        "adhoc_filters":[
-          { "clause":"WHERE","expressionType":"SQL","sqlExpression":"StageDate >= toStartOfWeek(today())","subject":"CreatedOn","operator":"TEMPORAL_RANGE","operatorId":"TEMPORAL_RANGE" },
-          { "clause":"WHERE","expressionType":"SQL","sqlExpression":"SalesStage NOT IN ('Live', 'Growth')" },
-          { "clause":"WHERE","expressionType":"SQL","sqlExpression":"SalesStage IS NOT NULL" }
+        "datasource": "36__table",
+        "viz_type": "pie",
+        "slice_id": 180,
+        "groupby": [
+          {
+            "expressionType": "SQL",
+            "label": "Sales Stage",
+            "sqlExpression": "StageAggr"
+          }
         ],
-        "row_limit":100
+        "metric": {
+          "aggregate": "COUNT_DISTINCT",
+          "column": {
+            "column_name": "AssetId",
+            "id": 384,
+            "type": "INT"
+          },
+          "expressionType": "SIMPLE",
+          "hasCustomLabel": true,
+          "label": "Customer Count"
+        },
+        "adhoc_filters": [
+          {
+            "clause": "WHERE",
+            "expressionType": "SQL",
+            "sqlExpression": "StageDate >= toStartOfWeek(today())",
+            "subject": "CreatedOn",
+            "operator": "TEMPORAL_RANGE",
+            "operatorId": "TEMPORAL_RANGE"
+          },
+          {
+            "clause": "WHERE",
+            "expressionType": "SQL",
+            "sqlExpression": "SalesStage NOT IN ('Live', 'Growth')"
+          },
+          {
+            "clause": "WHERE",
+            "expressionType": "SQL",
+            "sqlExpression": "SalesStage IS NOT NULL"
+          },
+          {
+            "clause": "WHERE",
+            "expressionType": "SQL",
+            "sqlExpression": "SalesRep IS NOT NULL"
+          }
+        ],
+        "row_limit": 100
       },
-      "result_format":"json",
-      "result_type":"full"
+      "result_format": "json",
+      "result_type": "full"
     }
     """;
 
@@ -1886,11 +1930,14 @@ public class Requests {
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
-            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response);
+            }
             String respStr = response.body().string();
             return new JSONObject(respStr);
         }
     }
+
 
     public static JSONObject sendWidget5Request() throws IOException {
         final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A184%7D&force=true";
