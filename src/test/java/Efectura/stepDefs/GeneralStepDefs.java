@@ -3,6 +3,7 @@ package Efectura.stepDefs;
 import Efectura.pages.BasePage;
 import Efectura.utilities.*;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -334,4 +335,31 @@ public class GeneralStepDefs extends BaseStep {
         softAssert.assertAll();
     }
 
+    @Then("The user verify two factor authentication")
+    public void theUserVerifyTwoFactorAuthentication() {
+        By twoFactorTextLocate = By.xpath("//p[contains(.,'Authentication Code')]");
+        Assert.assertTrue("Two Factor Yönlendirmesi Olmadı!!",BrowserUtils.isElementDisplayed(twoFactorTextLocate));
+    }
+
+    @Given("The user navigate to import page")
+    public void theUserNavigateToImportPage() {
+        if (env.equalsIgnoreCase("prod-fletum")) {
+            Driver.getDriver().get("https://crm-ui.spwgpf.com/Import");
+        } else if (env.equalsIgnoreCase("test-fletum")) {
+            Driver.getDriver().get("https://sipay-ui.efectura.com/Import");
+        }
+        BrowserUtils.wait(3);
+    }
+
+    @And("The user accepts import popup")
+    public void theUserAcceptsImportPopup() {
+        //button[contains(.,'Understood')]
+        Driver.getDriver().findElement(By.xpath("//button[contains(text(),'Understood')]")).click();
+    }
+
+
+    @When("The user select {string} for importType")
+    public void theUserSelectForImportType(String importType) {
+        pages.generalPage().selectImportType(importType);
+    }
 }

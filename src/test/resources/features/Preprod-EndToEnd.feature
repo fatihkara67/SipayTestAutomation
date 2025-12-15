@@ -537,6 +537,23 @@ Feature: End To End Form Cases
     When The user click uploaded document
 
 
+  Scenario: Pre Prod Two-Factor Authentication
+    Given The user opens 'test-fletum' environment
+    And   The User inputs a valid username "twoFactorUsername"
+    And   The User inputs a valid password "sahaPassword"
+    And   The User clicks the Submit button
+    Then The user verify two factor authentication
+
+  Scenario: Prod Import calculation_Trx
+    Given The user go to 'test-fletum' environment
+    And   The User inputs a valid username "sahaUser"
+    And   The User inputs a valid password "sahaPassword"
+    And   The User clicks the Submit button
+    Given The user navigate to import page
+    And The user accepts import popup
+    When The user select "calculation_Trx" for importType
+
+
 
 
 

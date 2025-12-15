@@ -4378,15 +4378,584 @@ public class Requests {
         }
     }
 
+    public static JSONObject sendWidget44Request() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A497%7D&force=true";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie"); // config'den al
+
+        String body = """
+    {
+      "datasource": { "id": 56, "type": "table" },
+      "force": true,
+      "queries": [
+        {
+          "filters": [
+            {
+              "col": "SalesRep",
+              "op": "NOT IN",
+              "val": ["Test Sipay"]
+            }
+          ],
+          "extras": {
+            "having": "",
+            "where": "(1=1)"
+          },
+          "applied_time_extras": {},
+          "columns": [
+            {
+              "columnType": "BASE_AXIS",
+              "sqlExpression": "SalesRep",
+              "label": "SalesRep",
+              "expressionType": "SQL"
+            }
+          ],
+          "metrics": [
+            {
+              "aggregate": "SUM",
+              "column": {
+                "column_name": "CustomerCount",
+                "id": 793,
+                "type": "UInt64"
+              },
+              "expressionType": "SIMPLE",
+              "hasCustomLabel": true,
+              "label": "Customer Count"
+            }
+          ],
+          "orderby": [
+            [
+              {
+                "aggregate": "SUM",
+                "column": {
+                  "column_name": "CustomerCount",
+                  "id": 793,
+                  "type": "UInt64"
+                },
+                "expressionType": "SIMPLE",
+                "label": "Customer Count"
+              },
+              false
+            ]
+          ],
+          "annotation_layers": [],
+          "row_limit": 50000,
+          "series_columns": [],
+          "series_limit": 0,
+          "order_desc": true,
+          "url_params": {
+            "slice_id": "497"
+          },
+          "custom_params": {},
+          "custom_form_data": {},
+          "time_offsets": [],
+          "post_processing": [
+            {
+              "operation": "pivot",
+              "options": {
+                "index": ["SalesRep"],
+                "columns": [],
+                "aggregates": {
+                  "Customer Count": {
+                    "operator": "mean"
+                  }
+                },
+                "drop_missing_columns": false
+              }
+            },
+            {
+              "operation": "sort",
+              "options": {
+                "is_sort_index": true,
+                "ascending": false
+              }
+            },
+            {
+              "operation": "flatten"
+            }
+          ]
+        }
+      ],
+      "form_data": {
+        "datasource": "56__table",
+        "viz_type": "echarts_timeseries_bar",
+        "slice_id": 497,
+        "x_axis": "SalesRep",
+        "xAxisForceCategorical": true,
+        "x_axis_sort": "SalesRep",
+        "x_axis_sort_asc": false,
+        "metrics": [
+          {
+            "aggregate": "SUM",
+            "column": {
+              "column_name": "CustomerCount",
+              "id": 793,
+              "type": "UInt64"
+            },
+            "expressionType": "SIMPLE",
+            "hasCustomLabel": true,
+            "label": "Customer Count"
+          }
+        ],
+        "groupby": [],
+        "adhoc_filters": [
+          {
+            "clause": "WHERE",
+            "expressionType": "SQL",
+            "sqlExpression": "1=1",
+            "subject": "CreatedOn",
+            "operator": "TEMPORAL_RANGE",
+            "operatorId": "TEMPORAL_RANGE"
+          },
+          {
+            "clause": "WHERE",
+            "expressionType": "SIMPLE",
+            "subject": "SalesRep",
+            "operator": "NOT IN",
+            "operatorId": "NOT_IN",
+            "comparator": ["Test Sipay"]
+          }
+        ],
+        "row_limit": 50000
+      },
+      "result_format": "json",
+      "result_type": "full"
+    }
+    """;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response);
+            }
+            String respStr = response.body().string();
+            return new JSONObject(respStr);
+        }
+    }
 
 
+    public static JSONObject sendWidget49Request() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A429%7D&force=true";
 
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
 
+        String cookie = ConfigurationReader.getProperty("cookie"); // config'den al
 
+        String body = """
+    {
+      "datasource": { "id": 54, "type": "table" },
+      "force": true,
+      "queries": [
+        {
+          "filters": [
+            {
+              "col": "SalesRep",
+              "op": "NOT IN",
+              "val": ["Test Sipay"]
+            }
+          ],
+          "extras": {
+            "having": "",
+            "where": "(1=1) AND (StageAggr IS NOT NULL) AND (StageAggr NOT IN ('ContractRet', 'LeadRet', 'PitchedRet', 'Ret', 'ProspectRet')) AND (StageAggr IN ('7-Implementation', '9-Live', '8-Pilot'))"
+          },
+          "applied_time_extras": {},
+          "columns": [
+            {
+              "columnType": "BASE_AXIS",
+              "sqlExpression": "SalesRep",
+              "label": "SalesRep",
+              "expressionType": "SQL"
+            },
+            {
+              "expressionType": "SQL",
+              "label": "Sales Stage",
+              "sqlExpression": "StageAggr"
+            }
+          ],
+          "metrics": [
+            {
+              "aggregate": "SUM",
+              "column": {
+                "column_name": "CustomerCount",
+                "id": 789,
+                "type": "UInt64"
+              },
+              "expressionType": "SIMPLE",
+              "hasCustomLabel": true,
+              "label": "Customer Count"
+            }
+          ],
+          "orderby": [
+            [
+              {
+                "aggregate": "SUM",
+                "column": {
+                  "column_name": "CustomerCount",
+                  "id": 789,
+                  "type": "UInt64"
+                },
+                "expressionType": "SIMPLE",
+                "label": "Customer Count"
+              },
+              false
+            ]
+          ],
+          "annotation_layers": [],
+          "row_limit": 50000,
+          "series_columns": [
+            {
+              "expressionType": "SQL",
+              "label": "Sales Stage",
+              "sqlExpression": "StageAggr"
+            }
+          ],
+          "series_limit": 0,
+          "order_desc": true,
+          "url_params": {
+            "slice_id": "429"
+          },
+          "custom_params": {},
+          "custom_form_data": {},
+          "time_offsets": [],
+          "post_processing": [
+            {
+              "operation": "pivot",
+              "options": {
+                "index": ["SalesRep"],
+                "columns": ["Sales Stage"],
+                "aggregates": {
+                  "Customer Count": {
+                    "operator": "mean"
+                  }
+                },
+                "drop_missing_columns": false
+              }
+            },
+            {
+              "operation": "rename",
+              "options": {
+                "columns": {
+                  "Customer Count": null
+                },
+                "level": 0,
+                "inplace": true
+              }
+            },
+            {
+              "operation": "flatten"
+            }
+          ]
+        }
+      ],
+      "form_data": {
+        "datasource": "54__table",
+        "viz_type": "echarts_timeseries_bar",
+        "slice_id": 429,
+        "x_axis": "SalesRep",
+        "metrics": [
+          {
+            "aggregate": "SUM",
+            "column": {
+              "column_name": "CustomerCount",
+              "id": 789,
+              "type": "UInt64"
+            },
+            "expressionType": "SIMPLE",
+            "hasCustomLabel": true,
+            "label": "Customer Count"
+          }
+        ],
+        "groupby": [
+          {
+            "expressionType": "SQL",
+            "label": "Sales Stage",
+            "sqlExpression": "StageAggr"
+          }
+        ],
+        "adhoc_filters": [
+          {
+            "clause": "WHERE",
+            "expressionType": "SQL",
+            "sqlExpression": "1=1",
+            "subject": "CreatedOn",
+            "operator": "TEMPORAL_RANGE",
+            "operatorId": "TEMPORAL_RANGE"
+          },
+          {
+            "clause": "WHERE",
+            "expressionType": "SQL",
+            "sqlExpression": "StageAggr IS NOT NULL"
+          },
+          {
+            "clause": "WHERE",
+            "expressionType": "SIMPLE",
+            "subject": "SalesRep",
+            "operator": "NOT IN",
+            "operatorId": "NOT_IN",
+            "comparator": ["Test Sipay"]
+          },
+          {
+            "clause": "WHERE",
+            "expressionType": "SQL",
+            "sqlExpression": "StageAggr NOT IN ('ContractRet', 'LeadRet', 'PitchedRet', 'Ret', 'ProspectRet')"
+          },
+          {
+            "clause": "WHERE",
+            "expressionType": "SQL",
+            "sqlExpression": "StageAggr IN ('7-Implementation', '9-Live', '8-Pilot')"
+          }
+        ],
+        "order_desc": true,
+        "row_limit": 50000
+      },
+      "result_format": "json",
+      "result_type": "full"
+    }
+    """;
 
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
 
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response);
+            }
+            String respStr = response.body().string();
+            return new JSONObject(respStr);
+        }
+    }
 
+    public static JSONObject sendWidget51Request() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A500%7D&force=true";
 
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie");
+
+        String whereClause =
+                "(ActivationDate >= toStartOfMonth(today())) " +
+                        "AND (SalesStage IS NOT NULL) " +
+                        "AND (SalesStage NOT IN ('ContractRet','LeadRet','PitchedRet','Ret','ProspectRet')) " +
+                        "AND (SalesRep IN ('Miraç Kayli','Bilal Kaptan','Yılmaz Güney','Cem Özçitakgil','Merve Akan','Arif Özsoy','Eren Gedik','Murat Yengi','Ender Kolistoğlu','Cemal Kutlu','Sena Yıldırım','Merve Ulusoy','Emre Uzun','Can Demirkıran','Nurşah Sakin','Nursah Sakin','Melih Topçu','Korhan Başar','Alperen Bağışlar','Hilmi Kara','Melis Arslan','Furkan Kızılkurt','Beytullah Sayılır','Okan Ergün','Hamza Turan','Hakan Çıkmaz','Arif Özsoy','Arif Ozsoy','Beytullah Sayılır','Can Demirkıran','Cem Ozcitakgil','Cemal Kutlu','Emre Uzun','Ender Kolistoğlu','Eren Gedik','Fırat Karateke','Firat Karateke','Hakan Cıkmaz','Hakan Çıkmaz','Hakan Cikmaz','Hamza Turan','Kaan Güzel','Kaan Guzel','Melih Topçu','Melih Topcu','Merve Akan','Merve Ulusoy','Miraç Kaylı','Murat Yengi','Mustafa Yayla','Nurşah Sakin','Nursah Sakin','Okan Ergün','Okan Ergun','Sena Yıldırım','Seyfullah Günay','Yeşim Yeşbek'))";
+
+        String body = """
+    {
+      "datasource":{"id":36,"type":"table"},
+      "force":true,
+      "queries":[
+        {
+          "filters":[
+            {"col":"SalesRep","op":"NOT IN","val":["Test Sipay"]},
+            {"col":"StageAggr","op":"IN","val":["7-Implementation","8-Pilot","9-Live"]}
+          ],
+          "extras":{"having":"","where":"%s"},
+          "applied_time_extras":{},
+          "columns":[],
+          "metrics":[
+            {
+              "aggregate":"COUNT_DISTINCT",
+              "column":{"column_name":"AssetId","id":384,"type":"INT"},
+              "expressionType":"SIMPLE",
+              "hasCustomLabel":true,
+              "label":"Customer Count"
+            }
+          ],
+          "annotation_layers":[],
+          "series_limit":0,
+          "order_desc":true,
+          "row_limit":50000,
+          "url_params":{"slice_id":"500"},
+          "custom_params":{},
+          "custom_form_data":{}
+        }
+      ],
+      "form_data":{
+        "datasource":"36__table",
+        "viz_type":"big_number_total",
+        "slice_id":500,
+        "metric":{
+          "aggregate":"COUNT_DISTINCT",
+          "column":{"column_name":"AssetId","id":384,"type":"INT"},
+          "expressionType":"SIMPLE",
+          "hasCustomLabel":true,
+          "label":"Customer Count"
+        },
+        "adhoc_filters":[
+          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"ActivationDate >= toStartOfMonth(today())","subject":"CreatedOn","operator":"TEMPORAL_RANGE","operatorId":"TEMPORAL_RANGE"},
+          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"SalesStage IS NOT NULL"},
+          {"clause":"WHERE","expressionType":"SIMPLE","subject":"SalesRep","operator":"NOT IN","operatorId":"NOT_IN","comparator":["Test Sipay"]},
+          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"SalesStage NOT IN ('ContractRet','LeadRet','PitchedRet','Ret','ProspectRet')"},
+          {"clause":"WHERE","expressionType":"SIMPLE","subject":"StageAggr","operator":"IN","operatorId":"IN","comparator":["7-Implementation","8-Pilot","9-Live"]},
+          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"SalesRep IN ('Miraç Kayli','Bilal Kaptan','Yılmaz Güney','Cem Özçitakgil','Merve Akan','Arif Özsoy','Eren Gedik','Murat Yengi','Ender Kolistoğlu','Cemal Kutlu','Sena Yıldırım','Merve Ulusoy','Emre Uzun','Can Demirkıran','Nurşah Sakin','Nursah Sakin','Melih Topçu','Korhan Başar','Alperen Bağışlar','Hilmi Kara','Melis Arslan','Furkan Kızılkurt','Beytullah Sayılır','Okan Ergün','Hamza Turan','Hakan Çıkmaz','Arif Özsoy','Arif Ozsoy','Beytullah Sayılır','Can Demirkıran','Cem Ozcitakgil','Cemal Kutlu','Emre Uzun','Ender Kolistoğlu','Eren Gedik','Fırat Karateke','Firat Karateke','Hakan Cıkmaz','Hakan Çıkmaz','Hakan Cikmaz','Hamza Turan','Kaan Güzel','Kaan Guzel','Melih Topçu','Melih Topcu','Merve Akan','Merve Ulusoy','Miraç Kaylı','Murat Yengi','Mustafa Yayla','Nurşah Sakin','Nursah Sakin','Okan Ergün','Okan Ergun','Sena Yıldırım','Seyfullah Günay','Yeşim Yeşbek')"}
+        ],
+        "y_axis_format":"SMART_NUMBER",
+        "force":false,
+        "result_format":"json",
+        "result_type":"full"
+      },
+      "result_format":"json",
+      "result_type":"full"
+    }
+    """.formatted(whereClause.replace("\"", "\\\""));
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            String resp = (response.body() != null) ? response.body().string() : "";
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response + "\nResponse body: " + resp);
+            }
+            return new JSONObject(resp);
+        }
+    }
+
+    public static JSONObject sendWidget55Request() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A499%7D&force=true";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie");
+
+        String body = """
+    {
+      "datasource":{"id":58,"type":"table"},
+      "force":true,
+      "queries":[
+        {
+          "filters":[
+            {"col":"UpdatedAt","op":"TEMPORAL_RANGE","val":"No filter"}
+          ],
+          "extras":{"having":"","where":""},
+          "applied_time_extras":{},
+          "columns":[
+            {
+              "expressionType":"SQL",
+              "label":"Son Güncelleme",
+              "sqlExpression":"UpdatedAt + INTERVAL 3 HOURS"
+            }
+          ],
+          "orderby":[],
+          "annotation_layers":[],
+          "row_limit":1000,
+          "series_limit":0,
+          "order_desc":true,
+          "url_params":{"slice_id":"499"},
+          "custom_params":{},
+          "custom_form_data":{},
+          "post_processing":[],
+          "time_offsets":[]
+        }
+      ],
+      "form_data":{
+        "datasource":"58__table",
+        "viz_type":"table",
+        "slice_id":499,
+        "query_mode":"raw",
+        "groupby":[],
+        "temporal_columns_lookup":{"UpdatedAt":true},
+        "metrics":[],
+        "all_columns":[
+          {
+            "expressionType":"SQL",
+            "label":"Son Güncelleme",
+            "sqlExpression":"UpdatedAt + INTERVAL 3 HOURS"
+          }
+        ],
+        "percent_metrics":[],
+        "adhoc_filters":[
+          {
+            "clause":"WHERE",
+            "comparator":"No filter",
+            "expressionType":"SIMPLE",
+            "operator":"TEMPORAL_RANGE",
+            "subject":"UpdatedAt"
+          }
+        ],
+        "order_by_cols":[],
+        "row_limit":1000,
+        "server_page_length":10,
+        "order_desc":true,
+        "table_timestamp_format":"%d-%m-%Y %H:%M:%S",
+        "allow_render_html":true,
+        "show_cell_bars":true,
+        "color_pn":true,
+        "comparison_color_scheme":"Green",
+        "conditional_formatting":[],
+        "comparison_type":"values",
+        "extra_form_data":{},
+        "force":true,
+        "result_format":"json",
+        "result_type":"full",
+        "include_time":false
+      },
+      "result_format":"json",
+      "result_type":"full"
+    }
+    """;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            String resp = (response.body() != null) ? response.body().string() : "";
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response + "\nResponse body: " + resp);
+            }
+            return new JSONObject(resp);
+        }
+    }
 
 
 

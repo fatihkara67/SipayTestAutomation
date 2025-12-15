@@ -292,6 +292,16 @@ Feature: Prod End To End Form Cases
     When The user click uploaded document
     When The user verify document is download
 
+  Scenario: Prod Two-Factor Authentication
+    Given The user opens 'prod-fletum' environment
+    And   The User inputs a valid username "twoFactorUsername"
+    And   The User inputs a valid password "sahaPassword"
+    And   The User clicks the Submit button
+    Then The user verify two factor authentication
+
+
+
+
 
 
 

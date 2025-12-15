@@ -85,7 +85,7 @@ public class SearchStepDefs extends BaseStep {
 
     @And("The user verify Reset button func for deal status filter")
     public void theUserVerifyResetButtonFuncForDealStatusFilter() {
-        BrowserUtils.wait(1);
+        BrowserUtils.wait(2);
         System.out.println("Reset Sonrası Deal filter: " + pages.searchPage().getSelectedDealStatusText().getText());
         Assert.assertEquals("Deal Durumu Resetlenmedi", "Deal Durumu",
                 pages.searchPage().getSelectedDealStatusText().getText());
@@ -1464,7 +1464,7 @@ public class SearchStepDefs extends BaseStep {
         System.out.println("uniqueChatValue: " + uniqueChatValue);
         pages.formsPage().getAppChatIcon().click();
         pages.formsPage().getAppChatInputBox().sendKeys(mentionValue);
-        BrowserUtils.wait(2);
+        BrowserUtils.wait(4);
         pages.formsPage().getMentionOption().click();
         pages.formsPage().getAppChatInputBox().sendKeys(" " + uniqueChatValue);
         pages.formsPage().getAppChatMsgSubmitButton().click();

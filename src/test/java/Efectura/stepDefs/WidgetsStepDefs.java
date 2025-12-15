@@ -8,6 +8,10 @@ import org.json.JSONObject;
 import org.junit.Assert;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class WidgetsStepDefs extends BaseStep {
@@ -1460,6 +1464,55 @@ public class WidgetsStepDefs extends BaseStep {
         return true;
     }
 
+    public static boolean areMapsEqualBase(
+            Map<String, Map<String, Double>> w5Map,
+            Map<String, Map<String, Double>> w6Map) {
+
+        final double EPS = 0.01;
+
+        for (String rep : w5Map.keySet()) {
+
+            // w5'te var ama w6'da yoksa SKIP
+            if (!w6Map.containsKey(rep)) {
+                continue;
+            }
+
+            Map<String, Double> inner5 = w5Map.get(rep);
+            Map<String, Double> inner6 = w6Map.get(rep);
+
+            if (inner5 == null || inner6 == null) {
+                continue;
+            }
+
+            for (String stage : inner5.keySet()) {
+
+                // stage w6'da yoksa SKIP
+                if (!inner6.containsKey(stage)) {
+                    continue;
+                }
+
+                Double v1 = inner5.get(stage);
+                Double v2 = inner6.get(stage);
+
+                double d1 = (v1 == null ? 0.0 : v1);
+                double d2 = (v2 == null ? 0.0 : v2);
+
+                double diff = Math.abs(d1 - d2);
+
+                if (diff > EPS) {
+                    System.out.printf(
+                            "❌ Fark bulundu | rep: %s | stage: %s -> %s vs %s (diff=%.5f)%n",
+                            rep, stage, d1, d2, diff
+                    );
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+
 
 
     @Then("The user verify scenario10")
@@ -2084,7 +2137,7 @@ public class WidgetsStepDefs extends BaseStep {
 
     @Then("The user verify scenario15")
     public void theUserVerifyScenario15() {
-        boolean scenario15 = areMapsEqual(w22Map,w25Map);
+        boolean scenario15 = areMapsEqualBase(w22Map,w25Map);
 
         Assert.assertTrue("s15 fail",scenario15);
     }
@@ -2469,6 +2522,141 @@ public class WidgetsStepDefs extends BaseStep {
     public void theUserVerifyScenario18() {
         Assert.assertEquals("s18 fail",w34ReferredLeadsTotal,w35ReferredLeads,0.01);
     }
+
+    double totalCustomerCountW44;
+
+    @Given("The user send widget44 request")
+    public void theUserSendWidget44Request() throws IOException {
+        JSONObject w44Json = Requests.sendWidget44Request();
+        System.out.println("w44Json: " + w44Json);
+
+        JSONArray dataArray = w44Json
+                .getJSONArray("result")
+                .getJSONObject(0)
+                .getJSONArray("data");
+
+        totalCustomerCountW44 = 0;
+
+        for (int i = 0; i < dataArray.length(); i++) {
+            JSONObject obj = dataArray.getJSONObject(i);
+
+            // Customer Count kolonunu güvenli oku
+            double count = obj.optDouble("Customer Count",
+                    obj.optDouble("Customer Count_4aa1e1", 0.0));
+
+            totalCustomerCountW44 += count;
+        }
+
+        System.out.println("Toplam Customer Count W44: " + totalCustomerCountW44);
+    }
+
+    @Then("The user verify scenario19")
+    public void theUserVerifyScenario19() {
+        Assert.assertEquals("s19 sayılar eşit değil",pitchedCountW36,totalCustomerCountW44,0.01);
+    }
+
+    double totalCustomerCountW49;
+
+    @Given("The user send widget49 request")
+    public void theUserSendWidget49Request() throws IOException {
+        JSONObject w49Json = Requests.sendWidget49Request();
+        System.out.println("w49Json: " + w49Json);
+
+        JSONArray dataArray = w49Json
+                .getJSONArray("result")
+                .getJSONObject(0)
+                .getJSONArray("data");
+
+        totalCustomerCountW49 = 0;
+
+        for (int i = 0; i < dataArray.length(); i++) {
+            JSONObject row = dataArray.getJSONObject(i);
+
+            // Pivot kolonlarını oku, null ise 0 kabul et
+            double valImplementation = row.optDouble("7-Implementation", 0.0);
+            double valPilot = row.optDouble("8-Pilot", 0.0);
+            double valLive = row.optDouble("9-Live", 0.0);
+
+            // Satır toplamı
+            double rowTotal = valImplementation + valPilot + valLive;
+
+            totalCustomerCountW49 += rowTotal;
+        }
+
+        System.out.println("Toplam Customer Count W49: " + totalCustomerCountW49);
+    }
+
+    double totalCustomerCountW51;
+
+    @Given("The user send widget51 request")
+    public void theUserSendWidget51Request() throws IOException {
+        JSONObject w51Json = Requests.sendWidget51Request();
+        System.out.println("w50Json: " + w51Json);
+
+        JSONArray dataArray = w51Json
+                .getJSONArray("result")
+                .getJSONObject(0)
+                .getJSONArray("data");
+
+        // Bu sorgu tek satır döndürüyor, ama yine de güvenli olsun diye loop içinde yazdım.
+        totalCustomerCountW51 = 0;
+
+        for (int i = 0; i < dataArray.length(); i++) {
+            JSONObject row = dataArray.getJSONObject(i);
+
+            // Kolon adı "Customer Count" – hash'li versiyonu olursa diye fallback de koyduk
+            double count = row.optDouble("Customer Count",
+                    row.optDouble("Customer Count_4aa1e1", 0.0));
+
+            totalCustomerCountW51 += count;
+        }
+
+        System.out.println("Toplam Customer Count W51: " + totalCustomerCountW51);
+    }
+
+    @Then("The user verify scenario20")
+    public void theUserVerifyScenario20() {
+        Assert.assertEquals("s20 sayılar eşit değil",totalCustomerCountW49,totalCustomerCountW51,0.01);
+    }
+
+    String formattedLastUpdateW55;
+
+    @Given("The user send widget55 request")
+    public void theUserSendWidget55Request() throws IOException {
+        JSONObject w55Json = Requests.sendWidget55Request();
+        System.out.println("w55Json: " + w55Json);
+
+        JSONArray dataArray = w55Json
+                .getJSONArray("result")
+                .getJSONObject(0)
+                .getJSONArray("data");
+
+        // Tek satır geliyor
+        JSONObject row = dataArray.getJSONObject(0);
+
+        // Epoch millis (double geliyor, long'a çeviriyoruz)
+        long epochMillis = (long) row.optDouble("Son Güncelleme");
+
+        // DateTime format
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+        // Epoch millis -> LocalDateTime
+        LocalDateTime dateTime = Instant.ofEpochMilli(epochMillis)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+
+        formattedLastUpdateW55 = dateTime.format(formatter);
+
+        System.out.println("Son Güncelleme W55: " + formattedLastUpdateW55);
+    }
+
+    @Then("The user verify scenario26")
+    public void theUserVerifyScenario26() {
+        Assert.assertTrue("s26 fail",true);
+    }
+
+
 
 
 

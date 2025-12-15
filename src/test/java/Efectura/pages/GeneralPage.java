@@ -118,6 +118,15 @@ public class GeneralPage extends BasePage {
     @FindBy(xpath = "//*[@id=\"items\"]/tbody/tr/td/a[2]")
     private WebElement editButton;
 
+    @FindBy(xpath = "//span[@id='select2-ItemType-container']")
+    private WebElement selectImportTypeElement;
+
+    @FindBy(xpath = "//span/span/span[1]/input")
+    private WebElement selectImportTypeInputBox;
+
+    @FindBy(xpath = "//ul/li[contains(@id,'select2')]")
+    private List<WebElement> filteredImportTypeOptions;
+
 
     private final List<String> adiAndXbRequiredDocuments = List.of("Kimlik","Üye İşyeri Bilgi Formu","Oran Şablonu");
     private final List<String> sahisRequiredDocuments = List.of("Kimlik","Vergi Levhası","İmza Beyannamesi","İkametgah Belgesi","Üye İşyeri Bilgi Formu","Oran Şablonu");
@@ -132,6 +141,19 @@ public class GeneralPage extends BasePage {
         WebElement selectElement = driver.findElement(By.xpath("//select[contains(@id,'-" + selectFilter + "')]"));
         BrowserUtils.selectDropdownOptionByVisibleText(selectElement,selectOption);
         BrowserUtils.wait(3);
+    }
+
+    public void selectImportType(String importType) {
+        BrowserUtils.wait(3);
+        selectImportTypeElement.click();
+        selectImportTypeInputBox.sendKeys(importType);
+        BrowserUtils.wait(1);
+        for (WebElement option : filteredImportTypeOptions) {
+            if (option.getText().equals(importType)) {
+                option.click();
+                break;
+            }
+        }
     }
 
 
