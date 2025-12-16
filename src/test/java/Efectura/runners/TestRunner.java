@@ -63,7 +63,7 @@ public class TestRunner extends AbstractTestNGCucumberTests {
         }
 
         // 4) Telegram'a gönder   -4570445477 -1002156506449
-        BrowserUtils.sendFileToTelegram(finalReportPath.toString(), "-1002156506449");
+        BrowserUtils.sendFileToTelegram(finalReportPath.toString(), "-4570445477");
 
         BrowserUtils.renameFile(
                 renamedReport.toString(),

@@ -866,6 +866,7 @@ public class SearchStepDefs extends BaseStep {
 
             if ("accountantEmail".equals(id)) {
                 validEmail = BrowserUtils.generateRandomEmail();
+                String mail = validEmail.split("\\.")[0] + validEmail.split("\\.")[1];
                 input.sendKeys(validEmail);
                 attributeAndValues.put(id, validEmail);
                 attributeCodesAndLabels.put(id,
