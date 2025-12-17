@@ -477,6 +477,15 @@ public class SearchStepDefs extends BaseStep {
                     continue;
                 }
 
+                if (entry.getKey().equals("accountantEmail")) {
+                    softAssert.assertEquals(
+                            BrowserUtils.getValueInInputBox(Driver.getDriver().findElement(By.id(entry.getKey()))),
+                            entry.getValue(),
+                            entry.getKey() + " id'li attribute formda farklı. Form: " + formNamex
+                    );
+                    continue;
+                }
+
                 if (entry.getKey().equals("estRevenue")) {
                     softAssert.assertEquals(
                             entry.getValue(),
@@ -1707,12 +1716,17 @@ public class SearchStepDefs extends BaseStep {
         noteInputBox.sendKeys(contractNote);
         System.out.println("NOTE: " + BrowserUtils.getValueInInputBox
                 (Driver.getDriver().findElement(By.xpath("//div/div/div/div[2]/div/div/p"))));
+        System.out.println("expected contract note: " + contractNote);
     }
 
     @Then("The user verify contract note")
     public void theUserVerifyContractNote() {
         String actual = Driver.getDriver().findElement(By.xpath("//div/div/div/div[2]/div/div/p")).getText();
+        System.out.println("actual note: " + actual);
         softAssert.assertTrue(actual.contains(contractNote),
                 "Contract note girilenden farklı formda");
+
+//        Assert.assertEquals(actual, contractNote);
+
     }
 }
