@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
 public class Requests {
@@ -4956,6 +4957,1395 @@ public class Requests {
             return new JSONObject(resp);
         }
     }
+
+    public static JSONObject sendWidget53Request() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A489%7D&force=true";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie");
+
+        String body = """
+    {
+      "datasource":{"id":36,"type":"table"},
+      "force":true,
+      "queries":[
+        {
+          "filters":[
+            {"col":"SalesRep","op":"NOT IN","val":["Test Sipay"]},
+            {"col":"StageAggr","op":"IN","val":["3-Pitched"]},
+            {"col":"StageDate","op":"TEMPORAL_RANGE","val":"No filter"}
+          ],
+          "extras":{
+            "time_grain_sqla":"P1D",
+            "having":"",
+            "where":"(StageDate >= today() - 7) AND (SalesStage IS NOT NULL) AND (SalesStage NOT IN ('ContractRet','LeadRet','PitchedRet','Ret','ProspectRet')) AND (SalesRep IN ('Miraç Kayli','Bilal Kaptan','Yılmaz Güney','Cem Özçitakgil','Merve Akan','Arif Özsoy','Eren Gedik','Murat Yengi','Ender Kolistoğlu','Cemal Kutlu','Sena Yıldırım','Merve Ulusoy','Emre Uzun','Can Demirkıran','Nurşah Sakin','Nursah Sakin','Melih Topçu','Korhan Başar','Alperen Bağışlar','Hilmi Kara','Melis Arslan','Furkan Kızılkurt','Beytullah Sayılır','Okan Ergün','Hamza Turan','Hakan Çıkmaz','Arif Özsoy','Arif Ozsoy','Beytullah Sayılır','Can Demirkıran','Cem Ozcitakgil','Cemal Kutlu','Emre Uzun','Ender Kolistoğlu','Eren Gedik','Fırat Karateke','Firat Karateke','Hakan Cıkmaz','Hakan Çıkmaz','Hakan Cikmaz','Hamza Turan','Kaan Güzel','Kaan Guzel','Melih Topçu','Melih Topcu','Merve Akan','Merve Ulusoy','Miraç Kaylı','Murat Yengi','Mustafa Yayla','Nurşah Sakin','Nursah Sakin','Okan Ergün','Okan Ergun','Sena Yıldırım','Seyfullah Günay','Yeşim Yeşbek'))"
+          },
+          "applied_time_extras":{},
+          "columns":[
+            {"timeGrain":"P1D","columnType":"BASE_AXIS","sqlExpression":"StageDate","label":"StageDate","expressionType":"SQL"}
+          ],
+          "metrics":[
+            {
+              "aggregate":"COUNT_DISTINCT",
+              "column":{"column_name":"AssetId","id":384,"type":"INT"},
+              "datasourceWarning":false,
+              "expressionType":"SIMPLE",
+              "hasCustomLabel":true,
+              "label":"Customer Count",
+              "sqlExpression":null
+            }
+          ],
+          "annotation_layers":[],
+          "series_limit":0,
+          "order_desc":true,
+          "url_params":{"slice_id":"489"},
+          "custom_params":{},
+          "custom_form_data":{},
+          "post_processing":[
+            {"operation":"pivot","options":{"index":["StageDate"],"columns":[],"aggregates":{"Customer Count":{"operator":"mean"}},"drop_missing_columns":true}},
+            {"operation":"flatten"}
+          ]
+        }
+      ],
+      "form_data":{
+        "datasource":"36__table",
+        "viz_type":"big_number",
+        "slice_id":489,
+        "x_axis":"StageDate",
+        "time_grain_sqla":"P1D",
+        "metric":{
+          "aggregate":"COUNT_DISTINCT",
+          "column":{"column_name":"AssetId","id":384,"type":"INT"},
+          "datasourceWarning":false,
+          "expressionType":"SIMPLE",
+          "hasCustomLabel":true,
+          "label":"Customer Count",
+          "sqlExpression":null
+        },
+        "adhoc_filters":[
+          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"StageDate >= today() - 7","subject":"CreatedOn","operator":"TEMPORAL_RANGE","operatorId":"TEMPORAL_RANGE"},
+          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"SalesStage IS NOT NULL","subject":null},
+          {"clause":"WHERE","expressionType":"SIMPLE","subject":"SalesRep","operator":"NOT IN","operatorId":"NOT_IN","comparator":["Test Sipay"]},
+          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"SalesStage NOT IN ('ContractRet','LeadRet','PitchedRet','Ret','ProspectRet')","subject":null},
+          {"clause":"WHERE","expressionType":"SIMPLE","subject":"StageAggr","operator":"IN","operatorId":"IN","comparator":["3-Pitched"]},
+          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"SalesRep IN ('Miraç Kayli','Bilal Kaptan','Yılmaz Güney','Cem Özçitakgil','Merve Akan','Arif Özsoy','Eren Gedik','Murat Yengi','Ender Kolistoğlu','Cemal Kutlu','Sena Yıldırım','Merve Ulusoy','Emre Uzun','Can Demirkıran','Nurşah Sakin','Nursah Sakin','Melih Topçu','Korhan Başar','Alperen Bağışlar','Hilmi Kara','Melis Arslan','Furkan Kızılkurt','Beytullah Sayılır','Okan Ergün','Hamza Turan','Hakan Çıkmaz','Arif Özsoy','Arif Ozsoy','Beytullah Sayılır','Can Demirkıran','Cem Ozcitakgil','Cemal Kutlu','Emre Uzun','Ender Kolistoğlu','Eren Gedik','Fırat Karateke','Firat Karateke','Hakan Cıkmaz','Hakan Çıkmaz','Hakan Cikmaz','Hamza Turan','Kaan Güzel','Kaan Guzel','Melih Topçu','Melih Topcu','Merve Akan','Merve Ulusoy','Miraç Kaylı','Murat Yengi','Mustafa Yayla','Nurşah Sakin','Nursah Sakin','Okan Ergün','Okan Ergun','Sena Yıldırım','Seyfullah Günay','Yeşim Yeşbek')","subject":null},
+          {"clause":"WHERE","subject":"StageDate","operator":"TEMPORAL_RANGE","comparator":"No filter","expressionType":"SIMPLE"}
+        ],
+        "compare_lag":1,
+        "compare_suffix":"DoD",
+        "show_timestamp":true,
+        "show_trend_line":true,
+        "start_y_axis_at_zero":true,
+        "header_font_size":0.4,
+        "subheader_font_size":0.15,
+        "y_axis_format":"SMART_NUMBER",
+        "time_format":"smart_date",
+        "rolling_type":"None",
+        "extra_form_data":{},
+        "force":true,
+        "result_format":"json",
+        "result_type":"full"
+      },
+      "result_format":"json",
+      "result_type":"full"
+    }
+    """;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            String resp = (response.body() != null) ? response.body().string() : "";
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response + "\nResponse body: " + resp);
+            }
+            return new JSONObject(resp);
+        }
+    }
+
+
+    public static JSONObject sendWidget47Request() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A436%7D&force=true";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie");
+
+        String body = """
+    {
+      "datasource":{"id":53,"type":"table"},
+      "force":true,
+      "queries":[
+        {
+          "filters":[
+            {"col":"SalesRep","op":"NOT IN","val":["Test Sipay"]}
+          ],
+          "extras":{
+            "having":"",
+            "where":"(1=1) AND (StageAggr IS NOT NULL) AND (StageAggr NOT IN ('ContractRet','LeadRet','PitchedRet','Ret','ProspectRet')) AND (StageAggr IN ('7-Implementation','9-Live','8-Pilot'))"
+          },
+          "applied_time_extras":{},
+          "columns":[
+            {"columnType":"BASE_AXIS","sqlExpression":"SalesRep","label":"SalesRep","expressionType":"SQL"},
+            {"expressionType":"SQL","label":"Sales Stage","sqlExpression":"StageAggr"}
+          ],
+          "metrics":[
+            {
+              "aggregate":"SUM",
+              "column":{"column_name":"CustomerCount","id":786,"type":"UInt64"},
+              "expressionType":"SIMPLE",
+              "hasCustomLabel":true,
+              "label":"Customer Count"
+            }
+          ],
+          "orderby":[
+            [
+              {
+                "aggregate":"SUM",
+                "column":{"column_name":"CustomerCount","id":786,"type":"UInt64"},
+                "expressionType":"SIMPLE",
+                "label":"Customer Count"
+              },
+              false
+            ]
+          ],
+          "annotation_layers":[],
+          "row_limit":50000,
+          "series_columns":[
+            {"expressionType":"SQL","label":"Sales Stage","sqlExpression":"StageAggr"}
+          ],
+          "series_limit":0,
+          "order_desc":true,
+          "url_params":{"slice_id":"436"},
+          "custom_params":{},
+          "custom_form_data":{},
+          "time_offsets":[],
+          "post_processing":[
+            {
+              "operation":"pivot",
+              "options":{
+                "index":["SalesRep"],
+                "columns":["Sales Stage"],
+                "aggregates":{"Customer Count":{"operator":"mean"}},
+                "drop_missing_columns":false
+              }
+            },
+            {
+              "operation":"rename",
+              "options":{
+                "columns":{"Customer Count":null},
+                "level":0,
+                "inplace":true
+              }
+            },
+            {"operation":"flatten"}
+          ]
+        }
+      ],
+      "form_data":{
+        "datasource":"53__table",
+        "viz_type":"echarts_timeseries_bar",
+        "slice_id":436,
+        "x_axis":"SalesRep",
+        "x_axis_sort_asc":true,
+        "x_axis_sort_series":"name",
+        "x_axis_sort_series_ascending":false,
+        "metrics":[
+          {
+            "aggregate":"SUM",
+            "column":{"column_name":"CustomerCount","id":786,"type":"UInt64"},
+            "expressionType":"SIMPLE",
+            "hasCustomLabel":true,
+            "label":"Customer Count"
+          }
+        ],
+        "groupby":[
+          {"expressionType":"SQL","label":"Sales Stage","sqlExpression":"StageAggr"}
+        ],
+        "adhoc_filters":[
+          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"1=1","subject":"CreatedOn","operator":"TEMPORAL_RANGE","operatorId":"TEMPORAL_RANGE"},
+          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"StageAggr IS NOT NULL"},
+          {"clause":"WHERE","expressionType":"SIMPLE","subject":"SalesRep","operator":"NOT IN","operatorId":"NOT_IN","comparator":["Test Sipay"]},
+          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"StageAggr NOT IN ('ContractRet','LeadRet','PitchedRet','Ret','ProspectRet')"},
+          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"StageAggr IN ('7-Implementation','9-Live','8-Pilot')"}
+        ],
+        "order_desc":true,
+        "row_limit":50000,
+        "truncate_metric":true,
+        "show_empty_columns":true,
+        "comparison_type":"values",
+        "annotation_layers":[],
+        "forecastPeriods":10,
+        "forecastInterval":0.8,
+        "orientation":"horizontal",
+        "x_axis_title_margin":15,
+        "y_axis_title_margin":15,
+        "y_axis_title_position":"Left",
+        "sort_series_type":"name",
+        "sort_series_ascending":true,
+        "color_scheme":"supersetColors",
+        "show_value":true,
+        "stack":"Stack",
+        "only_total":true,
+        "show_legend":true,
+        "legendType":"scroll",
+        "legendOrientation":"bottom",
+        "x_axis_time_format":"smart_date",
+        "xAxisLabelRotation":0,
+        "y_axis_format":"SMART_NUMBER",
+        "logAxis":false,
+        "truncateXAxis":true,
+        "y_axis_bounds":[null,null],
+        "rich_tooltip":true,
+        "showTooltipTotal":true,
+        "showTooltipPercentage":true,
+        "tooltipTimeFormat":"smart_date",
+        "extra_form_data":{},
+        "force":true,
+        "result_format":"json",
+        "result_type":"full"
+      },
+      "result_format":"json",
+      "result_type":"full"
+    }
+    """;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            String resp = (response.body() != null) ? response.body().string() : "";
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response + "\nResponse body: " + resp);
+            }
+            return new JSONObject(resp);
+        }
+    }
+
+
+    public static JSONObject sendWidget56WeekRequest() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A158%7D&dashboard_id=8&force=true";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie");
+
+        // --- Dinamik tarih (ISO: Pazartesi haftanın ilk günü) ---
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate today = LocalDate.now();
+        LocalDate weekStart = today.with(java.time.temporal.WeekFields.ISO.dayOfWeek(), 1); // Monday
+
+        String fromDate = weekStart.format(df);
+        String toDate = today.format(df);
+
+        String body = """
+    {
+      "datasource":{"id":36,"type":"table"},
+      "force":true,
+      "queries":[
+        {
+          "filters":[],
+          "extras":{
+            "having":"",
+            "where":"({%% if url_param('baslangic_tarih_to') %%}\\r\\n    StageDate <= toDate('{{ url_param('baslangic_tarih_to') }}')\\r\\n{%% else %%}\\r\\n    1=1\\r\\n{%% endif %%}\\r\\nAND\\r\\n{%% if url_param('baslangic_tarih_from') %%}\\r\\n    StageDate >= toDate('{{ url_param('baslangic_tarih_from') }}')\\r\\n{%% else %%}\\r\\n    1=1\\r\\n{%% endif %%}\\r\\n) AND (SalesStage NOT IN ('Live','Growth') AND SalesStage IS NOT NULL)"
+          },
+          "applied_time_extras":{},
+          "columns":[
+            {"columnType":"BASE_AXIS","datasourceWarning":false,"expressionType":"SQL","label":"SalesRep","sqlExpression":"RTRIM(SalesRep)"},
+            {"datasourceWarning":false,"expressionType":"SQL","label":"Sales Stage","sqlExpression":"SalesStageAggr"}
+          ],
+          "metrics":[
+            {
+              "aggregate":"COUNT",
+              "column":{"column_name":"SalesStage","id":386,"type":"Nullable(String)"},
+              "datasourceWarning":false,
+              "expressionType":"SIMPLE",
+              "hasCustomLabel":true,
+              "label":"Customer Count",
+              "optionName":"metric_cbtyr5qv2oh_x8hdztndtf8",
+              "sqlExpression":null
+            }
+          ],
+          "orderby":[
+            [
+              {
+                "aggregate":"COUNT",
+                "column":{"column_name":"SalesStage","id":386,"type":"Nullable(String)"},
+                "datasourceWarning":false,
+                "expressionType":"SIMPLE",
+                "hasCustomLabel":true,
+                "label":"Customer Count",
+                "optionName":"metric_cbtyr5qv2oh_x8hdztndtf8",
+                "sqlExpression":null
+              },
+              false
+            ]
+          ],
+          "annotation_layers":[],
+          "row_limit":50000,
+          "series_columns":[
+            {"datasourceWarning":false,"expressionType":"SQL","label":"Sales Stage","sqlExpression":"SalesStageAggr"}
+          ],
+          "series_limit":0,
+          "order_desc":true,
+          "url_params":{"baslangic_tarih_from":"%s","baslangic_tarih_to":"%s","uiConfig":"0"},
+          "custom_params":{},
+          "custom_form_data":{},
+          "time_offsets":[],
+          "post_processing":[
+            {"operation":"pivot","options":{"index":["SalesRep"],"columns":["Sales Stage"],"aggregates":{"Customer Count":{"operator":"mean"}},"drop_missing_columns":false}},
+            {"operation":"rename","options":{"columns":{"Customer Count":null},"level":0,"inplace":true}},
+            {"operation":"flatten"}
+          ]
+        }
+      ],
+      "form_data":{
+        "datasource":"36__table",
+        "viz_type":"echarts_timeseries_bar",
+        "slice_id":158,
+        "url_params":{"baslangic_tarih_from":"%s","baslangic_tarih_to":"%s","uiConfig":"0"},
+        "x_axis":{"datasourceWarning":false,"expressionType":"SQL","label":"SalesRep","sqlExpression":"RTRIM(SalesRep)"},
+        "x_axis_sort_asc":true,
+        "x_axis_sort_series":"name",
+        "x_axis_sort_series_ascending":false,
+        "metrics":[
+          {
+            "aggregate":"COUNT",
+            "column":{"column_name":"SalesStage","id":386,"type":"Nullable(String)"},
+            "datasourceWarning":false,
+            "expressionType":"SIMPLE",
+            "hasCustomLabel":true,
+            "label":"Customer Count",
+            "optionName":"metric_cbtyr5qv2oh_x8hdztndtf8",
+            "sqlExpression":null
+          }
+        ],
+        "groupby":[
+          {"datasourceWarning":false,"expressionType":"SQL","label":"Sales Stage","sqlExpression":"SalesStageAggr"}
+        ],
+        "adhoc_filters":[
+          {
+            "clause":"WHERE",
+            "expressionType":"SQL",
+            "sqlExpression":"{%% if url_param('baslangic_tarih_to') %%}\\r\\n    StageDate <= toDate('{{ url_param('baslangic_tarih_to') }}')\\r\\n{%% else %%}\\r\\n    1=1\\r\\n{%% endif %%}\\r\\nAND\\r\\n{%% if url_param('baslangic_tarih_from') %%}\\r\\n    StageDate >= toDate('{{ url_param('baslangic_tarih_from') }}')\\r\\n{%% else %%}\\r\\n    1=1\\r\\n{%% endif %%}\\r\\n",
+            "subject":null
+          },
+          {
+            "clause":"WHERE",
+            "expressionType":"SQL",
+            "operator":"TEMPORAL_RANGE",
+            "sqlExpression":"SalesStage NOT IN ('Live','Growth') AND SalesStage IS NOT NULL",
+            "subject":"StageDate"
+          }
+        ],
+        "order_desc":true,
+        "row_limit":50000,
+        "truncate_metric":true,
+        "show_empty_columns":true,
+        "comparison_type":"values",
+        "annotation_layers":[],
+        "forecastPeriods":10,
+        "forecastInterval":0.8,
+        "orientation":"horizontal",
+        "x_axis_title":"",
+        "x_axis_title_margin":15,
+        "y_axis_title_margin":15,
+        "y_axis_title_position":"Left",
+        "sort_series_type":"name",
+        "sort_series_ascending":true,
+        "color_scheme":"supersetColors",
+        "show_value":true,
+        "stack":"Stack",
+        "only_total":true,
+        "show_legend":true,
+        "legendType":"scroll",
+        "legendOrientation":"bottom",
+        "x_axis_time_format":"smart_date",
+        "xAxisLabelRotation":0,
+        "y_axis_format":"SMART_NUMBER",
+        "logAxis":false,
+        "minorSplitLine":false,
+        "truncateXAxis":true,
+        "y_axis_bounds":[null,null],
+        "rich_tooltip":true,
+        "showTooltipTotal":true,
+        "showTooltipPercentage":true,
+        "tooltipTimeFormat":"smart_date",
+        "dashboards":[8],
+        "extra_form_data":{},
+        "chart_id":158,
+        "dashboardId":8,
+        "force":true,
+        "result_format":"json",
+        "result_type":"full"
+      },
+      "result_format":"json",
+      "result_type":"full"
+    }
+    """.formatted(fromDate, toDate, fromDate, toDate);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            String resp = (response.body() != null) ? response.body().string() : "";
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response + "\nResponse body: " + resp);
+            }
+            return new JSONObject(resp);
+        }
+    }
+
+    public static JSONObject sendWidget56MonthRequest() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A158%7D&dashboard_id=8&force=true";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie");
+
+        // --- Dinamik tarih (from: ayın ilk günü, to: bugün) ---
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate today = LocalDate.now();
+        LocalDate monthStart = today.withDayOfMonth(1);
+
+        String fromDate = monthStart.format(df);
+        String toDate = today.format(df);
+
+        String body = """
+    {
+      "datasource":{"id":36,"type":"table"},
+      "force":true,
+      "queries":[
+        {
+          "filters":[],
+          "extras":{
+            "having":"",
+            "where":"({%% if url_param('baslangic_tarih_to') %%}\\r\\n    StageDate <= toDate('{{ url_param('baslangic_tarih_to') }}')\\r\\n{%% else %%}\\r\\n    1=1\\r\\n{%% endif %%}\\r\\nAND\\r\\n{%% if url_param('baslangic_tarih_from') %%}\\r\\n    StageDate >= toDate('{{ url_param('baslangic_tarih_from') }}')\\r\\n{%% else %%}\\r\\n    1=1\\r\\n{%% endif %%}\\r\\n) AND (SalesStage NOT IN ('Live','Growth') AND SalesStage IS NOT NULL)"
+          },
+          "applied_time_extras":{},
+          "columns":[
+            {"columnType":"BASE_AXIS","datasourceWarning":false,"expressionType":"SQL","label":"SalesRep","sqlExpression":"RTRIM(SalesRep)"},
+            {"datasourceWarning":false,"expressionType":"SQL","label":"Sales Stage","sqlExpression":"SalesStageAggr"}
+          ],
+          "metrics":[
+            {
+              "aggregate":"COUNT",
+              "column":{"column_name":"SalesStage","id":386,"type":"Nullable(String)"},
+              "datasourceWarning":false,
+              "expressionType":"SIMPLE",
+              "hasCustomLabel":true,
+              "label":"Customer Count",
+              "optionName":"metric_cbtyr5qv2oh_x8hdztndtf8",
+              "sqlExpression":null
+            }
+          ],
+          "orderby":[
+            [
+              {
+                "aggregate":"COUNT",
+                "column":{"column_name":"SalesStage","id":386,"type":"Nullable(String)"},
+                "datasourceWarning":false,
+                "expressionType":"SIMPLE",
+                "hasCustomLabel":true,
+                "label":"Customer Count",
+                "optionName":"metric_cbtyr5qv2oh_x8hdztndtf8",
+                "sqlExpression":null
+              },
+              false
+            ]
+          ],
+          "annotation_layers":[],
+          "row_limit":50000,
+          "series_columns":[
+            {"datasourceWarning":false,"expressionType":"SQL","label":"Sales Stage","sqlExpression":"SalesStageAggr"}
+          ],
+          "series_limit":0,
+          "order_desc":true,
+          "url_params":{"baslangic_tarih_from":"%s","baslangic_tarih_to":"%s","uiConfig":"0"},
+          "custom_params":{},
+          "custom_form_data":{},
+          "time_offsets":[],
+          "post_processing":[
+            {"operation":"pivot","options":{"index":["SalesRep"],"columns":["Sales Stage"],"aggregates":{"Customer Count":{"operator":"mean"}},"drop_missing_columns":false}},
+            {"operation":"rename","options":{"columns":{"Customer Count":null},"level":0,"inplace":true}},
+            {"operation":"flatten"}
+          ]
+        }
+      ],
+      "form_data":{
+        "datasource":"36__table",
+        "viz_type":"echarts_timeseries_bar",
+        "slice_id":158,
+        "url_params":{"baslangic_tarih_from":"%s","baslangic_tarih_to":"%s","uiConfig":"0"},
+        "x_axis":{"datasourceWarning":false,"expressionType":"SQL","label":"SalesRep","sqlExpression":"RTRIM(SalesRep)"},
+        "x_axis_sort_asc":true,
+        "x_axis_sort_series":"name",
+        "x_axis_sort_series_ascending":false,
+        "metrics":[
+          {
+            "aggregate":"COUNT",
+            "column":{"column_name":"SalesStage","id":386,"type":"Nullable(String)"},
+            "datasourceWarning":false,
+            "expressionType":"SIMPLE",
+            "hasCustomLabel":true,
+            "label":"Customer Count",
+            "optionName":"metric_cbtyr5qv2oh_x8hdztndtf8",
+            "sqlExpression":null
+          }
+        ],
+        "groupby":[
+          {"datasourceWarning":false,"expressionType":"SQL","label":"Sales Stage","sqlExpression":"SalesStageAggr"}
+        ],
+        "adhoc_filters":[
+          {
+            "clause":"WHERE",
+            "expressionType":"SQL",
+            "sqlExpression":"{%% if url_param('baslangic_tarih_to') %%}\\r\\n    StageDate <= toDate('{{ url_param('baslangic_tarih_to') }}')\\r\\n{%% else %%}\\r\\n    1=1\\r\\n{%% endif %%}\\r\\nAND\\r\\n{%% if url_param('baslangic_tarih_from') %%}\\r\\n    StageDate >= toDate('{{ url_param('baslangic_tarih_from') }}')\\r\\n{%% else %%}\\r\\n    1=1\\r\\n{%% endif %%}\\r\\n",
+            "subject":null
+          },
+          {
+            "clause":"WHERE",
+            "expressionType":"SQL",
+            "operator":"TEMPORAL_RANGE",
+            "sqlExpression":"SalesStage NOT IN ('Live','Growth') AND SalesStage IS NOT NULL",
+            "subject":"StageDate"
+          }
+        ],
+        "order_desc":true,
+        "row_limit":50000,
+        "truncate_metric":true,
+        "show_empty_columns":true,
+        "comparison_type":"values",
+        "annotation_layers":[],
+        "forecastPeriods":10,
+        "forecastInterval":0.8,
+        "orientation":"horizontal",
+        "x_axis_title":"",
+        "x_axis_title_margin":15,
+        "y_axis_title_margin":15,
+        "y_axis_title_position":"Left",
+        "sort_series_type":"name",
+        "sort_series_ascending":true,
+        "color_scheme":"supersetColors",
+        "show_value":true,
+        "stack":"Stack",
+        "only_total":true,
+        "show_legend":true,
+        "legendType":"scroll",
+        "legendOrientation":"bottom",
+        "x_axis_time_format":"smart_date",
+        "xAxisLabelRotation":0,
+        "y_axis_format":"SMART_NUMBER",
+        "logAxis":false,
+        "minorSplitLine":false,
+        "truncateXAxis":true,
+        "y_axis_bounds":[null,null],
+        "rich_tooltip":true,
+        "showTooltipTotal":true,
+        "showTooltipPercentage":true,
+        "tooltipTimeFormat":"smart_date",
+        "dashboards":[8],
+        "extra_form_data":{},
+        "chart_id":158,
+        "dashboardId":8,
+        "force":true,
+        "result_format":"json",
+        "result_type":"full"
+      },
+      "result_format":"json",
+      "result_type":"full"
+    }
+    """.formatted(fromDate, toDate, fromDate, toDate);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            String resp = (response.body() != null) ? response.body().string() : "";
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response + "\nResponse body: " + resp);
+            }
+            return new JSONObject(resp);
+        }
+    }
+
+    public static JSONObject sendWidget52Request() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A487%7D&force=true";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie");
+
+        String body = """
+    {
+      "datasource":{"id":35,"type":"table"},
+      "force":true,
+      "queries":[
+        {
+          "filters":[],
+          "extras":{
+            "time_grain_sqla":"P1D",
+            "having":"",
+            "where":"(CreatedOn >= today() - 7) AND (SalesRep IN ('Miraç Kayli', 'Bilal Kaptan', 'Yılmaz Güney', 'Cem Özçitakgil','Merve Akan','Arif Özsoy','Eren Gedik','Murat Yengi','Ender Kolistoğlu','Cemal Kutlu','Sena Yıldırım','Merve Ulusoy','Emre Uzun','Can Demirkıran','Nurşah Sakin','Nursah Sakin','Melih Topçu','Korhan Başar','Alperen Bağışlar','Hilmi Kara','Melis Arslan','Furkan Kızılkurt','Beytullah Sayılır','Okan Ergün','Hamza Turan','Hakan Çıkmaz','Arif Özsoy','Arif Ozsoy','Beytullah Sayılır','Can Demirkıran','Cem Ozcitakgil','Cemal Kutlu','Emre Uzun','Ender Kolistoğlu','Eren Gedik','Fırat Karateke','Firat Karateke','Hakan Cıkmaz','Hakan Çıkmaz','Hakan Cikmaz','Hamza Turan','Kaan Güzel','Kaan Guzel','Melih Topçu','Melih Topcu','Merve Akan','Merve Ulusoy','Miraç Kaylı','Murat Yengi','Mustafa Yayla','Nurşah Sakin','Nursah Sakin','Okan Ergün','Okan Ergun','Sena Yıldırım','Seyfullah Günay','Yeşim Yeşbek'))"
+          },
+          "applied_time_extras":{},
+          "columns":[
+            {
+              "timeGrain":"P1D",
+              "columnType":"BASE_AXIS",
+              "expressionType":"SQL",
+              "label":"CreatedOn",
+              "sqlExpression":"CreatedOn + INTERVAL 3 HOURS"
+            }
+          ],
+          "metrics":[
+            {
+              "aggregate":"COUNT_DISTINCT",
+              "column":{"column_name":"deal_id","id":353,"type":"Int32"},
+              "datasourceWarning":false,
+              "expressionType":"SIMPLE",
+              "hasCustomLabel":true,
+              "label":"Customer Count",
+              "optionName":"metric_4lmp91ns7x_4qtxfbowwof",
+              "sqlExpression":null
+            }
+          ],
+          "annotation_layers":[],
+          "series_limit":0,
+          "order_desc":true,
+          "url_params":{"slice_id":"487"},
+          "custom_params":{},
+          "custom_form_data":{},
+          "post_processing":[
+            {
+              "operation":"pivot",
+              "options":{
+                "index":["CreatedOn"],
+                "columns":[],
+                "aggregates":{"Customer Count":{"operator":"mean"}},
+                "drop_missing_columns":true
+              }
+            },
+            {"operation":"flatten"}
+          ]
+        }
+      ],
+      "form_data":{
+        "datasource":"35__table",
+        "viz_type":"big_number",
+        "slice_id":487,
+        "x_axis":{"expressionType":"SQL","label":"CreatedOn","sqlExpression":"CreatedOn + INTERVAL 3 HOURS"},
+        "time_grain_sqla":"P1D",
+        "metric":{
+          "aggregate":"COUNT_DISTINCT",
+          "column":{"column_name":"deal_id","id":353,"type":"Int32"},
+          "datasourceWarning":false,
+          "expressionType":"SIMPLE",
+          "hasCustomLabel":true,
+          "label":"Customer Count",
+          "optionName":"metric_4lmp91ns7x_4qtxfbowwof",
+          "sqlExpression":null
+        },
+        "adhoc_filters":[
+          {
+            "clause":"WHERE",
+            "expressionType":"SQL",
+            "subject":"CreatedOn",
+            "operator":"TEMPORAL_RANGE",
+            "operatorId":"TEMPORAL_RANGE",
+            "sqlExpression":"CreatedOn >= today() - 7",
+            "comparator":null,
+            "datasourceWarning":false,
+            "isExtra":false,
+            "isNew":false,
+            "filterOptionName":"filter_pe8t08a1hlo_d64xn8mjfl"
+          },
+          {
+            "clause":"WHERE",
+            "expressionType":"SQL",
+            "sqlExpression":"SalesRep IN ('Miraç Kayli', 'Bilal Kaptan', 'Yılmaz Güney', 'Cem Özçitakgil','Merve Akan','Arif Özsoy','Eren Gedik','Murat Yengi','Ender Kolistoğlu','Cemal Kutlu','Sena Yıldırım','Merve Ulusoy','Emre Uzun','Can Demirkıran','Nurşah Sakin','Nursah Sakin','Melih Topçu','Korhan Başar','Alperen Bağışlar','Hilmi Kara','Melis Arslan','Furkan Kızılkurt','Beytullah Sayılır','Okan Ergün','Hamza Turan','Hakan Çıkmaz','Arif Özsoy','Arif Ozsoy','Beytullah Sayılır','Can Demirkıran','Cem Ozcitakgil','Cemal Kutlu','Emre Uzun','Ender Kolistoğlu','Eren Gedik','Fırat Karateke','Firat Karateke','Hakan Cıkmaz','Hakan Çıkmaz','Hakan Cikmaz','Hamza Turan','Kaan Güzel','Kaan Guzel','Melih Topçu','Melih Topcu','Merve Akan','Merve Ulusoy','Miraç Kaylı','Murat Yengi','Mustafa Yayla','Nurşah Sakin','Nursah Sakin','Okan Ergün','Okan Ergun','Sena Yıldırım','Seyfullah Günay','Yeşim Yeşbek')",
+            "subject":null,
+            "comparator":null,
+            "datasourceWarning":false,
+            "isExtra":false,
+            "isNew":false,
+            "operator":null,
+            "filterOptionName":"filter_53dt5i1gskj_3sfxj6zkwr2"
+          }
+        ],
+        "compare_lag":1,
+        "compare_suffix":"DoD",
+        "show_timestamp":true,
+        "show_trend_line":true,
+        "start_y_axis_at_zero":true,
+        "color_picker":{"a":1,"b":135,"g":122,"r":0},
+        "header_font_size":0.4,
+        "subheader_font_size":0.15,
+        "y_axis_format":"SMART_NUMBER",
+        "time_format":"smart_date",
+        "rolling_type":"None",
+        "extra_form_data":{},
+        "force":true,
+        "result_format":"json",
+        "result_type":"full"
+      },
+      "result_format":"json",
+      "result_type":"full"
+    }
+    """;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            String resp = (response.body() != null) ? response.body().string() : "";
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response + "\nResponse body: " + resp);
+            }
+            return new JSONObject(resp);
+        }
+    }
+
+
+    public static JSONObject sendWidget57Request() throws IOException {
+        final String url = "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A122%7D&dashboard_id=7&force=true";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie");
+
+        // Bugün (yyyy-MM-dd)
+        java.time.LocalDate today = java.time.LocalDate.now();
+        String todayStr = today.format(java.time.format.DateTimeFormatter.ISO_LOCAL_DATE);
+
+        String body = """
+    {
+      "datasource":{"id":32,"type":"table"},
+      "force":true,
+      "queries":[
+        {
+          "filters":[
+            {"col":"CreatedOn","op":"TEMPORAL_RANGE","val":"No filter"},
+            {"col":"AssociationDate","op":"TEMPORAL_RANGE","val":"%s : %s"}
+          ],
+          "extras":{"having":"","where":""},
+          "applied_time_extras":{},
+          "columns":[
+            "DealId",
+            "SKU",
+            {"datasourceWarning":false,"expressionType":"SQL","label":"Sipay ID","sqlExpression":"Sipay_Panel_ID"},
+            "CreatedOn",
+            "ASSIGNED_SALES_REPRESANTATIVE_DEAL",
+            "Assignee",
+            "AssociationDate",
+            "2_1024",
+            "EMAIL",
+            {"datasourceWarning":false,"expressionType":"SQL","label":"Company","sqlExpression":"Account_Name_Deal"},
+            "DIA_FirstName",
+            "DIA_LastName",
+            "MOBILE_PHONE",
+            "1_1026",
+            "1_1056",
+            "1_1127",
+            "1_32",
+            "ebMobile__Vendor__c",
+            "BELGE_TARIHI",
+            "Description",
+            {"expressionType":"SQL","label":"Monthly POS Volume (TRY)","sqlExpression":"ESTIMATED_VOLUME"},
+            {"expressionType":"SQL","label":"Monthly POS Volume (USD)","sqlExpression":"ESTIMATED_VOLUME_USD"},
+            {"expressionType":"SQL","label":"Yearly POS Volume (TRY)","sqlExpression":"DISTILE_VADEGUN_TRY"},
+            {"expressionType":"SQL","label":"Yearly POS Volume (USD)","sqlExpression":"DISTILE_VADEGUN_USD"},
+            {"expressionType":"SQL","label":"Est. Annual Rev. (TRY)","sqlExpression":"PREMRAKI_VADEGUN"},
+            {"expressionType":"SQL","label":"Est. Annual Rev. (USD)","sqlExpression":"SARAP_VADEGUN"},
+            "PAYLASIM_TIPI",
+            "Prospect_Durum",
+            "Referrer",
+            "SEGMENT",
+            "SIPAY_STATUS_FILE",
+            "SUB_INDUSTRIES",
+            "1_24",
+            "AccountExecutiveCode__c",
+            "ASM_Name__c",
+            "AUTHORIZED_PERSON",
+            "AUTHORIZED_PERSON_ID",
+            "Business_Type_Extent__c",
+            "COMPANY_TYPE",
+            "DIA_A_VN",
+            "Sipay_Panel_ID",
+            "Sipay_Wallet_Master_ID",
+            {"datasourceWarning":false,"expressionType":"SQL","label":"Website","sqlExpression":"Website_Deal"},
+            "1_1060123"
+          ],
+          "orderby":[],
+          "annotation_layers":[],
+          "row_limit":50000,
+          "series_limit":0,
+          "order_desc":true,
+          "url_params":{"uiConfig":"0"},
+          "custom_params":{},
+          "custom_form_data":{},
+          "post_processing":[],
+          "time_offsets":[]
+        }
+      ],
+      "form_data":{
+        "datasource":"32__table",
+        "viz_type":"table",
+        "slice_id":122,
+        "url_params":{"uiConfig":"0"},
+        "query_mode":"raw",
+        "groupby":[],
+        "temporal_columns_lookup":{"AssociationDate":true,"CreatedOn":true},
+        "all_columns":[
+          "DealId",
+          "SKU",
+          {"datasourceWarning":false,"expressionType":"SQL","label":"Sipay ID","sqlExpression":"Sipay_Panel_ID"},
+          "CreatedOn",
+          "ASSIGNED_SALES_REPRESANTATIVE_DEAL",
+          "Assignee",
+          "AssociationDate",
+          "2_1024",
+          "EMAIL",
+          {"datasourceWarning":false,"expressionType":"SQL","label":"Company","sqlExpression":"Account_Name_Deal"},
+          "DIA_FirstName",
+          "DIA_LastName",
+          "MOBILE_PHONE",
+          "1_1026",
+          "1_1056",
+          "1_1127",
+          "1_32",
+          "ebMobile__Vendor__c",
+          "BELGE_TARIHI",
+          "Description",
+          {"expressionType":"SQL","label":"Monthly POS Volume (TRY)","sqlExpression":"ESTIMATED_VOLUME"},
+          {"expressionType":"SQL","label":"Monthly POS Volume (USD)","sqlExpression":"ESTIMATED_VOLUME_USD"},
+          {"expressionType":"SQL","label":"Yearly POS Volume (TRY)","sqlExpression":"DISTILE_VADEGUN_TRY"},
+          {"expressionType":"SQL","label":"Yearly POS Volume (USD)","sqlExpression":"DISTILE_VADEGUN_USD"},
+          {"expressionType":"SQL","label":"Est. Annual Rev. (TRY)","sqlExpression":"PREMRAKI_VADEGUN"},
+          {"expressionType":"SQL","label":"Est. Annual Rev. (USD)","sqlExpression":"SARAP_VADEGUN"},
+          "PAYLASIM_TIPI",
+          "Prospect_Durum",
+          "Referrer",
+          "SEGMENT",
+          "SIPAY_STATUS_FILE",
+          "SUB_INDUSTRIES",
+          "1_24",
+          "AccountExecutiveCode__c",
+          "ASM_Name__c",
+          "AUTHORIZED_PERSON",
+          "AUTHORIZED_PERSON_ID",
+          "Business_Type_Extent__c",
+          "COMPANY_TYPE",
+          "DIA_A_VN",
+          "Sipay_Panel_ID",
+          "Sipay_Wallet_Master_ID",
+          {"datasourceWarning":false,"expressionType":"SQL","label":"Website","sqlExpression":"Website_Deal"},
+          "1_1060123"
+        ],
+        "percent_metrics":[],
+        "adhoc_filters":[
+          {"clause":"WHERE","comparator":"No filter","expressionType":"SIMPLE","operator":"TEMPORAL_RANGE","subject":"CreatedOn"},
+          {"clause":"WHERE","comparator":"%s : %s","expressionType":"SIMPLE","operator":"TEMPORAL_RANGE","subject":"AssociationDate"}
+        ],
+        "order_by_cols":[],
+        "row_limit":50000,
+        "server_page_length":10,
+        "order_desc":true,
+        "table_timestamp_format":"smart_date",
+        "include_search":true,
+        "allow_render_html":true,
+        "show_cell_bars":false,
+        "color_pn":true,
+        "comparison_color_scheme":"Green",
+        "conditional_formatting":[],
+        "comparison_type":"values",
+        "dashboards":[7],
+        "extra_form_data":{},
+        "chart_id":122,
+        "extra_filters":[],
+        "dashboardId":7,
+        "force":true,
+        "result_format":"json",
+        "result_type":"full",
+        "include_time":false
+      },
+      "result_format":"json",
+      "result_type":"full"
+    }
+    """.formatted(todayStr, todayStr, todayStr, todayStr);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            String resp = (response.body() != null) ? response.body().string() : "";
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response + "\nResponse body: " + resp);
+            }
+            return new JSONObject(resp);
+        }
+    }
+
+    public static JSONObject sendWidget45Request() throws IOException {
+        final String url =
+                "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A431%7D&force=true";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie");
+
+        String body = """
+    {
+      "datasource":{"id":52,"type":"table"},
+      "force":true,
+      "queries":[
+        {
+          "filters":[
+            {"col":"SalesRep","op":"NOT IN","val":["Test Sipay"]}
+          ],
+          "extras":{
+            "having":"",
+            "where":"(1=1) AND (StageAggr NOT IN ('ContractRet', 'LeadRet', 'PitchedRet', 'Ret', 'ProspectRet')) AND (StageAggr IN ('7-Implementation', '9-Live', '8-Pilot'))"
+          },
+          "applied_time_extras":{},
+          "columns":[
+            {"columnType":"BASE_AXIS","sqlExpression":"SalesRep","label":"SalesRep","expressionType":"SQL"},
+            {"datasourceWarning":false,"expressionType":"SQL","label":"Sales Stage","sqlExpression":"StageAggr"}
+          ],
+          "metrics":[
+            {
+              "aggregate":"SUM",
+              "column":{"column_name":"CustomerCount","id":783,"type":"UInt64"},
+              "datasourceWarning":false,
+              "expressionType":"SIMPLE",
+              "hasCustomLabel":true,
+              "label":"Customer Count",
+              "optionName":"metric_tk3ep2tmkdj_6nhx6tobd4q",
+              "sqlExpression":null
+            }
+          ],
+          "orderby":[
+            [
+              {
+                "aggregate":"SUM",
+                "column":{"column_name":"CustomerCount","id":783,"type":"UInt64"},
+                "datasourceWarning":false,
+                "expressionType":"SIMPLE",
+                "hasCustomLabel":true,
+                "label":"Customer Count",
+                "optionName":"metric_tk3ep2tmkdj_6nhx6tobd4q",
+                "sqlExpression":null
+              },
+              false
+            ]
+          ],
+          "annotation_layers":[],
+          "row_limit":50000,
+          "series_columns":[
+            {"datasourceWarning":false,"expressionType":"SQL","label":"Sales Stage","sqlExpression":"StageAggr"}
+          ],
+          "series_limit":0,
+          "order_desc":true,
+          "url_params":{"slice_id":"431"},
+          "custom_params":{},
+          "custom_form_data":{},
+          "time_offsets":[],
+          "post_processing":[
+            {
+              "operation":"pivot",
+              "options":{
+                "index":["SalesRep"],
+                "columns":["Sales Stage"],
+                "aggregates":{"Customer Count":{"operator":"mean"}},
+                "drop_missing_columns":false
+              }
+            },
+            {
+              "operation":"rename",
+              "options":{"columns":{"Customer Count":null},"level":0,"inplace":true}
+            },
+            {"operation":"flatten"}
+          ]
+        }
+      ],
+      "form_data":{
+        "datasource":"52__table",
+        "viz_type":"echarts_timeseries_bar",
+        "slice_id":431,
+        "url_params":{"slice_id":"431"},
+        "x_axis":"SalesRep",
+        "x_axis_sort_asc":true,
+        "x_axis_sort_series":"name",
+        "x_axis_sort_series_ascending":false,
+        "metrics":[
+          {
+            "aggregate":"SUM",
+            "column":{"column_name":"CustomerCount","id":783,"type":"UInt64"},
+            "datasourceWarning":false,
+            "expressionType":"SIMPLE",
+            "hasCustomLabel":true,
+            "label":"Customer Count",
+            "optionName":"metric_tk3ep2tmkdj_6nhx6tobd4q",
+            "sqlExpression":null
+          }
+        ],
+        "groupby":[
+          {"datasourceWarning":false,"expressionType":"SQL","label":"Sales Stage","sqlExpression":"StageAggr"}
+        ],
+        "adhoc_filters":[
+          {
+            "clause":"WHERE",
+            "comparator":null,
+            "datasourceWarning":false,
+            "expressionType":"SQL",
+            "operator":"TEMPORAL_RANGE",
+            "operatorId":"TEMPORAL_RANGE",
+            "sqlExpression":"1=1",
+            "subject":"CreatedOn"
+          },
+          {
+            "clause":"WHERE",
+            "comparator":["Test Sipay"],
+            "datasourceWarning":false,
+            "expressionType":"SIMPLE",
+            "operator":"NOT IN",
+            "operatorId":"NOT_IN",
+            "sqlExpression":null,
+            "subject":"SalesRep"
+          },
+          {
+            "clause":"WHERE",
+            "comparator":null,
+            "datasourceWarning":false,
+            "expressionType":"SQL",
+            "sqlExpression":"StageAggr NOT IN ('ContractRet', 'LeadRet', 'PitchedRet', 'Ret', 'ProspectRet')",
+            "subject":null
+          },
+          {
+            "clause":"WHERE",
+            "comparator":null,
+            "datasourceWarning":false,
+            "expressionType":"SQL",
+            "sqlExpression":"StageAggr IN ('7-Implementation', '9-Live', '8-Pilot')",
+            "subject":null
+          }
+        ],
+        "order_desc":true,
+        "row_limit":50000,
+        "truncate_metric":true,
+        "show_empty_columns":true,
+        "comparison_type":"values",
+        "annotation_layers":[],
+        "forecastPeriods":10,
+        "forecastInterval":0.8,
+        "orientation":"horizontal",
+        "x_axis_title_margin":15,
+        "y_axis_title_margin":15,
+        "y_axis_title_position":"Left",
+        "sort_series_type":"name",
+        "sort_series_ascending":true,
+        "color_scheme":"supersetColors",
+        "show_value":true,
+        "stack":"Stack",
+        "only_total":true,
+        "show_legend":true,
+        "legendType":"scroll",
+        "legendOrientation":"bottom",
+        "x_axis_time_format":"smart_date",
+        "xAxisLabelRotation":0,
+        "y_axis_format":"SMART_NUMBER",
+        "logAxis":false,
+        "truncateXAxis":true,
+        "y_axis_bounds":[null,null],
+        "rich_tooltip":true,
+        "showTooltipTotal":true,
+        "showTooltipPercentage":true,
+        "tooltipTimeFormat":"smart_date",
+        "extra_form_data":{},
+        "force":true,
+        "result_format":"json",
+        "result_type":"full"
+      },
+      "result_format":"json",
+      "result_type":"full"
+    }
+    """;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            String resp = (response.body() != null) ? response.body().string() : "";
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response + "\nResponse body: " + resp);
+            }
+            return new JSONObject(resp);
+        }
+    }
+
+
+    public static JSONObject sendWidget54Request() throws IOException {
+        final String url =
+                "https://crm-dashboard.spwgpf.com/api/v1/chart/data?form_data=%7B%22slice_id%22%3A490%7D&force=true";
+
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
+
+        String cookie = ConfigurationReader.getProperty("cookie");
+
+        String body = """
+    {
+      "datasource":{"id":36,"type":"table"},
+      "force":true,
+      "queries":[
+        {
+          "filters":[
+            {"col":"SalesRep","op":"NOT IN","val":["Test Sipay"]},
+            {"col":"StageAggr","op":"IN","val":["7-Implementation","8-Pilot","9-Live"]},
+            {"col":"ActivationDate","op":"TEMPORAL_RANGE","val":"No filter"}
+          ],
+          "extras":{
+            "time_grain_sqla":"P1D",
+            "having":"",
+            "where":"(ActivationDate >= today() - 7) AND (SalesStage IS NOT NULL) AND (SalesStage NOT IN ('ContractRet', 'LeadRet', 'PitchedRet', 'Ret', 'ProspectRet')) AND (SalesRep IN ('Miraç Kayli', 'Bilal Kaptan', 'Yılmaz Güney', 'Cem Özçitakgil','Merve Akan','Arif Özsoy','Eren Gedik','Murat Yengi','Ender Kolistoğlu','Cemal Kutlu','Sena Yıldırım','Merve Ulusoy','Emre Uzun','Can Demirkıran','Nurşah Sakin', 'Nursah Sakin', 'Melih Topçu','Korhan Başar','Alperen Bağışlar','Hilmi Kara','Melis Arslan','Furkan Kızılkurt','Beytullah Sayılır','Okan Ergün','Hamza Turan','Hakan Çıkmaz','Arif Özsoy','Arif Ozsoy','Beytullah Sayılır','Can Demirkıran','Cem Ozcitakgil','Cemal Kutlu','Emre Uzun','Ender Kolistoğlu','Eren Gedik','Fırat Karateke','Firat Karateke','Hakan Cıkmaz','Hakan Çıkmaz','Hakan Cikmaz','Hamza Turan','Kaan Güzel','Kaan Guzel','Melih Topçu','Melih Topcu','Merve Akan','Merve Ulusoy','Miraç Kaylı','Murat Yengi','Mustafa Yayla','Nurşah Sakin','Nursah Sakin','Okan Ergün','Okan Ergun','Sena Yıldırım','Seyfullah Günay','Yeşim Yeşbek'))"
+          },
+          "applied_time_extras":{},
+          "columns":[
+            {"timeGrain":"P1D","columnType":"BASE_AXIS","sqlExpression":"ActivationDate","label":"ActivationDate","expressionType":"SQL"}
+          ],
+          "metrics":[
+            {
+              "aggregate":"COUNT_DISTINCT",
+              "column":{"column_name":"AssetId","id":384,"type":"INT"},
+              "datasourceWarning":false,
+              "expressionType":"SIMPLE",
+              "hasCustomLabel":true,
+              "label":"Customer Count",
+              "optionName":"metric_w67h0a7x6fk_2zllxkz1jgr",
+              "sqlExpression":null
+            }
+          ],
+          "annotation_layers":[],
+          "series_limit":0,
+          "order_desc":true,
+          "url_params":{"slice_id":"490"},
+          "custom_params":{},
+          "custom_form_data":{},
+          "post_processing":[
+            {"operation":"pivot","options":{"index":["ActivationDate"],"columns":[],"aggregates":{"Customer Count":{"operator":"mean"}},"drop_missing_columns":true}},
+            {"operation":"flatten"}
+          ]
+        }
+      ],
+      "form_data":{
+        "datasource":"36__table",
+        "viz_type":"big_number",
+        "slice_id":490,
+        "url_params":{"slice_id":"490"},
+        "x_axis":"ActivationDate",
+        "time_grain_sqla":"P1D",
+        "metric":{
+          "aggregate":"COUNT_DISTINCT",
+          "column":{"column_name":"AssetId","id":384,"type":"INT"},
+          "datasourceWarning":false,
+          "expressionType":"SIMPLE",
+          "hasCustomLabel":true,
+          "label":"Customer Count",
+          "optionName":"metric_w67h0a7x6fk_2zllxkz1jgr",
+          "sqlExpression":null
+        },
+        "adhoc_filters":[
+          {
+            "clause":"WHERE",
+            "comparator":null,
+            "datasourceWarning":false,
+            "expressionType":"SQL",
+            "operator":"TEMPORAL_RANGE",
+            "operatorId":"TEMPORAL_RANGE",
+            "sqlExpression":"ActivationDate >= today() - 7",
+            "subject":"CreatedOn"
+          },
+          {
+            "clause":"WHERE",
+            "comparator":null,
+            "datasourceWarning":false,
+            "expressionType":"SQL",
+            "sqlExpression":"SalesStage IS NOT NULL",
+            "subject":null
+          },
+          {
+            "clause":"WHERE",
+            "comparator":["Test Sipay"],
+            "datasourceWarning":false,
+            "expressionType":"SIMPLE",
+            "operator":"NOT IN",
+            "operatorId":"NOT_IN",
+            "sqlExpression":null,
+            "subject":"SalesRep"
+          },
+          {
+            "clause":"WHERE",
+            "comparator":null,
+            "datasourceWarning":false,
+            "expressionType":"SQL",
+            "sqlExpression":"SalesStage NOT IN ('ContractRet', 'LeadRet', 'PitchedRet', 'Ret', 'ProspectRet')",
+            "subject":null
+          },
+          {
+            "clause":"WHERE",
+            "comparator":["7-Implementation","8-Pilot","9-Live"],
+            "datasourceWarning":false,
+            "expressionType":"SIMPLE",
+            "operator":"IN",
+            "operatorId":"IN",
+            "sqlExpression":null,
+            "subject":"StageAggr"
+          },
+          {
+            "clause":"WHERE",
+            "comparator":null,
+            "datasourceWarning":false,
+            "expressionType":"SQL",
+            "sqlExpression":"SalesRep IN ('Miraç Kayli', 'Bilal Kaptan', 'Yılmaz Güney', 'Cem Özçitakgil','Merve Akan','Arif Özsoy','Eren Gedik','Murat Yengi','Ender Kolistoğlu','Cemal Kutlu','Sena Yıldırım','Merve Ulusoy','Emre Uzun','Can Demirkıran','Nurşah Sakin', 'Nursah Sakin', 'Melih Topçu','Korhan Başar','Alperen Bağışlar','Hilmi Kara','Melis Arslan','Furkan Kızılkurt','Beytullah Sayılır','Okan Ergün','Hamza Turan','Hakan Çıkmaz','Arif Özsoy','Arif Ozsoy','Beytullah Sayılır','Can Demirkıran','Cem Ozcitakgil','Cemal Kutlu','Emre Uzun','Ender Kolistoğlu','Eren Gedik','Fırat Karateke','Firat Karateke','Hakan Cıkmaz','Hakan Çıkmaz','Hakan Cikmaz','Hamza Turan','Kaan Güzel','Kaan Guzel','Melih Topçu','Melih Topcu','Merve Akan','Merve Ulusoy','Miraç Kaylı','Murat Yengi','Mustafa Yayla','Nurşah Sakin','Nursah Sakin','Okan Ergün','Okan Ergun','Sena Yıldırım','Seyfullah Günay','Yeşim Yeşbek')",
+            "subject":null
+          },
+          {
+            "clause":"WHERE",
+            "subject":"ActivationDate",
+            "operator":"TEMPORAL_RANGE",
+            "comparator":"No filter",
+            "expressionType":"SIMPLE"
+          }
+        ],
+        "compare_lag":1,
+        "compare_suffix":"DoD",
+        "show_timestamp":true,
+        "show_trend_line":true,
+        "start_y_axis_at_zero":true,
+        "header_font_size":0.4,
+        "subheader_font_size":0.15,
+        "y_axis_format":"SMART_NUMBER",
+        "time_format":"smart_date",
+        "rolling_type":"None",
+        "extra_form_data":{},
+        "force":true,
+        "result_format":"json",
+        "result_type":"full"
+      },
+      "result_format":"json",
+      "result_type":"full"
+    }
+    """;
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .addHeader("Cookie", "session=" + cookie)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            String resp = (response.body() != null) ? response.body().string() : "";
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response + "\nResponse body: " + resp);
+            }
+            return new JSONObject(resp);
+        }
+    }
+
+
 
 
 

@@ -9,9 +9,11 @@ import org.junit.Assert;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class WidgetsStepDefs extends BaseStep {
@@ -2648,18 +2650,422 @@ public class WidgetsStepDefs extends BaseStep {
 
         formattedLastUpdateW55 = dateTime.format(formatter);
 
+        dateTime = Instant.ofEpochMilli(epochMillis)
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime()
+                .minusHours(3);
+
+        formattedLastUpdateW55 = dateTime.format(formatter);
+
         System.out.println("Son Güncelleme W55: " + formattedLastUpdateW55);
+
     }
 
     @Then("The user verify scenario26")
     public void theUserVerifyScenario26() {
-        Assert.assertTrue("s26 fail",true);
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+        String nowFormatted = LocalDateTime.now()
+                .format(formatter);
+
+        System.out.println("nowFormatted: " + nowFormatted);
+
+        LocalDateTime d1 = LocalDateTime.parse(formattedLastUpdateW55, formatter);
+        LocalDateTime d2 = LocalDateTime.parse(nowFormatted, formatter);
+
+        long minutesDiff = ChronoUnit.MINUTES.between(d1, d2);
+        System.out.println("Dakaika farkı: " + minutesDiff);
+
+
+        Assert.assertTrue("s26 fail",minutesDiff <= 30);
     }
 
 
+    double totalCustomerCountW53;
+
+    @Given("The user send widget53 request")
+    public void theUserSendWidget53Request() throws IOException {
+        JSONObject w53Json = Requests.sendWidget53Request();
+        System.out.println("w53Json: " + w53Json);
+
+        totalCustomerCountW53 = 0;
+
+        // result kontrolü
+        if (w53Json == null || !w53Json.has("result")) {
+            System.out.println("W53 result yok. Toplam: 0");
+            return;
+        }
+
+        JSONArray resultArr = w53Json.optJSONArray("result");
+        if (resultArr == null || resultArr.length() == 0) {
+            System.out.println("W53 result boş. Toplam: 0");
+            return;
+        }
+
+        JSONObject firstResult = resultArr.optJSONObject(0);
+        if (firstResult == null) {
+            System.out.println("W53 result[0] yok. Toplam: 0");
+            return;
+        }
+
+        JSONArray dataArray = firstResult.optJSONArray("data");
+
+        // data boş / null ise toplam 0
+        if (dataArray == null || dataArray.length() == 0) {
+            System.out.println("W53 data boş. Toplam Customer Count: 0");
+            return;
+        }
+
+        // data doluysa topla
+        for (int i = 0; i < dataArray.length(); i++) {
+            JSONObject row = dataArray.optJSONObject(i);
+            if (row == null) continue;
+
+            double count = row.optDouble("Customer Count",
+                    row.optDouble("Customer Count_4aa1e1", 0.0));
+
+            totalCustomerCountW53 += count;
+        }
+
+        System.out.println("Toplam Customer Count W53: " + totalCustomerCountW53);
+    }
+
+    @Then("The user verify scenario21")
+    public void theUserVerifyScenario21() {
+        Assert.assertEquals("s21 sayılar eşit değil",totalCustomerCountW44,totalCustomerCountW53,0.01);
+    }
+
+    double totalCustomerCountW47;
+
+    @Given("The user send widget47 request")
+    public void theUserSendWidget47Request() throws IOException {
+        JSONObject w47Json = Requests.sendWidget47Request();
+        System.out.println("w47Json: " + w47Json);
+
+        totalCustomerCountW47 = 0;
+
+        // Güvenli result -> data erişimi
+        if (w47Json == null || !w47Json.has("result")) {
+            System.out.println("W47 result yok. Toplam: 0");
+            return;
+        }
+
+        JSONArray resultArr = w47Json.optJSONArray("result");
+        if (resultArr == null || resultArr.length() == 0) {
+            System.out.println("W47 result boş. Toplam: 0");
+            return;
+        }
+
+        JSONObject firstResult = resultArr.optJSONObject(0);
+        if (firstResult == null) {
+            System.out.println("W47 result[0] yok. Toplam: 0");
+            return;
+        }
+
+        JSONArray dataArray = firstResult.optJSONArray("data");
+        if (dataArray == null || dataArray.length() == 0) {
+            System.out.println("W47 data boş. Toplam: 0");
+            return;
+        }
+
+        // Asıl toplama kısmı
+        for (int i = 0; i < dataArray.length(); i++) {
+            JSONObject row = dataArray.optJSONObject(i);
+            if (row == null) continue;
+
+            double implementation = row.optDouble("7-Implementation", 0.0);
+            double pilot          = row.optDouble("8-Pilot", 0.0);
+            double live           = row.optDouble("9-Live", 0.0);
+
+            totalCustomerCountW47 += (implementation + pilot + live);
+        }
+
+        System.out.println("Toplam Customer Count W47: " + totalCustomerCountW47);
+    }
 
 
+    double totalCustomerCountW56;
 
+    @Given("The user send widget56Week request")
+    public void theUserSendWidget56weekRequest() throws IOException {
+        JSONObject w56Json = Requests.sendWidget56WeekRequest();
+        System.out.println("w56Json: " + w56Json);
+
+        totalCustomerCountW56 = 0;
+
+        // Güvenli result kontrolü
+        if (w56Json == null || !w56Json.has("result")) {
+            System.out.println("W56 result yok. Toplam: 0");
+            return;
+        }
+
+        JSONArray resultArr = w56Json.optJSONArray("result");
+        if (resultArr == null || resultArr.length() == 0) {
+            System.out.println("W56 result boş. Toplam: 0");
+            return;
+        }
+
+        JSONObject firstResult = resultArr.optJSONObject(0);
+        if (firstResult == null) {
+            System.out.println("W56 result[0] yok. Toplam: 0");
+            return;
+        }
+
+        JSONArray dataArray = firstResult.optJSONArray("data");
+        if (dataArray == null || dataArray.length() == 0) {
+            System.out.println("W56 data boş. Toplam: 0");
+            return;
+        }
+
+        // Pivot kolonların toplamı
+        for (int i = 0; i < dataArray.length(); i++) {
+            JSONObject row = dataArray.optJSONObject(i);
+            if (row == null) continue;
+
+            double prospect = row.optDouble("1-Prospect", 0.0);
+            double reject   = row.optDouble("10-Reject", 0.0);
+            double contract = row.optDouble("4-Contract", 0.0);
+
+            totalCustomerCountW56 += (prospect + reject + contract);
+        }
+
+        System.out.println("Toplam Customer Count W56: " + totalCustomerCountW56);
+    }
+
+    @Then("The user verify scenario22")
+    public void theUserVerifyScenario22() {
+        Assert.assertEquals("s22 sayılar eşit değil",totalCustomerCountW47,totalCustomerCountW56,0.01);
+    }
+
+    @Given("The user send widget56Month request")
+    public void theUserSendWidget56MonthRequest() throws IOException {
+        JSONObject w56Json = Requests.sendWidget56MonthRequest();
+        System.out.println("w56Json: " + w56Json);
+
+        totalCustomerCountW56 = 0;
+
+        // Güvenli result kontrolü
+        if (w56Json == null || !w56Json.has("result")) {
+            System.out.println("W56 result yok. Toplam: 0");
+            return;
+        }
+
+        JSONArray resultArr = w56Json.optJSONArray("result");
+        if (resultArr == null || resultArr.length() == 0) {
+            System.out.println("W56 result boş. Toplam: 0");
+            return;
+        }
+
+        JSONObject firstResult = resultArr.optJSONObject(0);
+        if (firstResult == null) {
+            System.out.println("W56 result[0] yok. Toplam: 0");
+            return;
+        }
+
+        JSONArray dataArray = firstResult.optJSONArray("data");
+        if (dataArray == null || dataArray.length() == 0) {
+            System.out.println("W56 data boş. Toplam: 0");
+            return;
+        }
+
+        // Pivot kolonların toplamı
+        for (int i = 0; i < dataArray.length(); i++) {
+            JSONObject row = dataArray.optJSONObject(i);
+            if (row == null) continue;
+
+            double prospect = row.optDouble("1-Prospect", 0.0);
+            double reject   = row.optDouble("10-Reject", 0.0);
+            double contract = row.optDouble("4-Contract", 0.0);
+
+            totalCustomerCountW56 += (prospect + reject + contract);
+        }
+
+        System.out.println("Toplam Customer Count W56: " + totalCustomerCountW56);
+    }
+
+
+    @Then("The user verify scenario23")
+    public void theUserVerifyScenario23() {
+        Assert.assertEquals("s23 sayilar esit degil",totalCustomerCountW49,totalCustomerCountW56,0.01);
+    }
+
+    double todayCustomerCountW52;
+
+    @Given("The user send widget52 request")
+    public void theUserSendWidget52Request() throws IOException {
+        JSONObject w52Json = Requests.sendWidget52Request();
+        System.out.println("w52Json: " + w52Json);
+
+        todayCustomerCountW52 = 0;
+
+        JSONArray dataArray = w52Json
+                .getJSONArray("result")
+                .getJSONObject(0)
+                .getJSONArray("data");
+
+        // Bugünün startOfDay epoch millis değeri
+        long todayStartMillis = LocalDate.now()
+                .atStartOfDay(ZoneId.systemDefault())
+                .toInstant()
+                .toEpochMilli();
+
+        for (int i = 0; i < dataArray.length(); i++) {
+            JSONObject row = dataArray.getJSONObject(i);
+
+            long createdOnMillis = (long) row.optDouble("CreatedOn", -1);
+            if (createdOnMillis == todayStartMillis) {
+
+                todayCustomerCountW52 = row.optDouble(
+                        "Customer Count",
+                        row.optDouble("Customer Count_4aa1e1", 0.0)
+                );
+                break; // bugünü bulduk, çık
+            }
+        }
+
+        System.out.println("Bugün CreatedOn Customer Count W52: " + todayCustomerCountW52);
+    }
+
+
+    int totalRowCountW57;
+
+    @Given("The user send widget57 request")
+    public void theUserSendWidget57Request() throws IOException {
+        JSONObject w57Json = Requests.sendWidget57Request();
+        System.out.println("w57Json: " + w57Json);
+
+        totalRowCountW57 = 0;
+
+        if (w57Json == null || !w57Json.has("result")) {
+            System.out.println("W57 result yok. Kayıt sayısı: 0");
+            return;
+        }
+
+        JSONArray resultArr = w57Json.optJSONArray("result");
+        if (resultArr == null || resultArr.length() == 0) {
+            System.out.println("W57 result boş. Kayıt sayısı: 0");
+            return;
+        }
+
+        JSONObject firstResult = resultArr.optJSONObject(0);
+        if (firstResult == null) {
+            System.out.println("W57 result[0] yok. Kayıt sayısı: 0");
+            return;
+        }
+
+        JSONArray dataArray = firstResult.optJSONArray("data");
+        if (dataArray == null) {
+            System.out.println("W57 data null. Kayıt sayısı: 0");
+            return;
+        }
+
+        totalRowCountW57 = dataArray.length();
+
+        System.out.println("W57 data içindeki kayıt sayısı: " + totalRowCountW57);
+    }
+
+
+    @Then("The user verify scenario24")
+    public void theUserVerifyScenario24() {
+        Assert.assertEquals("s24 sayilar esit degil",todayCustomerCountW52,totalRowCountW57,0.01);
+    }
+
+    double totalCustomerCountW45;
+
+    @Given("The user send widget45 request")
+    public void theUserSendWidget45Request() throws IOException {
+        JSONObject w45Json = Requests.sendWidget45Request();
+        System.out.println("w45Json: " + w45Json);
+
+        totalCustomerCountW45 = 0;
+
+        JSONArray resultArr = w45Json.optJSONArray("result");
+        if (resultArr == null || resultArr.length() == 0) {
+            System.out.println("W45 result boş. Toplam: 0");
+            return;
+        }
+
+        JSONObject firstResult = resultArr.optJSONObject(0);
+        if (firstResult == null) {
+            System.out.println("W45 result[0] yok. Toplam: 0");
+            return;
+        }
+
+        JSONArray dataArray = firstResult.optJSONArray("data");
+        if (dataArray == null || dataArray.length() == 0) {
+            System.out.println("W45 data boş. Toplam: 0");
+            return;
+        }
+
+        for (int i = 0; i < dataArray.length(); i++) {
+            JSONObject row = dataArray.optJSONObject(i);
+            if (row == null) continue;
+
+            double implementation = row.optDouble("7-Implementation", 0.0);
+            double pilot          = row.optDouble("8-Pilot", 0.0);
+            double live           = row.optDouble("9-Live", 0.0);
+
+            totalCustomerCountW45 += (implementation + pilot + live);
+        }
+
+        System.out.println("Toplam Customer Count W45: " + totalCustomerCountW45);
+    }
+
+
+    double totalCustomerCountW54;
+
+    @Given("The user send widget54 request")
+    public void theUserSendWidget54Request() throws IOException {
+        JSONObject w54Json = Requests.sendWidget54Request();
+        System.out.println("w54Json: " + w54Json);
+
+        totalCustomerCountW54 = 0;
+
+        // result kontrolü
+        if (w54Json == null || !w54Json.has("result")) {
+            System.out.println("W54 result yok. Toplam: 0");
+            return;
+        }
+
+        JSONArray resultArr = w54Json.optJSONArray("result");
+        if (resultArr == null || resultArr.length() == 0) {
+            System.out.println("W54 result boş. Toplam: 0");
+            return;
+        }
+
+        JSONObject firstResult = resultArr.optJSONObject(0);
+        if (firstResult == null) {
+            System.out.println("W54 result[0] yok. Toplam: 0");
+            return;
+        }
+
+        JSONArray dataArray = firstResult.optJSONArray("data");
+        if (dataArray == null || dataArray.length() == 0) {
+            System.out.println("W54 data boş. Toplam Customer Count: 0");
+            return;
+        }
+
+        // data doluysa topla
+        for (int i = 0; i < dataArray.length(); i++) {
+            JSONObject row = dataArray.optJSONObject(i);
+            if (row == null) continue;
+
+            double count = row.optDouble(
+                    "Customer Count",
+                    row.optDouble("Customer Count_4aa1e1", 0.0)
+            );
+
+            totalCustomerCountW54 += count;
+        }
+
+        System.out.println("Toplam Customer Count W54: " + totalCustomerCountW54);
+    }
+
+    @Then("The user verify scenario25")
+    public void theUserVerifyScenario25() {
+        Assert.assertEquals("s25 sayilar esit degil",totalCustomerCountW45,totalCustomerCountW54,0.01);
+    }
 
 
 
