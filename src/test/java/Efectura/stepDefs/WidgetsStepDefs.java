@@ -2818,20 +2818,21 @@ public class WidgetsStepDefs extends BaseStep {
             return;
         }
 
-        // Pivot kolonların toplamı
+        // 7-Implementation + 8-Pilot + 9-Live toplamı
         for (int i = 0; i < dataArray.length(); i++) {
             JSONObject row = dataArray.optJSONObject(i);
             if (row == null) continue;
 
-            double prospect = row.optDouble("1-Prospect", 0.0);
-            double reject   = row.optDouble("10-Reject", 0.0);
-            double contract = row.optDouble("4-Contract", 0.0);
+            double implementation = row.optDouble("7-Implementation", 0.0);
+            double pilot          = row.optDouble("8-Pilot", 0.0);
+            double live           = row.optDouble("9-Live", 0.0);
 
-            totalCustomerCountW56 += (prospect + reject + contract);
+            totalCustomerCountW56 += (implementation + pilot + live);
         }
 
-        System.out.println("Toplam Customer Count W56: " + totalCustomerCountW56);
+        System.out.println("Toplam (Implementation+Pilot+Live) Customer Count W56: " + totalCustomerCountW56);
     }
+
 
     @Then("The user verify scenario22")
     public void theUserVerifyScenario22() {
@@ -2869,20 +2870,24 @@ public class WidgetsStepDefs extends BaseStep {
             return;
         }
 
-        // Pivot kolonların toplamı
+        // 7-Implementation + 8-Pilot + 9-Live toplamı
         for (int i = 0; i < dataArray.length(); i++) {
             JSONObject row = dataArray.optJSONObject(i);
             if (row == null) continue;
 
-            double prospect = row.optDouble("1-Prospect", 0.0);
-            double reject   = row.optDouble("10-Reject", 0.0);
-            double contract = row.optDouble("4-Contract", 0.0);
+            double implementation = row.optDouble("7-Implementation", 0.0);
+            double pilot          = row.optDouble("8-Pilot", 0.0);
+            double live           = row.optDouble("9-Live", 0.0);
 
-            totalCustomerCountW56 += (prospect + reject + contract);
+            totalCustomerCountW56 += (implementation + pilot + live);
         }
 
-        System.out.println("Toplam Customer Count W56: " + totalCustomerCountW56);
+        System.out.println(
+                "Toplam (Implementation + Pilot + Live) Customer Count W56 Month: "
+                        + totalCustomerCountW56
+        );
     }
+
 
 
     @Then("The user verify scenario23")
