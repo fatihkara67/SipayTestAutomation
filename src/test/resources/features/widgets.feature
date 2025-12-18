@@ -132,5 +132,15 @@ Feature: Widget Scenarios
     Given  The user send widget55 request
     Then The user verify scenario26
 
+  Scenario: Scenario 27
+    Given  The user send widget46 request
+    Given  The user send widget1Weekly request
+    Then The user verify scenario27
+
+  Scenario: Scenario 28
+    Given  The user send widget48 request
+    Given  The user send widget1Monthly request
+    Then The user verify scenario28
+
 
 
