@@ -3157,29 +3157,29 @@ public class WidgetsStepDefs extends BaseStep {
     }
 
 
-    double totalCustomerCountW1Weekly;
+    double pitchedCustomerCountW1Weekly;
     @Given("The user send widget1Weekly request")
     public void theUserSendWidget1WeeklyRequest() throws IOException {
         JSONObject w1WeeklyJson = Requests.sendWidget1WeeklyRequest();
         System.out.println("w1WeeklyJson: " + w1WeeklyJson);
 
-        totalCustomerCountW1Weekly = 0;
+        pitchedCustomerCountW1Weekly = 0;
 
         JSONArray resultArr = w1WeeklyJson.optJSONArray("result");
         if (resultArr == null || resultArr.length() == 0) {
-            System.out.println("W1Weekly result boş. Toplam: 0");
+            System.out.println("W1Weekly result boş. Pitched toplam: 0");
             return;
         }
 
         JSONObject firstResult = resultArr.optJSONObject(0);
         if (firstResult == null) {
-            System.out.println("W1Weekly result[0] yok. Toplam: 0");
+            System.out.println("W1Weekly result[0] yok. Pitched toplam: 0");
             return;
         }
 
         JSONArray dataArray = firstResult.optJSONArray("data");
         if (dataArray == null || dataArray.length() == 0) {
-            System.out.println("W1Weekly data boş. Toplam Customer Count: 0");
+            System.out.println("W1Weekly data boş. Pitched toplam: 0");
             return;
         }
 
@@ -3187,41 +3187,43 @@ public class WidgetsStepDefs extends BaseStep {
             JSONObject row = dataArray.optJSONObject(i);
             if (row == null) continue;
 
-            double count = row.optDouble(
-                    "Customer Count",
-                    row.optDouble("Customer Count_4aa1e1", 0.0)
-            );
-
-            totalCustomerCountW1Weekly += count;
+            String stage = row.optString("Sales Stage", "").trim(); // örn: "3-Pitched"
+            if (stage.toLowerCase().contains("pitched")) {
+                double count = row.optDouble(
+                        "Customer Count",
+                        row.optDouble("Customer Count_4aa1e1", 0.0)
+                );
+                pitchedCustomerCountW1Weekly += count;
+            }
         }
 
-        System.out.println("Toplam Customer Count W1Weekly: " + totalCustomerCountW1Weekly);
+        System.out.println("W1Weekly Pitched Customer Count Toplam: " + pitchedCustomerCountW1Weekly);
     }
 
-    double totalCustomerCountW1Monthly;
+    double pitchedCustomerCountW1Monthly;
 
     @Given("The user send widget1Monthly request")
     public void theUserSendWidget1MonthlyRequest() throws IOException {
         JSONObject w1MonthlyJson = Requests.sendWidget1MonthlyRequest();
         System.out.println("w1MonthlyJson: " + w1MonthlyJson);
 
-        totalCustomerCountW1Monthly = 0;
+        pitchedCustomerCountW1Monthly = 0;
 
         JSONArray resultArr = w1MonthlyJson.optJSONArray("result");
         if (resultArr == null || resultArr.length() == 0) {
-            System.out.println("W1Monthly result boş. Toplam: 0");
+            System.out.println("W1Monthly result boş. Pitched toplam: 0");
             return;
         }
 
         JSONObject firstResult = resultArr.optJSONObject(0);
         if (firstResult == null) {
-            System.out.println("W1Monthly result[0] yok. Toplam: 0");
+            System.out.println("W1Monthly result[0] yok. Pitched toplam: 0");
             return;
         }
 
         JSONArray dataArray = firstResult.optJSONArray("data");
         if (dataArray == null || dataArray.length() == 0) {
-            System.out.println("W1Monthly data boş. Toplam Customer Count: 0");
+            System.out.println("W1Monthly data boş. Pitched toplam: 0");
             return;
         }
 
@@ -3229,25 +3231,29 @@ public class WidgetsStepDefs extends BaseStep {
             JSONObject row = dataArray.optJSONObject(i);
             if (row == null) continue;
 
-            double count = row.optDouble(
-                    "Customer Count",
-                    row.optDouble("Customer Count_4aa1e1", 0.0)
-            );
+            String stage = row.optString("Sales Stage", "").toLowerCase();
 
-            totalCustomerCountW1Monthly += count;
+            // 3-Pitched, Pitched, vs.
+            if (stage.contains("pitched")) {
+                double count = row.optDouble(
+                        "Customer Count",
+                        row.optDouble("Customer Count_4aa1e1", 0.0)
+                );
+                pitchedCustomerCountW1Monthly += count;
+            }
         }
 
-        System.out.println("Toplam Customer Count W1Monthly: " + totalCustomerCountW1Monthly);
+        System.out.println("W1Monthly Pitched Customer Count Toplam: " + pitchedCustomerCountW1Monthly);
     }
 
     @Then("The user verify scenario27")
     public void theUserVerifyScenario27() {
-        Assert.assertEquals("s27 sayilar esit degil",totalCustomerCountW46,totalCustomerCountW1Weekly,0.01);
+        Assert.assertEquals("s27 sayilar esit degil",totalCustomerCountW46,pitchedCustomerCountW1Weekly,0.01);
     }
 
     @Then("The user verify scenario28")
     public void theUserVerifyScenario28() {
-        Assert.assertEquals("s28 sayilar esit degil",totalCustomerCountW48,totalCustomerCountW1Monthly,0.01);
+        Assert.assertEquals("s28 sayilar esit degil",totalCustomerCountW48,pitchedCustomerCountW1Monthly,0.01);
     }
 
 
