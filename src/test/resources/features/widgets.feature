@@ -123,10 +123,10 @@ Feature: Widget Scenarios
     Given The user send widget57 request
     Then The user verify scenario24
 
-#  Scenario: Scenario 25
-#    Given The user send widget45 request
-#    Given The user send widget54 request
-#    Then The user verify scenario25
+  Scenario: Scenario 25
+    Given The user send widget45 request
+    Given The user send widget54 request
+    Then The user verify scenario25
 
   Scenario: Scenario 26
     Given  The user send widget55 request

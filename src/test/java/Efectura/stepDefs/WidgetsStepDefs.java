@@ -2324,7 +2324,7 @@ public class WidgetsStepDefs extends BaseStep {
 
     @Given("The user send widget33 request")
     public void theUserSendWidget33Request() throws Exception {
-        JSONObject json = Requests.sendWidget33Request(); // kendi metodun
+        JSONObject json = Requests.sendWidget33Request();
         System.out.println("w33Json: " + json);
 
         w33ReferredLeadsTotal = 0.0;
@@ -2339,31 +2339,26 @@ public class WidgetsStepDefs extends BaseStep {
 
             JSONArray colnames = block.optJSONArray("colnames");
             JSONArray data     = block.optJSONArray("data");
-            if (colnames == null || data == null) continue;
+            if (colnames == null || data == null || data.length() == 0) continue;
 
-            // Kolon adını yakala (case-insensitive ve varyantlara dayanıklı)
+            // ✅ SADECE TOPLAM BLOĞU: Week kolonu yoksa (veya tek kolon varsa)
+            String weekKey = resolveKey(colnames, "week");
+            boolean isTotalBlock = weekKey.isEmpty() || colnames.length() == 1;
+            if (!isTotalBlock) continue;
+
             String leadsKey = resolveKey(colnames, "referred leads");
             if (leadsKey.isEmpty()) continue;
 
-            // 1) Eğer tek satırlık özet varsa doğrudan al
-            if (data.length() == 1 && data.optJSONObject(0) != null
-                    && data.optJSONObject(0).has(leadsKey)) {
-                w33ReferredLeadsTotal += toDoubleSafe(data.optJSONObject(0).opt(leadsKey));
-                // diğer bloklarda da değer olabilir; break istemiyoruz
-                continue;
-            }
+            JSONObject row0 = data.optJSONObject(0);
+            if (row0 == null || !row0.has(leadsKey)) continue;
 
-            // 2) Aksi halde satır satır topla (haftalık kırılım)
-//            for (int i = 0; i < data.length(); i++) {
-//                JSONObject row = data.optJSONObject(i);
-//                if (row == null) continue;
-//                if (!row.has(leadsKey)) continue;
-//                w33ReferredLeadsTotal += toDoubleSafe(row.opt(leadsKey));
-//            }
+            w33ReferredLeadsTotal = toDoubleSafe(row0.opt(leadsKey));
+            break; // ✅ toplamı bulduk, çık
         }
 
         System.out.println("W33 Total Referred Leads = " + w33ReferredLeadsTotal);
     }
+
 
     @Then("The user verify scenario17")
     public void theUserVerifyScenario17() {
