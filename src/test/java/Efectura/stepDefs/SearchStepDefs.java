@@ -708,6 +708,7 @@ public class SearchStepDefs extends BaseStep {
     public void theUserClickHasPosUsage(String id) {
         WebElement checkbox = Driver.getDriver().findElement(By.cssSelector("#" + id + "+div"));
         checkbox.click();
+        BrowserUtils.isElementDisplayed(checkbox);
     }
 
     @Then("The user verify {string} is displayed")

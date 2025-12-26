@@ -1,6 +1,7 @@
 package Efectura.pages;
 
 import Efectura.utilities.BrowserUtils;
+import Efectura.utilities.Driver;
 import lombok.Getter;
 import org.apache.xmlbeans.impl.xb.xsdschema.ListDocument;
 import org.openqa.selenium.By;
@@ -8,6 +9,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+
+import static Efectura.utilities.CommonExcelReader.getExcelPath;
 
 @Getter
 public class GeneralPage extends BasePage {
@@ -124,8 +127,28 @@ public class GeneralPage extends BasePage {
     @FindBy(xpath = "//span/span/span[1]/input")
     private WebElement selectImportTypeInputBox;
 
-    @FindBy(xpath = "//ul/li[contains(@id,'select2')]")
+    @FindBy(xpath = "/html/body/span/span/span[2]/ul/li")
     private List<WebElement> filteredImportTypeOptions;
+
+    @FindBy(xpath = "//input[@id='file-import']")
+    private WebElement itemImportInput;
+
+    @FindBy(id = "addcsvfile")
+    private WebElement addCsvInputElement;
+
+    @FindBy(xpath = "//button[@id='cancelUploadFile']/following-sibling::button[1]")
+    private WebElement saveChangesButtonInAreYouSureModal;
+
+    @FindBy(xpath = "//button[@id='tableDetailImport-Import']")
+    private WebElement importButton;
+
+    public void uploadExcelFile(String fileName) {
+        BrowserUtils.wait(2);
+        addCsvInputElement.sendKeys(getExcelPath(fileName));
+        BrowserUtils.wait(2);
+        Driver.getDriver().findElement(By.xpath("//button[@title='İçe aktarım']")).click();
+        saveChangesButtonInAreYouSureModal.click();
+    }
 
 
     private final List<String> adiAndXbRequiredDocuments = List.of("Kimlik","Üye İşyeri Bilgi Formu","Oran Şablonu");
@@ -147,7 +170,7 @@ public class GeneralPage extends BasePage {
         BrowserUtils.wait(3);
         selectImportTypeElement.click();
         selectImportTypeInputBox.sendKeys(importType);
-        BrowserUtils.wait(1);
+        BrowserUtils.wait(2);
         for (WebElement option : filteredImportTypeOptions) {
             if (option.getText().equals(importType)) {
                 option.click();

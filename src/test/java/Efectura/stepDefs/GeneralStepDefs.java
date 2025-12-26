@@ -361,5 +361,32 @@ public class GeneralStepDefs extends BaseStep {
     @When("The user select {string} for importType")
     public void theUserSelectForImportType(String importType) {
         pages.generalPage().selectImportType(importType);
+        BrowserUtils.wait(2);
     }
+
+    @When("The user upload the {string} file")
+    public void theUserUploadTheFile(String fileName) {
+        Driver.getDriver().findElement(By.xpath("//button[contains(@id,'Import')]")).click();
+        BrowserUtils.wait(2);
+        pages.generalPage().getItemImportInput().sendKeys(CommonExcelReader.getExcelPath(fileName));
+        BrowserUtils.wait(2);
+        Driver.getDriver().findElement(By.xpath("//button[@id='import-file-btn']")).click();
+    }
+
+    @When("The user upload {string} file")
+    public void theUserUploadFile(String fileName) {
+        pages.generalPage().uploadExcelFile(fileName);
+
+    }
+
+    @When("The user import the uploaded file")
+    public void theUserImportTheUploadedFile() {
+        BrowserUtils.wait(2);
+        BrowserUtils.waitForVisibility(pages.generalPage().getImportButton(),10);
+        pages.generalPage().getImportButton().click();
+        BrowserUtils.wait(4);
+    }
+
+
+
 }

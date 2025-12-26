@@ -551,8 +551,9 @@ Feature: End To End Form Cases
     And   The User clicks the Submit button
     Given The user navigate to import page
     And The user accepts import popup
-    When The user select "calculation_Trx" for importType
-
+    When The user select "CLICKHOUSE|calculation_trx" for importType
+    When The user upload "calculation" file
+    When The user import the uploaded file
 
 
 
