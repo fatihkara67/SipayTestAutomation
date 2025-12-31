@@ -1438,11 +1438,13 @@ public class SearchStepDefs extends BaseStep {
     @Then("The user clicks {string} tab")
     public void the_user_clicks_tab(String tabName) {
         pages.formsPage().clickEditItemTab(tabName);
+        BrowserUtils.wait(3);
     }
 
     @And("The user select {string} in {string} select filter")
     public void theUserSelectInSelectFilter(String selectOption, String selectFilter) {
         BrowserUtils.adjustScreenSize(70,Driver.getDriver());
+        BrowserUtils.wait(3);
         pages.generalPage().selectOptionInSelectFilter(selectOption,selectFilter);
         BrowserUtils.wait(5);
     }

@@ -321,7 +321,7 @@ public class GeneralStepDefs extends BaseStep {
 
     @Then("The user click edit item button and measure time")
     public void theUserClickEditItemButtonAndMeasureTime() {
-        BrowserUtils.adjustScreenSize(15,Driver.getDriver());
+        BrowserUtils.adjustScreenSize(70,Driver.getDriver());
         BrowserUtils.wait(10);
         Duration timeDuration = BrowserUtils.clickAndMeasureFullNavigation(Driver.getDriver(),pages.generalPage().getEditButton());
         double sec = timeDuration.toNanos() / 1_000_000_000.0;

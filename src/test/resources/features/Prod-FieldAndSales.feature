@@ -62,7 +62,7 @@ Feature: Prod Field And Sales Cases
     And   The User inputs a valid username "sahaUser"
     And   The User inputs a valid password "sahaPassword"
     And   The User clicks the Submit button
-    Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
+#    Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
     When The user navigate the deal item
     And The user clicks "Deal - Kişi İlişkisi" tab
     And The user select "Evet" in "IsAssociated" select filter

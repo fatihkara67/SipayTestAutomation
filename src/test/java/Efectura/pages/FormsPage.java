@@ -34,7 +34,7 @@ public class FormsPage extends BasePage {
     @FindBy(xpath = "//a[@id='analysisTab']")
     private WebElement analysis;
 
-    @FindBy(xpath = "//div[contains(@class,'new_container')]/ul[contains(@class,'nav nav-tabs')]/li/a[@data-toggle='tab']")
+    @FindBy(xpath = "/html/body/div[2]/div/div[2]/div[1]/div[2]/div/div/ul/li/a")
     private List<WebElement> editItemTabs;
 
     @FindBy(xpath = "//tbody/tr/td[1]/a")
