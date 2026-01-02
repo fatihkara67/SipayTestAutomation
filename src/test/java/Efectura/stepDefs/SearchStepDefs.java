@@ -1426,7 +1426,7 @@ public class SearchStepDefs extends BaseStep {
 
     @When("The user navigate the deal item")
     public void theUserNavigateTheDealItem() {
-
+        BrowserUtils.wait(3);
         if (environment.contains("prod")) {
             Driver.getDriver().get("https://crm-ui.spwgpf.com/Enrich/EditItem/" + formId);
         } else if (environment.contains("test")) {
@@ -1487,7 +1487,7 @@ public class SearchStepDefs extends BaseStep {
     @When("The user verify notification")
     public void theUserVerifyNotification() {
         pages.formsPage().getNotificationIcon().click();
-        BrowserUtils.wait(3);
+        BrowserUtils.wait(6);
 
         System.out.println(pages.formsPage().getNotificationValues());
 
@@ -1524,6 +1524,7 @@ public class SearchStepDefs extends BaseStep {
 
     @When("The user go to team dashboard")
     public void theUserGoToTeamDashboard() {
+        BrowserUtils.wait(3);
         if (environment.contains("prod")) {
             Driver.getDriver().get("https://crm-ui.spwgpf.com/Enrich/ReportCardAnalysis");
         } else if (environment.contains("test")) {

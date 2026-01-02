@@ -218,6 +218,26 @@ Feature: Prod End To End Form Cases
     Given The user assert all
 
 
+  Scenario: Team Dashboard
+    Given The user opens 'prod-fletum' environment
+    And   The User inputs a valid username "sahaUser"
+    And   The User inputs a valid password "sahaPassword"
+    And   The User clicks the Submit button
+#    Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
+    When The user go to team dashboard
+    When The user take screenshot
+
+  Scenario: Prod Document Download Control
+    Given The user login
+      | username | semasipay  |
+      | password | Sipay2025. |
+    When The user select 'Contracting' in deal status filter
+    When The user click related record button at row 0
+    When The user go to other tab
+    Then The user verify 'Onboarding Risk Formu' form is open
+    When The user click uploaded document
+    When The user verify document is download
+
 
   Scenario: Prod Item And Association Control
     Given The user login
@@ -271,26 +291,6 @@ Feature: Prod End To End Form Cases
     Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
     Then The user verify deal and documents
 
-
-  Scenario: Team Dashboard
-    Given The user opens 'prod-fletum' environment
-    And   The User inputs a valid username "sahaUser"
-    And   The User inputs a valid password "sahaPassword"
-    And   The User clicks the Submit button
-#    Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
-    When The user go to team dashboard
-    When The user take screenshot
-
-  Scenario: Prod Document Download Control
-    Given The user login
-      | username | semasipay  |
-      | password | Sipay2025. |
-    When The user select 'Contracting' in deal status filter
-    When The user click related record button at row 0
-    When The user go to other tab
-    Then The user verify 'Onboarding Risk Formu' form is open
-    When The user click uploaded document
-    When The user verify document is download
 
   Scenario: Prod Two-Factor Authentication
     Given The user opens 'prod-fletum' environment
