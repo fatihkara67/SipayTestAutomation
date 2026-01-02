@@ -544,7 +544,7 @@ Feature: End To End Form Cases
     And   The User clicks the Submit button
     Then The user verify two factor authentication
 
-  Scenario: Prod Import calculation_Trx
+  Scenario: Pre Prod Import calculation_Trx
     Given The user go to 'test-fletum' environment
     And   The User inputs a valid username "sahaUser"
     And   The User inputs a valid password "sahaPassword"
@@ -554,6 +554,18 @@ Feature: End To End Form Cases
     When The user select "CLICKHOUSE|calculation_trx" for importType
     When The user upload "calculation" file
     When The user import the uploaded file
+
+  Scenario: Pre Prod Attribute Import
+    Given The user opens 'test-fletum' environment
+    And   The User inputs a valid username "sahaUser"
+    And   The User inputs a valid password "sahaPassword"
+    And   The User clicks the Submit button
+    When The user go to attribute page
+    When The user upload the 'Attribute' file2
+#    When The user upload "Attribute" file
+    When The user import attribute file
+    Then The user verifies that attributes are created
+    Then The user tear down all changes in Attribute Case
 
 
 

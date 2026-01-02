@@ -1,13 +1,13 @@
 package Efectura.pages;
 
-import Efectura.utilities.BrowserUtils;
+import Efectura.utilities.*;
 import Efectura.utilities.Driver;
 import lombok.Getter;
-import org.apache.xmlbeans.impl.xb.xsdschema.ListDocument;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.sql.*;
 import java.util.List;
 
 import static Efectura.utilities.CommonExcelReader.getExcelPath;
@@ -142,6 +142,27 @@ public class GeneralPage extends BasePage {
     @FindBy(xpath = "//button[@id='tableDetailImport-Import']")
     private WebElement importButton;
 
+    @FindBy(xpath = "//button[@id='importUser']")
+    private WebElement itemImportButton;
+
+    @FindBy(xpath = "//button[@id='import-step-two']")
+    private WebElement itemImportStep2NextButton;
+
+    @FindBy(xpath = "//button[@id='import-step-three']")
+    private WebElement itemImportStep3NextButton;
+
+    @FindBy(xpath = "//button[@id='open-match-columns']")
+    private WebElement matchColumnsButton;
+
+    @FindBy(xpath = "//button[@id='save-match-columns']")
+    private WebElement saveMatchColumnsButton;
+
+    @FindBy(xpath = "//button[@id='apply-details-button']")
+    private WebElement applyImportValidationButton;
+
+    @FindBy(xpath = "//button[@id='start-import']")
+    private WebElement lastImportButton;
+
     public void uploadExcelFile(String fileName) {
         BrowserUtils.wait(2);
         addCsvInputElement.sendKeys(getExcelPath(fileName));
@@ -180,5 +201,44 @@ public class GeneralPage extends BasePage {
     }
 
 
+    public boolean isAttributeCreated() {
+        String query = "SELECT * FROM Attributes\n" +
+                "WHERE Code LIKE '%Test Automation%'";
+
+        String code = null;
+        int i = 0;
+
+        try (Connection conn = DatabaseManager.getConnection(DbConfigs.PREPROD_SQLSERVER, DbConfigs.PREPROD_SQLSERVER_USERNAME, DbConfigs.DB_PASSWORD);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                code = rs.getString("Code");
+                i++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Code: " + code);
+
+        return i != 0;
+
+    }
+
+    public void deleteTestAttributes() {
+        String query = "DELETE FROM Attributes WHERE Code LIKE '%TestAutomation%'";
+
+        try (Connection conn = DatabaseManager.getConnection(DbConfigs.PREPROD_SQLSERVER, DbConfigs.PREPROD_SQLSERVER_USERNAME, DbConfigs.DB_PASSWORD);
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+//            ps.setString(1, "%Test Automation%");
+
+            int affectedRows = ps.executeUpdate();
+            System.out.println("Silinen kayıt sayısı: " + affectedRows);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

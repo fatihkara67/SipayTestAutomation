@@ -387,6 +387,46 @@ public class GeneralStepDefs extends BaseStep {
         BrowserUtils.wait(4);
     }
 
+    @When("The user go to attribute page")
+    public void theUserGoToAttributePage() {
+        Driver.getDriver().get("https://sipay-ui.efectura.com/Settings/Attributes");
+        BrowserUtils.wait(3);
+    }
+
+    @When("The user click import button")
+    public void theUserClickImportButton() {
+        BrowserUtils.wait(5);
+        pages.generalPage().getItemImportButton().click();
+    }
+
+    @When("The user upload the {string} file2")
+    public void theUserUploadTheFile2(String fileName) {
+        Driver.getDriver().findElement(By.xpath("//button[contains(@id,'Import')]")).click();
+        BrowserUtils.wait(2);
+        pages.generalPage().getItemImportInput().sendKeys(CommonExcelReader.getExcelPath(fileName));
+        BrowserUtils.wait(2);
+    }
+
+    @When("The user import attribute file")
+    public void theUserImportAttributeFile() {
+        pages.generalPage().getItemImportStep2NextButton().click();
+        BrowserUtils.wait(2);
+        Driver.getDriver().findElement(By.xpath("//button[@id='import-step-edit']")).click();
+        BrowserUtils.wait(1);
+        pages.generalPage().getApplyImportValidationButton().click();
+        BrowserUtils.wait(10);
+    }
+
+    @Then("The user verifies that attributes are created")
+    public void theUserVerifiesThatAttributesAreCreated() {
+        boolean isCreated = pages.generalPage().isAttributeCreated();
+    }
+
+    @Then("The user tear down all changes in Attribute Case")
+    public void theUserTearDownAllChangesInAttributeCase() {
+        pages.generalPage().deleteTestAttributes();
+    }
+
 
 
 }
