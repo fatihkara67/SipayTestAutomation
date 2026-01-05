@@ -1487,7 +1487,7 @@ public class SearchStepDefs extends BaseStep {
     @When("The user verify notification")
     public void theUserVerifyNotification() {
         pages.formsPage().getNotificationIcon().click();
-        BrowserUtils.wait(6);
+        BrowserUtils.wait(10);
 
         System.out.println(pages.formsPage().getNotificationValues());
 

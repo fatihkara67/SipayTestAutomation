@@ -171,7 +171,7 @@ Feature: Prod End To End Form Cases
     When The user fill inputs prospect form sales and field
     When The user select2 'Ulaşılamadı' in 'prospectDurum'
     When The user click 'Tamamla' button
-    When The user wait 60 second
+    When The user wait 20 second
 #    Then The user verify warning 'Durum Prospect olarak güncellendi'
     Then The user verify 'Lead Formu' form is open
     When The user take form id
@@ -226,17 +226,6 @@ Feature: Prod End To End Form Cases
 #    Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
     When The user go to team dashboard
     When The user take screenshot
-
-  Scenario: Prod Document Download Control
-    Given The user login
-      | username | semasipay  |
-      | password | Sipay2025. |
-    When The user select 'Contracting' in deal status filter
-    When The user click related record button at row 0
-    When The user go to other tab
-    Then The user verify 'Onboarding Risk Formu' form is open
-    When The user click uploaded document
-    When The user verify document is download
 
 
   Scenario: Prod Item And Association Control
@@ -298,6 +287,17 @@ Feature: Prod End To End Form Cases
     And   The User inputs a valid password "sahaPassword"
     And   The User clicks the Submit button
     Then The user verify two factor authentication
+
+  Scenario: Prod Document Download Control
+    Given The user login
+      | username | semasipay  |
+      | password | Sipay2025. |
+    When The user select 'Contracting' in deal status filter
+    When The user click related record button at row 0
+    When The user go to other tab
+    Then The user verify 'Onboarding Risk Formu' form is open
+    When The user click uploaded document
+    When The user verify document is download
 
 
 
