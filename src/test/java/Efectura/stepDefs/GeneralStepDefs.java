@@ -428,5 +428,55 @@ public class GeneralStepDefs extends BaseStep {
     }
 
 
+    @Given("The user go to {string} overview page")
+    public void theUserGoToFileOverviewPage(String itemName) {
+        pages.generalPage().goToItemOverviewPage(itemName);
+    }
 
+    String firstItemId;
+    @When("The user get first item id")
+    public void theUserGetFirstItemId() {
+        WebElement table = Driver.getDriver().findElement(By.id("items"));
+        List<String> contactIds = BasePage.getColumnData(table,"Fletum Kimlik");
+        System.out.println("İlk: " + contactIds.get(0));
+        firstItemId = contactIds.get(0);
+    }
+
+    @When("The user select first item")
+    public void theUserSelectFirstItem() {
+        Driver.getDriver().findElement(By.xpath("//input[@name='" + firstItemId + "']/following-sibling::label")).click();
+    }
+
+    String secondItemId;
+    @When("The user add association to first item")
+    public void theUserAddAssociationToFirstItem() {
+        WebElement table = Driver.getDriver().findElement(By.id("representative-table"));
+        Driver.getDriver().findElement(By.xpath("//button[@id='addAssociation']")).click();
+        BrowserUtils.wait(1);
+        Driver.getDriver().findElement(By.xpath("//a[contains(text(),'Sharing')]")).click();
+        BrowserUtils.wait(5);
+        List<String> dealIds = BasePage.getColumnData(table,"Öğe Kimliği");
+        System.out.println("deal id: " + dealIds.get(0));
+        secondItemId = dealIds.get(0);
+        Driver.getDriver().findElement(By.xpath("//input[@value='" + secondItemId + "']/following-sibling::label")).click();
+        Driver.getDriver().findElement(By.xpath("//button[@id='confirm-representative']")).click();
+    }
+
+    @Then("The user verifies info {string} appears")
+    public void theUserVerifiesInfoAppears(String expectedMessage) {
+        BrowserUtils.wait(1);
+        BrowserUtils.waitForVisibility(pages.generalPage().getInfoMessage(),60);
+        Assert.assertTrue(pages.generalPage().getInfoMessage().getText().contains(expectedMessage));
+        BrowserUtils.wait(1);
+    }
+
+    @Then("The user tear down all changes in bulk assoc")
+    public void theUserTearDownAllChangesInBulkAssoc() {
+        pages.generalPage().deleteTestAssoc(firstItemId,secondItemId);
+    }
+
+    @Then("The user verify assoc is ok")
+    public void theUserVerifyAssocIsOk() {
+        pages.generalPage().verfiyAssocIsOk(firstItemId,secondItemId);
+    }
 }

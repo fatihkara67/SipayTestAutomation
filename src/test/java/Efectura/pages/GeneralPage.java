@@ -3,6 +3,7 @@ package Efectura.pages;
 import Efectura.utilities.*;
 import Efectura.utilities.Driver;
 import lombok.Getter;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -163,6 +164,9 @@ public class GeneralPage extends BasePage {
     @FindBy(xpath = "//button[@id='start-import']")
     private WebElement lastImportButton;
 
+    @FindBy(xpath = "//div[@class='notyf__message']")
+    private WebElement infoMessage;
+
     public void uploadExcelFile(String fileName) {
         BrowserUtils.wait(2);
         addCsvInputElement.sendKeys(getExcelPath(fileName));
@@ -241,4 +245,45 @@ public class GeneralPage extends BasePage {
         }
     }
 
+    public void goToItemOverviewPage(String item) {
+        driver.get(ConfigurationReader.getProperty("itemLinkWithoutItemNamePreprod") + item);
+    }
+
+    public void deleteTestAssoc(String firstItemId, String secondItemId) {
+        String query = "DELETE FROM Associations WHERE FirstItemId = " + firstItemId + "  AND SecondItemId =   " + secondItemId;
+
+        try (Connection conn = DatabaseManager.getConnection(DbConfigs.PREPROD_SQLSERVER, DbConfigs.PREPROD_SQLSERVER_USERNAME, DbConfigs.DB_PASSWORD);
+             PreparedStatement ps = conn.prepareStatement(query)) {
+
+//            ps.setString(1, "%Test Automation%");
+
+            int affectedRows = ps.executeUpdate();
+            System.out.println("Silinen kayıt sayısı: " + affectedRows);
+            Assert.assertEquals("Silinen Kayıt birden farklı!",1,affectedRows);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void verfiyAssocIsOk(String firstItemId, String secondItemId) {
+        String query = "SELECT AssociationTypeId FROM Associations WHERE FirstItemId = " + firstItemId + "  AND SecondItemId =   " + secondItemId;
+
+        int assocTypeId = 0;
+
+        try (Connection conn = DatabaseManager.getConnection(DbConfigs.PREPROD_SQLSERVER, DbConfigs.PREPROD_SQLSERVER_USERNAME, DbConfigs.DB_PASSWORD);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                assocTypeId = rs.getInt("AssociationTypeId");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("AssociationTypeId: " + assocTypeId);
+
+        Assert.assertEquals("AssociationTypeId 282'den farklı ya da assoc yok",282,assocTypeId);
+
+    }
 }

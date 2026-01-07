@@ -567,6 +567,21 @@ Feature: End To End Form Cases
     Then The user verifies that attributes are created
     Then The user tear down all changes in Attribute Case
 
+  Scenario: Pre Prod Bulk Association
+    Given The user opens 'test-fletum' environment
+    And   The User inputs a valid username "sahaUser"
+    And   The User inputs a valid password "sahaPassword"
+    And   The User clicks the Submit button
+    Given The user go to 'Contact' overview page
+    When The user get first item id
+    When The user select first item
+    When The user add association to first item
+    Then The user verifies info "BulkAssociationSuccessMessage" appears
+    When The user add association to first item
+    Then The user verifies info "Skipped 1 items" appears
+    Then The user verify assoc is ok
+    Then The user tear down all changes in bulk assoc
+
 
 
 
