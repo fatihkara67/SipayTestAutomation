@@ -191,7 +191,6 @@ Feature: Prod End To End Form Cases
     And   The User inputs a valid username "sahaUser"
     And   The User inputs a valid password "sahaPassword"
     And   The User clicks the Submit button
-#    Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
     When The user go to team dashboard
     When The user take screenshot
 
@@ -297,6 +296,18 @@ Feature: Prod End To End Form Cases
 #    Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
     Then The user verify notification
     Then The user verify link
+
+
+#  Scenario: Prod Attribute Import
+#    Given The user opens 'prod-fletum' environment
+#    And   The User inputs a valid username "sahaUser"
+#    And   The User inputs a valid password "sahaPassword"
+#    And   The User clicks the Submit button
+#    When The user go to attribute page
+#    When The user upload the 'Attribute' file2
+#    When The user import attribute file
+#    Then The user verifies that attributes are created
+#    Then The user tear down all changes in Attribute Case
 
 
 

@@ -773,7 +773,9 @@ public class SearchStepDefs extends BaseStep {
 
                 // Bazı combobox'larda direkt yaz/enter akışı
                 pages.generalPage().getSelectSearchInput()
-                        .sendKeys(optionText + Keys.ENTER);
+                        .sendKeys(optionText);
+
+                Driver.getDriver().findElement(By.xpath("//span[.='" + optionText + "']")).click();
 
                 attributeAndValues.put(id, optionText);
                 attributeCodesAndLabels.put(id,

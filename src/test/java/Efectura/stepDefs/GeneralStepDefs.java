@@ -389,7 +389,12 @@ public class GeneralStepDefs extends BaseStep {
 
     @When("The user go to attribute page")
     public void theUserGoToAttributePage() {
-        Driver.getDriver().get("https://sipay-ui.efectura.com/Settings/Attributes");
+
+        if (env.contains("prod")) {
+            Driver.getDriver().get("https://crm-ui.spwgpf.com/Settings/Attributes");
+        } else if (env.contains("test")) {
+            Driver.getDriver().get("https://sipay-ui.efectura.com/Settings/Attributes");
+        }
         BrowserUtils.wait(3);
     }
 
