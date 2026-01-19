@@ -298,6 +298,54 @@ Feature: Prod End To End Form Cases
     Then The user verify link
 
 
+  Scenario: Flow
+    Given The user login
+      | username | TestSipay  |
+      | password | Sipay2025. |
+    When The user go to 'Prospect' on navbar
+    When The user fill select prospect form sales and field
+    When The user fill inputs prospect form sales and field
+    When The user select2 'Ulaşılamadı' in 'prospectDurum'
+    When The user click 'Tamamla' button
+    Then The user verify warning 'Durum Prospect olarak güncellendi'
+    Then The user verify 'Lead Formu' form is open
+    When The user take form id
+    Given The user opens 'prod-fletum' environment
+    And   The User inputs a valid username "sahaUser"
+    And   The User inputs a valid password "sahaPassword"
+    And   The User clicks the Submit button
+    Given The user go to "panel" page
+    Given The user go in "SIPAY - Fletum Risk Akışı" flow
+    Given The user select "E-posta güncelleme" as form type
+    When The user search email
+    When The user fill new email
+    When The user fill description
+    When The user select doc type
+    When The user upload file
+    When The user verify file is uploaded
+    When The user click submit form
+    Then The user verifies info "Form başarıyla gönderildi." appears
+    Given The user opens 'prod-fletum' environment
+    And   The User inputs a valid username "riskUser"
+    And   The User inputs a valid password "sahaPassword"
+    And   The User clicks the Submit button
+    Given The user go to "panel" page
+    Given The user click "SIPAY - Fletum Risk Akışı" flow
+    Given The user click first flow
+    Given The user submit the task
+    Given The user opens 'prod-fletum' environment
+    And   The User inputs a valid username "operUser"
+    And   The User inputs a valid password "sahaPassword"
+    And   The User clicks the Submit button
+    Given The user go to "panel" page
+    Given The user click "SIPAY - Fletum Risk Akışı" flow
+    Given The user click first flow
+    Given The user submit the task
+    When The user navigate the deal item
+
+#  //*[@id="select2-senaryoTipi-container"]
+
+
 #  Scenario: Prod Attribute Import
 #    Given The user opens 'prod-fletum' environment
 #    And   The User inputs a valid username "sahaUser"

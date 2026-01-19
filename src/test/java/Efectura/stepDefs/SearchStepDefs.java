@@ -28,6 +28,7 @@ import static Efectura.utilities.BrowserUtils.isElementDisplayed;
 
 public class SearchStepDefs extends BaseStep {
     SoftAssert softAssert = new SoftAssert();
+    WebDriver driver = Driver.getDriver();
 
     @When("The user enter {string} to search input")
     public void theUserEnterSenaToSearchInput(String searchInput) {
@@ -1734,5 +1735,18 @@ public class SearchStepDefs extends BaseStep {
 
 //        Assert.assertEquals(actual, contractNote);
 
+    }
+
+    @When("The user search email")
+    public void theUserSearchEmail() {
+        driver.findElement(By.xpath("//input[@id='searchInput']")).sendKeys(validEmail + Keys.ENTER);
+        BrowserUtils.wait(3);
+    }
+
+    String newEmail;
+    @When("The user fill new email")
+    public void theUserFillNewEmail() {
+        newEmail = BrowserUtils.generateRandomEmail();
+        driver.findElement(By.xpath("//input[@id='EMAIL_NEW']")).sendKeys(newEmail);
     }
 }

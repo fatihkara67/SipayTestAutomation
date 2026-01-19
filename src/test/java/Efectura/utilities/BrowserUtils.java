@@ -850,6 +850,32 @@ public class BrowserUtils {
         return Duration.ofNanos(t1 - t0);
     }
 
+    public static void switchToTabByTitleAndCloseOld(String expectedTitle) {
+        WebDriver driver = Driver.getDriver();
+        String originalWindow = driver.getWindowHandle();
+
+        // Yeni tab açılana kadar bekle (toplam pencere sayısı 2 olmalı)
+        new WebDriverWait(driver, Duration.ofSeconds(30))
+                .until(ExpectedConditions.numberOfWindowsToBe(2));
+
+        // Belirtilen title'a sahip yeni tab'e geç
+        for (String handle : driver.getWindowHandles()) {
+            driver.switchTo().window(handle);
+            if (driver.getTitle().equals(expectedTitle)) {
+                // Doğru tab bulundu
+                // Eski tab'ı kapat
+                driver.switchTo().window(originalWindow);
+                driver.close();
+
+                // Yeni tab'e tekrar geç
+                driver.switchTo().window(handle);
+                return;
+            }
+        }
+
+        throw new RuntimeException("Expected tab with title '" + expectedTitle + "' was not found.");
+    }
+
 
 
 

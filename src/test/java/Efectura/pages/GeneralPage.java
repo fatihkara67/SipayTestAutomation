@@ -167,6 +167,21 @@ public class GeneralPage extends BasePage {
     @FindBy(xpath = "//div[@class='notyf__message']")
     private WebElement infoMessage;
 
+    @FindBy(xpath = "//tr/td[3]")
+    private List<WebElement> formNames;
+
+    @FindBy(xpath = "//td/a")
+    private List<WebElement> flowStartButtons;
+
+    @FindBy(xpath = "//select[contains(@id,'formType')]")
+    private WebElement formTypeSelect;
+
+    @FindBy(xpath = "//button[@id='onayla']")
+    private WebElement formSubmitButton;
+
+    @FindBy(xpath = "/html/body/div[7]/div/div[1]/div[2]")
+    private WebElement flowInfoMessage;
+
     public void uploadExcelFile(String fileName) {
         BrowserUtils.wait(2);
         addCsvInputElement.sendKeys(getExcelPath(fileName));
@@ -286,4 +301,26 @@ public class GeneralPage extends BasePage {
         Assert.assertEquals("AssociationTypeId 282'den farklı ya da assoc yok",282,assocTypeId);
 
     }
+
+    public void goInFlow(String formName) {
+        BrowserUtils.wait(2);
+        for (int i = 0; i < formNames.size(); i++) {
+            if (formNames.get(i).getText().equalsIgnoreCase(formName)) {
+                BrowserUtils.wait(2);
+                flowStartButtons.get(i).click();
+            }
+        }
+        BrowserUtils.wait(5);
+//        BrowserUtils.waitForVisibility(formTypeSelect,5);
+    }
+
+    public void submitTask() {
+        BrowserUtils.scrollToElement(Driver.getDriver(), formSubmitButton);
+        BrowserUtils.wait(5);
+        BrowserUtils.waitForClickability(formSubmitButton,30);
+        formSubmitButton.click();
+        BrowserUtils.waitForVisibility(flowInfoMessage,20);
+        Assert.assertEquals("Başarılı", flowInfoMessage.getText());
+    }
+
 }

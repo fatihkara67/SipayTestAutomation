@@ -9,9 +9,12 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.asserts.SoftAssert;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.*;
@@ -20,6 +23,7 @@ import static Efectura.utilities.BrowserUtils.isElementDisplayed;
 
 public class GeneralStepDefs extends BaseStep {
     SoftAssert softAssert = new SoftAssert();
+    WebDriver driver = Driver.getDriver();
 
     String env;
     @Given("The user go to {string} environment")
@@ -483,5 +487,77 @@ public class GeneralStepDefs extends BaseStep {
     @Then("The user verify assoc is ok")
     public void theUserVerifyAssocIsOk() {
         pages.generalPage().verfiyAssocIsOk(firstItemId,secondItemId);
+    }
+
+    @Given("The user go to {string} page")
+    public void theUserGoToPage(String pageName) {
+        BrowserUtils.wait(2);
+        Driver.getDriver().get(ConfigurationReader.getProperty(pageName));
+    }
+
+    @Given("The user go in {string} flow")
+    public void theUserGoInFlow(String formName) {
+        pages.generalPage().goInFlow(formName);
+    }
+
+    @Given("The user select {string} as form type")
+    public void theUserSelectAsFormType(String type) {
+        driver.findElement(By.xpath("//span[@id='select2-senaryoTipi-container']")).click();
+        driver.findElement(By.xpath("//li[.='" + type + "']")).click();
+    }
+
+    @When("The user fill description")
+    public void theUserFillDescription() {
+        driver.findElement(By.xpath("//textarea[@id='descriptionArea']")).
+                sendKeys("Açıklama - " + UUID.randomUUID().toString());
+    }
+
+    @When("The user select doc type")
+    public void theUserSelectDocType() {
+        WebElement docSelect = driver.findElement(By.xpath("//select[@id='docType']"));
+        BrowserUtils.selectDropdownOptionByVisibleText(docSelect,"Dilekçe");
+    }
+
+    @When("The user upload file")
+    public void theUserUploadFile() {
+        String projectRoot = System.getProperty("user.dir");
+        Path docPath = Paths.get(projectRoot, "src", "test", "resources", "features", "testDocument.xlsx");
+        String absoluteFilePath = docPath.toFile().getAbsolutePath();
+        driver.findElement(By.xpath("//input[@id='fileInput']")).sendKeys(absoluteFilePath);
+    }
+
+    @When("The user verify file is uploaded")
+    public void theUserVerifyFileIsUploaded() {
+        Assert.assertTrue(BrowserUtils.isElementDisplayed(By.xpath("//tr/td[.='Dilekçe']")));
+    }
+
+    @When("The user click submit form")
+    public void theUserClickSubmitForm() {
+        BrowserUtils.adjustScreenSize(65,driver);
+        BrowserUtils.wait(2);
+        driver.findElement(By.xpath("//button[@type='submit']")).click();
+    }
+
+    @Given("The user click {string} flow")
+    public void theUserClickFlow(String flow) {
+        driver.findElement(By.xpath("//td[.='" + flow + "']")).click();
+    }
+
+    @Given("The user click first flow")
+    public void theUserClickFirstFlow() {
+        BrowserUtils.wait(1);
+        BrowserUtils.adjustScreenSize(60,driver);
+        driver.findElement(By.xpath("//*[@id=\"process-detail\"]/tbody/tr[1]/td[10]/div/a[1]")).click();
+        BrowserUtils.wait(1);
+        BrowserUtils.switchToTabByTitleAndCloseOld("SIPAY: ConfirmationForm");
+        System.out.println("Title: " + Driver.getDriver().getTitle());
+    }
+
+    @Given("The user submit the task")
+    public void theUserSubmitTheTask() {
+        BrowserUtils.wait(2);
+        pages.generalPage().submitTask();
+//        Driver.getDriver().get(ConfigurationReader.getProperty("url"));
+//        BrowserUtils.wait(12);
     }
 }
