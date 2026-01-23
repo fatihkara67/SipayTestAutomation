@@ -228,6 +228,7 @@ Feature: Prod End To End Form Cases
     When The user click 'Tamamla' button
     Then The user verify warning 'Durum Contracting olarak güncellendi'
     When The user take form id
+#    When The user navigate deal item via history
     Given The user opens 'prod-fletum' environment
     And   The User inputs a valid username "sahaUser"
     And   The User inputs a valid password "sahaPassword"

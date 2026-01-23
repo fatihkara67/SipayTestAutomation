@@ -1749,4 +1749,17 @@ public class SearchStepDefs extends BaseStep {
         newEmail = BrowserUtils.generateRandomEmail();
         driver.findElement(By.xpath("//input[@id='EMAIL_NEW']")).sendKeys(newEmail);
     }
+
+    @When("The user navigate deal item via history")
+    public void theUserNavigateDealItemViaHistory() {
+        BrowserUtils.wait(5);
+        pages.generalPage().getUserMenuButton().click();
+        BrowserUtils.wait(2);
+        pages.generalPage().getHistoryButton().click();
+        BrowserUtils.wait(2);
+        driver.findElement(By.xpath("/html/body/div[3]/div[1]/div/button")).click();
+        BrowserUtils.wait(1);
+        BrowserUtils.switchToTabByTitleAndCloseOld("Oturum aç");
+        System.out.println("Title: " + Driver.getDriver().getTitle());
+    }
 }
