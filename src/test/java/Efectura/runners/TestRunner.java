@@ -30,7 +30,7 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
                 "rerun:target/rerun.txt"
         },
         // Hangi senaryoların çalıştırılacağını belirten etiket
-        tags ="@preprod",
+        tags ="@spy",
         features ="src/test/resources/features",
         glue  = "Efectura/stepDefs",
         dryRun = false
