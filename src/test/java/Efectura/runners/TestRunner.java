@@ -32,7 +32,7 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
         // Hangi senaryoların çalıştırılacağını belirten etiket
         tags ="@preprod",
         features ="src/test/resources/features",
-        glue  = "Efectura/stepDefs",
+        glue  = "Efectura.stepDefs",
         dryRun = false
 )
 
