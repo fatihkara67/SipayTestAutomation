@@ -341,7 +341,7 @@ public class GeneralStepDefs extends BaseStep {
 
     @Then("The user verify two factor authentication")
     public void theUserVerifyTwoFactorAuthentication() {
-        By twoFactorTextLocate = By.xpath("//p[contains(.,'Authentication Code')]");
+        By twoFactorTextLocate = By.xpath("//div[@class='block-two-factor-authentification']/div/p[contains(.,'İki Faktörlü Kimlik Doğrulama')]");
         Assert.assertTrue("Two Factor Yönlendirmesi Olmadı!!",BrowserUtils.isElementDisplayed(twoFactorTextLocate));
     }
 
@@ -418,11 +418,11 @@ public class GeneralStepDefs extends BaseStep {
 
     @When("The user import attribute file")
     public void theUserImportAttributeFile() {
-        pages.generalPage().getItemImportStep2NextButton().click();
+        driver.findElement(By.xpath("//button[@id='dynamic-import-step-two']")).click();
         BrowserUtils.wait(2);
-        Driver.getDriver().findElement(By.xpath("//button[@id='import-step-edit']")).click();
+        Driver.getDriver().findElement(By.xpath("//button[@id='dynamic-import-step-edit']")).click();
         BrowserUtils.wait(1);
-        pages.generalPage().getApplyImportValidationButton().click();
+        driver.findElement(By.xpath("//button[@id='dynamic-import-apply-button']")).click();
         BrowserUtils.wait(10);
     }
 

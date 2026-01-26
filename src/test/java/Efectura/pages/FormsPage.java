@@ -67,7 +67,7 @@ public class FormsPage extends BasePage {
     @FindBy(xpath = "//div[contains(@id,'notification')]/div/div/div/p")
     private List<WebElement> notificationValues;
 
-    @FindBy(xpath = "//div[text()='Test Sipay']")
+    @FindBy(xpath = "//div[text()='Satış 1 Sipay']")
     private WebElement mentionOption;
 
     @FindBy(xpath = "//div[@role='tab']")

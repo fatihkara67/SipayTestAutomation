@@ -1757,7 +1757,7 @@ public class SearchStepDefs extends BaseStep {
         BrowserUtils.wait(2);
         pages.generalPage().getHistoryButton().click();
         BrowserUtils.wait(2);
-        driver.findElement(By.xpath("/html/body/div[3]/div[1]/div/button")).click();
+        driver.findElement(By.xpath("/html/body/div[3]/div[1]/div/div/button[1]")).click();
         BrowserUtils.wait(1);
         BrowserUtils.switchToTabByTitleAndCloseOld("Oturum aç");
         System.out.println("Title: " + Driver.getDriver().getTitle());

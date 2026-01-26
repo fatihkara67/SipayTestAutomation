@@ -131,7 +131,7 @@ public class GeneralPage extends BasePage {
     @FindBy(xpath = "/html/body/span/span/span[2]/ul/li")
     private List<WebElement> filteredImportTypeOptions;
 
-    @FindBy(xpath = "//input[@id='file-import']")
+    @FindBy(xpath = "//input[@id='dynamic-import-file-input']")
     private WebElement itemImportInput;
 
     @FindBy(id = "addcsvfile")
