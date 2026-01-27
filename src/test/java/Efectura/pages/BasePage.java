@@ -24,7 +24,7 @@ public class BasePage {
         List<String> columnData = new ArrayList<>();
 
         // Get all headers
-        List<WebElement> headers = table.findElements(By.xpath(".//thead/tr/th"));
+        List<WebElement> headers = table.findElements(By.xpath(".//thead/tr[1]/th"));
 
         // Find the index of the desired header
         int columnIndex = -1;

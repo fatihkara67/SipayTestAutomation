@@ -776,7 +776,7 @@ public class SearchStepDefs extends BaseStep {
                 pages.generalPage().getSelectSearchInput()
                         .sendKeys(optionText);
 
-                Driver.getDriver().findElement(By.xpath("//span[.='" + optionText + "']")).click();
+                Driver.getDriver().findElement(By.xpath("//span[contains(text(),'" + optionText + "')]")).click();
 
                 attributeAndValues.put(id, optionText);
                 attributeCodesAndLabels.put(id,

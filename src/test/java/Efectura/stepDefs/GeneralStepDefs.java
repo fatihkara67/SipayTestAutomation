@@ -41,6 +41,12 @@ public class GeneralStepDefs extends BaseStep {
         BrowserUtils.waitForVisibility(pages.generalPage().getUserMenuButton(),40);
 //        pages.generalPage().getWarningCloseButton().click();
         BrowserUtils.wait(5);
+
+        if (pages.searchPage().getLanguageButton().getText().equals("TR")) {
+            pages.searchPage().getLanguageButton().click();
+        }
+        BrowserUtils.wait(1);
+
     }
 
     @Then("The user verify warning {string}")
@@ -440,6 +446,7 @@ public class GeneralStepDefs extends BaseStep {
     @Given("The user go to {string} overview page")
     public void theUserGoToFileOverviewPage(String itemName) {
         pages.generalPage().goToItemOverviewPage(itemName);
+        BrowserUtils.wait(2);
     }
 
     String firstItemId;
