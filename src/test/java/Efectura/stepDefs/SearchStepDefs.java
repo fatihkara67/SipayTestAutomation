@@ -252,6 +252,7 @@ public class SearchStepDefs extends BaseStep {
     @Then("The user verify {string} form is open")
     public void theUserVerifyFormIsOpen(String formName) {
         BrowserUtils.wait(3);
+        BrowserUtils.waitForVisibility(Driver.getDriver().findElement(By.xpath("//h3[.='" + formName + "']")),75);
         BrowserUtils.waitForVisibility(Driver.getDriver().findElement(By.xpath("//*[@id=\"root\"]/div/main/div/div/div[2]//fieldset")), 45);
         Assert.assertEquals(formName, Driver.getDriver().
                 findElement(By.xpath("//*[@id='root']/div/main/div/div/div[1]//h3")).getText());
@@ -1740,12 +1741,13 @@ public class SearchStepDefs extends BaseStep {
     @When("The user search email")
     public void theUserSearchEmail() {
         driver.findElement(By.xpath("//input[@id='searchInput']")).sendKeys(validEmail + Keys.ENTER);
-        BrowserUtils.wait(3);
+        BrowserUtils.wait(6);
     }
 
     String newEmail;
     @When("The user fill new email")
     public void theUserFillNewEmail() {
+        BrowserUtils.wait(3);
         newEmail = BrowserUtils.generateRandomEmail();
         driver.findElement(By.xpath("//input[@id='EMAIL_NEW']")).sendKeys(newEmail);
     }

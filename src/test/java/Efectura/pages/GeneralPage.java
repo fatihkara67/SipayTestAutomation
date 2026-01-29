@@ -119,7 +119,7 @@ public class GeneralPage extends BasePage {
     @FindBy(xpath = "//div[@class='home-page-item']/span")
     private List<WebElement> fletumQuickAccessTabs;
 
-    @FindBy(xpath = "//tbody/tr/td[25]/a[4]")
+    @FindBy(xpath = "//a[@class='t-edit edit-btn']")
     private WebElement editButton;
 
     @FindBy(xpath = "//span[@id='select2-ItemType-container']")
