@@ -437,7 +437,7 @@ public class SearchStepDefs extends BaseStep {
 
         button.click();
 //        BrowserUtils.safeClick(button);
-        BrowserUtils.wait(2);
+        BrowserUtils.wait(1);
         if (buttonName.equals("Kaydet"))
             formStatus = "save";
         if (buttonName.equals("Tamamla"))
