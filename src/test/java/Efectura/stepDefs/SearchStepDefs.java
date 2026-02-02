@@ -1747,6 +1747,7 @@ public class SearchStepDefs extends BaseStep {
     String newEmail;
     @When("The user fill new email")
     public void theUserFillNewEmail() {
+        BrowserUtils.waitForVisibility(By.xpath("//input[@id='EMAIL_NEW']"),45);
         BrowserUtils.wait(3);
         newEmail = BrowserUtils.generateRandomEmail();
         driver.findElement(By.xpath("//input[@id='EMAIL_NEW']")).sendKeys(newEmail);

@@ -10,6 +10,7 @@ Feature: Prod Field And Sales Cases
 
   Scenario: Prod Sales And Field End to End
     When The user go to 'Ziyaret' on navbar
+    When The user wait 3 second
     When The user click 'Tamamla' button
     Then The user verify warning 'Lütfen tüm zorunlu alanları doldurun'
     When The user enter 'KARA' into 'LastName'
