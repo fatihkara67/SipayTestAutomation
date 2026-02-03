@@ -4985,7 +4985,7 @@ public class Requests {
           "extras":{
             "time_grain_sqla":"P1D",
             "having":"",
-            "where":"(StageDate >= today() - 1) AND (SalesStage IS NOT NULL) AND (SalesStage NOT IN ('ContractRet','LeadRet','PitchedRet','Ret','ProspectRet')) AND (SalesRep IN ('Miraç Kayli','Bilal Kaptan','Yılmaz Güney','Cem Özçitakgil','Merve Akan','Arif Özsoy','Eren Gedik','Murat Yengi','Ender Kolistoğlu','Cemal Kutlu','Sena Yıldırım','Merve Ulusoy','Emre Uzun','Can Demirkıran','Nurşah Sakin','Nursah Sakin','Melih Topçu','Korhan Başar','Alperen Bağışlar','Hilmi Kara','Melis Arslan','Furkan Kızılkurt','Beytullah Sayılır','Okan Ergün','Hamza Turan','Hakan Çıkmaz','Arif Özsoy','Arif Ozsoy','Beytullah Sayılır','Can Demirkıran','Cem Ozcitakgil','Cemal Kutlu','Emre Uzun','Ender Kolistoğlu','Eren Gedik','Fırat Karateke','Firat Karateke','Hakan Cıkmaz','Hakan Çıkmaz','Hakan Cikmaz','Hamza Turan','Kaan Güzel','Kaan Guzel','Melih Topçu','Melih Topcu','Merve Akan','Merve Ulusoy','Miraç Kaylı','Murat Yengi','Mustafa Yayla','Nurşah Sakin','Nursah Sakin','Okan Ergün','Okan Ergun','Sena Yıldırım','Seyfullah Günay','Yeşim Yeşbek'))"
+            "where":"(StageDate >= today()) AND (SalesStage IS NOT NULL) AND (SalesStage NOT IN ('ContractRet','LeadRet','PitchedRet','Ret','ProspectRet')) AND (SalesRep IN ('Miraç Kayli','Bilal Kaptan','Yılmaz Güney','Cem Özçitakgil','Merve Akan','Arif Özsoy','Eren Gedik','Murat Yengi','Ender Kolistoğlu','Cemal Kutlu','Sena Yıldırım','Merve Ulusoy','Emre Uzun','Can Demirkıran','Nurşah Sakin','Nursah Sakin','Melih Topçu','Korhan Başar','Alperen Bağışlar','Hilmi Kara','Melis Arslan','Furkan Kızılkurt','Beytullah Sayılır','Okan Ergün','Hamza Turan','Hakan Çıkmaz','Arif Özsoy','Arif Ozsoy','Beytullah Sayılır','Can Demirkıran','Cem Ozcitakgil','Cemal Kutlu','Emre Uzun','Ender Kolistoğlu','Eren Gedik','Fırat Karateke','Firat Karateke','Hakan Cıkmaz','Hakan Çıkmaz','Hakan Cikmaz','Hamza Turan','Kaan Güzel','Kaan Guzel','Melih Topçu','Melih Topcu','Merve Akan','Merve Ulusoy','Miraç Kaylı','Murat Yengi','Mustafa Yayla','Nurşah Sakin','Nursah Sakin','Okan Ergün','Okan Ergun','Sena Yıldırım','Seyfullah Günay','Yeşim Yeşbek'))"
           },
           "applied_time_extras":{},
           "columns":[
@@ -5030,7 +5030,7 @@ public class Requests {
           "sqlExpression":null
         },
         "adhoc_filters":[
-          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"StageDate >= today() - 1","subject":"CreatedOn","operator":"TEMPORAL_RANGE","operatorId":"TEMPORAL_RANGE"},
+          {"clause":"WHERE","expressionType":"SQL","sqlExpression":"StageDate >= today()","subject":"CreatedOn","operator":"TEMPORAL_RANGE","operatorId":"TEMPORAL_RANGE"},
           {"clause":"WHERE","expressionType":"SQL","sqlExpression":"SalesStage IS NOT NULL","subject":null},
           {"clause":"WHERE","expressionType":"SIMPLE","subject":"SalesRep","operator":"NOT IN","operatorId":"NOT_IN","comparator":["Test Sipay"]},
           {"clause":"WHERE","expressionType":"SQL","sqlExpression":"SalesStage NOT IN ('ContractRet','LeadRet','PitchedRet','Ret','ProspectRet')","subject":null},

@@ -223,18 +223,18 @@ Feature: Prod End To End Form Cases
     When The user fill select prospect form sales and field
     When The user fill inputs prospect form sales and field
     When The user select2 'Adi Ortaklık' in 'companyType'
-#    Then The user verify required documents
     When The user upload documents
     When The user click 'Tamamla' button
-    Then The user verify warning 'Durum Contracting olarak güncellendi'
+#    Then The user verify warning 'Durum Contracting olarak güncellendi'
+    When The user wait 4 second
+    Then The user verify 'Onboarding Risk Formu' form is open
     When The user take form id
-#    When The user navigate deal item via history
-    Given The user opens 'prod-fletum' environment
+    When The user navigate deal item via history
+#    Given The user opens 'prod-fletum' environment
     And   The User inputs a valid username "sahaUser"
     And   The User inputs a valid password "sahaPassword"
     And   The User clicks the Submit button
-#    Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
-    When The user navigate the deal item
+#    When The user navigate the deal item
     And The user clicks "Deal - Kişi İlişkisi" tab
     And The user select "Evet" in "IsAssociated" select filter
     Then The user verify "İlişkili" select filter with value "Evet" in "association-table"

@@ -1485,6 +1485,7 @@ public class SearchStepDefs extends BaseStep {
         pages.formsPage().getMentionOption().click();
         pages.formsPage().getAppChatInputBox().sendKeys(" " + uniqueChatValue);
         pages.formsPage().getAppChatMsgSubmitButton().click();
+        BrowserUtils.wait(2);
     }
 
     int notificationIndex;
