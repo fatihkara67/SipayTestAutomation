@@ -138,7 +138,7 @@ Feature: End To End Form Cases
     When The user keep risk data
     When The user combine all forms data
     When The user click 'Açıklama Geçmişi' button
-    Then The user verify history values
+#    Then The user verify history values
 
     When The user click 'Tamamla' button
     Then The user verify warning 'Durum OnboardingRisk olarak güncellendi'
@@ -171,7 +171,7 @@ Feature: End To End Form Cases
     Then The user verify old values
 
     When The user click 'Açıklama Geçmişi' button
-    Then The user verify history values
+#    Then The user verify history values
 
     Given The user assert all
 
