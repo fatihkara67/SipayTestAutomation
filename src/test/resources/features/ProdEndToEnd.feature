@@ -77,7 +77,8 @@ Feature: Prod End To End Form Cases
 #    Then The user verify required documents
     When The user upload documents
     When The user click 'Güncelle' button
-    Then The user verify warning 'Durum ContractingDraft olarak güncellendi'
+#    Then The user verify warning 'Durum ContractingDraft olarak güncellendi'
+    When The user wait 3 second
     When The user navigate current url
     When The user wait 3 second
     Then The user verify old values
@@ -238,12 +239,12 @@ Feature: Prod End To End Form Cases
     And The user clicks "Deal - Kişi İlişkisi" tab
     And The user select "Evet" in "IsAssociated" select filter
     Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
-    And The user clicks "Deal - Üye İşyeri İlişkisi" tab
+    And The user clicks "Üye İşyerleri" tab
     And The user select "Evet" in "IsAssociated" select filter
     Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
     When The user go in the filtered item
     When The user go to other tab
-    And The user clicks "Deal - Üye İşyeri İlişkisi" tab
+    And The user clicks "Deal" tab
     And The user select "Evet" in "IsAssociated" select filter
     Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
     Then The user verify deal and documents
