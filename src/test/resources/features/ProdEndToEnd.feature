@@ -239,7 +239,7 @@ Feature: Prod End To End Form Cases
     And The user clicks "Deal - Kişi İlişkisi" tab
     And The user select "Evet" in "IsAssociated" select filter
     Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
-    And The user clicks "Üye İşyerleri" tab
+    And The user clicks "Üye İşyeri" tab
     And The user select "Evet" in "IsAssociated" select filter
     Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
     When The user go in the filtered item
