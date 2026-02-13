@@ -60,7 +60,7 @@ public class SearchStepDefs extends BaseStep {
                 .findFirst()
                 .ifPresent(WebElement::click);
 
-        BrowserUtils.wait(1);
+        BrowserUtils.wait(4);
         BrowserUtils.waitForVisibility(pages.searchPage().getGoToRelatedRecordButtons().get(0), 45);
 
     }
