@@ -1,5 +1,6 @@
 package Efectura.stepDefs;
 
+import Efectura.utilities.BrowserUtils;
 import Efectura.utilities.Requests;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -966,6 +967,14 @@ public class WidgetsStepDefs extends BaseStep {
             case "10-Reject":         list.add("reject"); break;
         }
         return new ArrayList<>(new LinkedHashSet<>(list));
+    }
+
+    @Then("Thw user verify disk space")
+    public void thwUserVerifyDiskSpace() {
+        long freeGb = BrowserUtils.getCDriveFreeSpaceGB();
+        System.out.println("C sürücüsünde " + freeGb + " GB boş alan var.");
+        BrowserUtils.sendMessageToTelegram("C sürücüsünde " + freeGb + " GB boş alan var.","-5196344491");
+
     }
 
 

@@ -142,5 +142,8 @@ Feature: Widget Scenarios
     Given  The user send widget1Monthly request
     Then The user verify scenario28
 
+  Scenario: Disk space check
+    Then Thw user verify disk space
+
 
 

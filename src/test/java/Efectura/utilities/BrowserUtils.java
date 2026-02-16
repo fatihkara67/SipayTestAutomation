@@ -16,6 +16,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -874,6 +875,46 @@ public class BrowserUtils {
         }
 
         throw new RuntimeException("Expected tab with title '" + expectedTitle + "' was not found.");
+    }
+
+    public static long getCDriveFreeSpaceGB() {
+        File cDrive = new File("C:\\");
+        long freeBytes = cDrive.getUsableSpace();
+        return freeBytes / (1024 * 1024 * 1024);
+    }
+
+//    private static final String TELEGRAM_BOT_TOKEN = "6538211561:AAEVRYoo03lBKnqhTUUU3lne9nfvpRGHa08";
+    public static void sendMessageToTelegram(String message, String chatId) {
+        try {
+            // Telegram API URL
+            String urlString = "https://api.telegram.org/bot" + TELEGRAM_BOT_TOKEN + "/sendMessage";
+
+            // URL bağlantısı oluştur
+            URL url = new URL(urlString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            connection.setDoOutput(true);
+
+            // Mesajı JSON formatında gönderme
+            String postData = "chat_id=" + URLEncoder.encode(chatId, "UTF-8") +
+                    "&text=" + URLEncoder.encode(message, "UTF-8");
+
+            try (OutputStream outputStream = connection.getOutputStream()) {
+                outputStream.write(postData.getBytes(StandardCharsets.UTF_8));
+                outputStream.flush();
+            }
+
+            // Yanıtı kontrol et
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                System.out.println("Message sent to Telegram successfully: \n" + message);
+            } else {
+                System.out.println("Failed to send message to Telegram. Status Code: \n" + responseCode);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
