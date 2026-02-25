@@ -315,12 +315,24 @@ public class GeneralStepDefs extends BaseStep {
 
     @Then("The user click {string} in quick access and measure time")
     public void theUserClickDigitalAssetInQuickAccessAndMeasureTime(String tabName) {
-        WebElement target = pages.generalPage().getFletumQuickAccessTabs().stream()
-                .filter(el -> el.getText().trim().equals(tabName))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Tab bulunamadı!"));
 
-        Duration timeDuration = BrowserUtils.clickAndMeasureFullNavigation(Driver.getDriver(),target);
+        int index = -1;
+        for (int i = 0; i < pages.generalPage().getFletumQuickAccessTabs().size(); i++) {
+            if (pages.generalPage().getFletumQuickAccessTabs().get(i).getText().trim().equals(tabName)) {
+                index = i;
+                break;
+            }
+        }
+
+        List<WebElement> quickAccessTabs = driver.findElements(By.xpath("//div[@class='home-page-item']/a"));
+//        quickAccessTabs.get(index).click();
+
+//        WebElement target = pages.generalPage().getFletumQuickAccessTabs().stream()
+//                .filter(el -> el.getText().trim().equals(tabName))
+//                .findFirst()
+//                .orElseThrow(() -> new RuntimeException("Tab bulunamadı!"));
+
+        Duration timeDuration = BrowserUtils.clickAndMeasureFullNavigation(Driver.getDriver(),quickAccessTabs.get(index));
         double sec = timeDuration.toNanos() / 1_000_000_000.0;
         System.out.println("Sec: " + sec);
         BrowserUtils.wait(2);

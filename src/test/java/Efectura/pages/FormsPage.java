@@ -26,6 +26,7 @@ public class FormsPage extends BasePage {
 
     @FindBy(id = "Username")
     private WebElement usernameField;
+
     @FindBy(xpath = "//input[@id='password-field']")
     private WebElement passwordField;
     @FindBy(xpath = "//input[@id='submit']")
