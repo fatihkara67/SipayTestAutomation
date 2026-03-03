@@ -745,7 +745,7 @@ public class SearchStepDefs extends BaseStep {
             // Genel istisnalar (mevcut kuralın korunması)
             if ("virtualPosRequest".equals(id) || "product".equals(id) || "segment".equals(id)
                     || "salesRep".equals(id) || "communicationTracking".equals(id) || "companyType".equals(id) ||
-                    "prospectDurum".equals(id) || "installationInfo".equals(id)) {
+                    "prospectDurum".equals(id) || "installationInfo".equals(id) || "valorSelect".equals(id)) {
                 continue;
             }
 

@@ -71,6 +71,7 @@ Feature: Prod End To End Form Cases
     When The user click 'Tamamla' button
     Then The user verify warning 'Lütfen tüm zorunlu alanları doldurun'
     When The user fill select prospect form sales and field
+    When The user select2 '15' in 'valorSelect'
     When The user fill inputs prospect form sales and field
     When The user fill note area
     When The user select2 'Adi Ortaklık' in 'companyType'
