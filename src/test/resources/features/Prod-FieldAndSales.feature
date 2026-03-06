@@ -51,6 +51,7 @@ Feature: Prod Field And Sales Cases
     Then The user verify old values
     When The user open 'Fırsat' info in form
     When The user fill select prospect form sales and field
+    When The user select2 '15' in 'valorSelect'
     When The user fill inputs prospect form sales and field
     When The user click 'Tamamla' button
     Then The user verify warning 'Durum Pitched olarak güncellendi'

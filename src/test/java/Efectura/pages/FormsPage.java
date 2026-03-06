@@ -4,6 +4,7 @@ import Efectura.utilities.BrowserUtils;
 import Efectura.utilities.ConfigurationReader;
 import lombok.Getter;
 import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -82,6 +83,8 @@ public class FormsPage extends BasePage {
 
 
     public void setUsernameField(String username) {
+        BrowserUtils.waitForVisibility(By.id("Username"),50);
+
         if (username.equalsIgnoreCase("validUsername")) {
             usernameField.sendKeys(ConfigurationReader.getProperty("validUsername"));
         } else if (username.equalsIgnoreCase("invalidUsername")) {
