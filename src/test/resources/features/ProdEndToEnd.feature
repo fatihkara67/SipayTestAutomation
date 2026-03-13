@@ -223,6 +223,7 @@ Feature: Prod End To End Form Cases
     Then The user verify 'Contracting Kayıt Formu' form is open
 
     When The user fill select prospect form sales and field
+    When The user select2 '15' in 'valorSelect'
     When The user fill inputs prospect form sales and field
     When The user select2 'Adi Ortaklık' in 'companyType'
     When The user upload documents
