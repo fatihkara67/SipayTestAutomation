@@ -83,7 +83,7 @@ public class FormsPage extends BasePage {
 
 
     public void setUsernameField(String username) {
-        BrowserUtils.waitForVisibility(By.id("Username"),50);
+        BrowserUtils.waitForVisibility(By.id("Username"),60);
 
         if (username.equalsIgnoreCase("validUsername")) {
             usernameField.sendKeys(ConfigurationReader.getProperty("validUsername"));

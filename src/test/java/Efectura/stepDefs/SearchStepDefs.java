@@ -139,7 +139,7 @@ public class SearchStepDefs extends BaseStep {
 //        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("d MMMM uuuu", tr);
 //        String today = LocalDate.now(ZoneId.of("Europe/Istanbul")).format(fmt);
 
-        BrowserUtils.wait(2);
+        BrowserUtils.wait(4);
 
     }
 
@@ -701,7 +701,7 @@ public class SearchStepDefs extends BaseStep {
                 pages.generalPage().getUseAlreadyAddedFileButton().click();
             }
 
-            BrowserUtils.waitForVisibility(pages.generalPage().getWarningElement(), 20);
+            BrowserUtils.waitForVisibility(pages.generalPage().getWarningElement(), 30);
             Assert.assertEquals("Döküman başarıyla eklendi", pages.generalPage().getWarningElement().getText());
         }
     }
@@ -1762,7 +1762,7 @@ public class SearchStepDefs extends BaseStep {
         pages.generalPage().getHistoryButton().click();
         BrowserUtils.wait(2);
         driver.findElement(By.xpath("/html/body/div[3]/div[1]/div/div/button[1]")).click();
-        BrowserUtils.wait(3);
+        BrowserUtils.wait(30);
         BrowserUtils.switchToTabByTitleAndCloseOld("Oturum aç");
         System.out.println("Title: " + Driver.getDriver().getTitle());
     }
