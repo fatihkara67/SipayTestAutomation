@@ -64,6 +64,7 @@ Feature: Prod End To End Form Cases
     When The user click 'Tamamla' button
     Then The user verify warning 'Durum Pitched olarak güncellendi'
     Then The user verify 'Contracting Kayıt Formu' form is open
+    When The user wait 15 second
     When The user open 'Pitched' info in form
     Then The user verify old values
     When The user open 'Pitched' info in form
