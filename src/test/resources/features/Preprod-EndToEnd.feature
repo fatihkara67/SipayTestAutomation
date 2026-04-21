@@ -569,7 +569,7 @@ Feature: End To End Form Cases
 #    When The user upload "Attribute" file
     When The user import attribute file
     Then The user verifies that attributes are created
-    Then The user tear down all changes in Attribute Case
+#    Then The user tear down all changes in Attribute Case
 
   Scenario: Pre Prod Bulk Association
     Given The user opens 'test-fletum' environment
