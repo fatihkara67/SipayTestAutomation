@@ -14,6 +14,8 @@ Feature: Assigned Records Page
     When The user fill select prospect form sales and field
     When The user select2 'Ulaşılamadı' in 'prospectDurum'
     When The user fill inputs prospect form sales and field
+    When The user click 'Kaydet' button
+    Then The user verify warning 'Durum ProspectDraft olarak güncellendi'
     Given The user logout
     Given The user login
       | username | merveakan  |
