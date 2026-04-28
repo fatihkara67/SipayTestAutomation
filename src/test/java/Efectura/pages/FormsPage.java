@@ -60,7 +60,7 @@ public class FormsPage extends BasePage {
     @FindBy(xpath = "/html/body/div[2]/div/div[2]/div[3]/div[2]/div[3]/button")
     private WebElement fletumChatMsgSubmitButton;
 
-    @FindBy(xpath = "//a[@id='announcementLogo']")
+    @FindBy(xpath = "//button[@id='announcementLogo']")
     private WebElement notificationIcon;
 
     @FindBy(xpath = "//a[contains(@href,'/Enrich/EditItem/')]")
