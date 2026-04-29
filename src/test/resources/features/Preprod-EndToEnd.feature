@@ -550,8 +550,8 @@ Feature: End To End Form Cases
 
   Scenario: Pre Prod Import calculation_Trx
     Given The user go to 'test-fletum' environment
-    And   The User inputs a valid username "sahaUser"
-    And   The User inputs a valid password "sahaPassword"
+    And   The User inputs a valid username "fatihUser"
+    And   The User inputs a valid password "fatihPassword"
     And   The User clicks the Submit button
     Given The user navigate to import page
     And The user accepts import popup
@@ -566,10 +566,9 @@ Feature: End To End Form Cases
     And   The User clicks the Submit button
     When The user go to attribute page
     When The user upload the 'Attribute' file2
-#    When The user upload "Attribute" file
     When The user import attribute file
     Then The user verifies that attributes are created
-#    Then The user tear down all changes in Attribute Case
+    Then The user tear down all changes in Attribute Case
 
   Scenario: Pre Prod Bulk Association
     Given The user opens 'test-fletum' environment

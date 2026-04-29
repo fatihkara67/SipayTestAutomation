@@ -382,6 +382,8 @@ public class GeneralStepDefs extends BaseStep {
 
     @When("The user select {string} for importType")
     public void theUserSelectForImportType(String importType) {
+        BrowserUtils.wait(1);
+        driver.findElement(By.xpath("//button[@data-target='imp-tab-new-import']")).click();
         pages.generalPage().selectImportType(importType);
         BrowserUtils.wait(2);
     }
@@ -458,7 +460,7 @@ public class GeneralStepDefs extends BaseStep {
     @Given("The user go to {string} overview page")
     public void theUserGoToFileOverviewPage(String itemName) {
         pages.generalPage().goToItemOverviewPage(itemName);
-        BrowserUtils.wait(2);
+        BrowserUtils.wait(5);
     }
 
     String firstItemId;
