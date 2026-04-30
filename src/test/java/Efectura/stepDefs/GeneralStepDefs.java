@@ -568,7 +568,7 @@ public class GeneralStepDefs extends BaseStep {
     public void theUserClickFirstFlow() {
         BrowserUtils.wait(1);
         BrowserUtils.adjustScreenSize(60,driver);
-        driver.findElement(By.xpath("//*[@id=\"process-detail\"]/tbody/tr[1]/td[10]/div/a[1]")).click();
+        driver.findElement(By.xpath("(//a[@data-original-title='Devam Etmekte'])[1]")).click();
         BrowserUtils.wait(1);
         BrowserUtils.switchToTabByTitleAndCloseOld("SIPAY: ConfirmationForm");
         System.out.println("Title: " + Driver.getDriver().getTitle());
