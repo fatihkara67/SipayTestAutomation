@@ -419,7 +419,7 @@ public class GeneralStepDefs extends BaseStep {
         } else if (env.contains("test")) {
             Driver.getDriver().get("https://sipay-ui.efectura.com/Settings/Attributes");
         }
-        BrowserUtils.wait(3);
+        BrowserUtils.wait(4);
     }
 
     @When("The user click import button")

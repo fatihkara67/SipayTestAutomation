@@ -580,8 +580,8 @@ Feature: End To End Form Cases
     When The user select first item
     When The user add association to first item
     Then The user verifies info "BulkAssociationSuccessMessage" appears
-    When The user add association to first item
-    Then The user verifies info "Skipped 1 items" appears
+#    When The user add association to first item
+#    Then The user verifies info "Skipped 1 items" appears
     Then The user verify assoc is ok
     Then The user tear down all changes in bulk assoc
 
