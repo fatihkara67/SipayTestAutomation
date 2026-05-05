@@ -586,6 +586,17 @@ Feature: End To End Form Cases
     Then The user tear down all changes in bulk assoc
 
 
+  Scenario: The user navigates to item detail page by clicking a row in the list
+    Given The user opens 'test-fletum' environment
+    And   The User inputs a valid username "sahaUser"
+    And   The User inputs a valid password "sahaPassword"
+    And   The User clicks the Submit button
+    Given The user go to 'File' overview page
+    When the user clicks on the first row in the items table
+    Then the user should be navigated to the item detail page
+    And the item detail page URL should contain "/Enrich/EditItem/"
+
+
 
 
 
