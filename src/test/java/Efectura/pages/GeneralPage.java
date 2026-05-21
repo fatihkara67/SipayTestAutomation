@@ -260,6 +260,30 @@ public class GeneralPage extends BasePage {
         }
     }
 
+
+    public static String getDealAssignee(int dealId) {
+        String query = "SELECT ValueString as AssignedPerson FROM ItemValues " +
+                "WHERE ItemId = " + dealId + " AND AttributeId = 5871";
+
+        String assignedPerson = null;
+
+        try (Connection conn = DatabaseManager.getConnection(DbConfigs.PREPROD_SQLSERVER, DbConfigs.PREPROD_SQLSERVER_USERNAME, DbConfigs.DB_PASSWORD);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            if (rs.next()) {
+                assignedPerson = rs.getString("AssignedPerson");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("AssignedPerson: " + assignedPerson);
+        return assignedPerson;
+    }
+
+
     public void goToItemOverviewPage(String item) {
         driver.get(ConfigurationReader.getProperty("itemLinkWithoutItemNamePreprod") + item);
     }
@@ -322,5 +346,7 @@ public class GeneralPage extends BasePage {
         BrowserUtils.waitForVisibility(flowInfoMessage,20);
         Assert.assertEquals("Başarılı", flowInfoMessage.getText());
     }
+
+
 
 }

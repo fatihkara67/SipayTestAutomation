@@ -1,18 +1,21 @@
 package Efectura.stepDefs;
 
 import Efectura.pages.BasePage;
+import Efectura.pages.GeneralPage;
 import Efectura.utilities.*;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.json.JSONObject;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.asserts.SoftAssert;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
@@ -615,5 +618,30 @@ public class GeneralStepDefs extends BaseStep {
         pages.generalPage().submitTask();
 //        Driver.getDriver().get(ConfigurationReader.getProperty("url"));
 //        BrowserUtils.wait(12);
+    }
+
+    boolean isSucceeded;
+    int dealId;
+
+    @When("The user send create item request with {string}")
+    public void theUserSendCreateItemRequestWith(String volume) throws IOException {
+        JSONObject result = Requests.createProspectItem(volume);
+        System.out.println(result.toString(4));
+
+        isSucceeded = result.getBoolean("isSucceeded");
+        System.out.println("isSucceeded: " + isSucceeded);
+
+        JSONObject response = result.getJSONObject("response");
+        dealId = response.getInt("dealId");
+
+    }
+
+    @Then("The user verify volume scenario {string}")
+    public void theUserVerifyVolumeScenario(String assignee) {
+        Assert.assertTrue(isSucceeded);
+        System.out.println("Deal ID: " + dealId);
+
+        String actualAssignee = GeneralPage.getDealAssignee(dealId);
+        Assert.assertEquals(assignee, actualAssignee);
     }
 }

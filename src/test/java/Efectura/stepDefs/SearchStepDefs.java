@@ -1542,7 +1542,7 @@ public class SearchStepDefs extends BaseStep {
     public void theUserTakeScreenshot() {
 //        BrowserUtils.setZoom(Driver.getDriver(),60);
         String chatId = "-4570445477";
-        String testChatId = "-1002156506449";
+        String testChatId = "-5196344491";
         BrowserUtils.wait(20);
         String path = BrowserUtils.getScreenshot("dashboard");
         System.out.println("Path: " + path);

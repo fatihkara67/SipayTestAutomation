@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class Requests {
@@ -7015,9 +7016,55 @@ public class Requests {
     }
 
 
+    public static JSONObject createProspectItem(String estVolumeTRY) throws IOException {
+        final String url = "https://sipayservice.efectura.com/Item/CreateItem?formType=prospect&fromIntegration=true";
 
+        OkHttpClient client = InsecureHttp.newClient()
+                .newBuilder()
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
+                .build();
 
+        String randomValue = UUID.randomUUID().toString();
+        String randomEmail = BrowserUtils.generateRandomEmail();
+        String randonPhone = BrowserUtils.generateTurkishMobileNumber();
 
+        String body = """
+    {
+      "fromIntegration": true,
+      "familyCode": "Deal",
+      "categories": [ { "code": "ROOT" } ],
+      "attributes": [
+        { "code": "memberName",      "value": "%s" },
+        { "code": "legalTitle",      "value": "%s" },
+        { "code": "email",           "value": "%s" },
+        { "code": "firstName",       "value": "%s" },
+        { "code": "LastName",        "value": "%s" },
+        { "code": "phone",           "value": "%s" },
+        { "code": "applicationType", "value": "FIZKI_POS" },
+        { "code": "source",          "value": "web_sitesi" },
+        { "code": "estVolumeTRY",    "value": "%s" }
+      ]
+    }
+    """.formatted(randomValue, randomValue, randomEmail, randomValue, randomValue, randonPhone, estVolumeTRY);
 
+        Request request = new Request.Builder()
+                .url(url)
+                .post(RequestBody.create(body, MediaType.parse("application/json")))
+                .addHeader("Accept", "application/json")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "OkHttp Bot")
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            String resp = (response.body() != null) ? response.body().string() : "";
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response + "\nResponse body: " + resp);
+            }
+            return new JSONObject(resp);
+        }
+    }
 
 }
