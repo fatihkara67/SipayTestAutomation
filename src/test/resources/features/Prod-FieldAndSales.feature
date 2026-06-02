@@ -4,8 +4,8 @@ Feature: Prod Field And Sales Cases
   Background:
     Given The user go to 'prod-app' environment
     Given The user login
-      | username | saha_satis |
-      | password | Sipay2025. |
+      | username | sahasatis1 |
+      | password | asdasd123  |
 
 
   Scenario: Prod Sales And Field End to End

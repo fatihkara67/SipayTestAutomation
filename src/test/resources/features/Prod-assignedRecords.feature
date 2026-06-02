@@ -4,12 +4,12 @@ Feature: Prod Assigned Records Page
   Background:
     Given The user go to 'prod-app' environment
     Given The user login
-      | username | TestSipay  |
-      | password | Sipay2025. |
+      | username | satis1    |
+      | password | asdasd123 |
 
   Scenario: Assign Not To Me Listing Case
     When The user click create new record button
-    When The user select 'Test Sipay2 2' as salesRep
+    When The user select 'Satış2 Sipay' as salesRep
 #    When The user fill and save the form
     When The user fill select prospect form sales and field
     When The user select2 'Ulaşılamadı' in 'prospectDurum'
@@ -21,21 +21,21 @@ Feature: Prod Assigned Records Page
 
   Scenario: Assign To Me Listing Case
     When The user click create new record button
-    When The user select 'Test Sipay2 2' as salesRep
+    When The user select 'Satış2 Sipay' as salesRep
     When The user fill select prospect form sales and field
     When The user select2 'Ulaşılamadı' in 'prospectDurum'
     When The user fill inputs prospect form sales and field
     When The user click 'Tamamla' button
     Given The user logout
     Given The user login
-      | username | testsipay2 |
-      | password | Sipay2025. |
+      | username | satis2    |
+      | password | asdasd123 |
     When The user click assigned records tab
     Then The user verify table with record
 
   Scenario: Records Not I Created Listing Case
     When The user click create new record button
-    When The user select 'Test Sipay2 2' as salesRep
+    When The user select 'Satış2 Sipay' as salesRep
 #    When The user fill and save the form
     When The user fill select prospect form sales and field
     When The user select2 'Ulaşılamadı' in 'prospectDurum'
@@ -43,8 +43,8 @@ Feature: Prod Assigned Records Page
     When The user click 'Tamamla' button
     Given The user logout
     Given The user login
-      | username | testsipay2 |
-      | password | Sipay2025. |
+      | username | satis2    |
+      | password | asdasd123 |
     When The user click assigned records tab
     When The user click assignedOrCreatedCheckbox
     Then The user verify table no result for created case

@@ -4,8 +4,8 @@ Feature: Search Page Scenarios
   Background:
     Given The user go to 'prod-app' environment
     Given The user login
-      | username | TestSipay  |
-      | password | Sipay2025. |
+      | username | satis1    |
+      | password | asdasd123 |
 
   Scenario: Deal Status Filter and reset button
     When The user select 'Prospect' in deal status filter

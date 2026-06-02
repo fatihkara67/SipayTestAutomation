@@ -327,7 +327,7 @@ public class GeneralStepDefs extends BaseStep {
             }
         }
 
-        List<WebElement> quickAccessTabs = driver.findElements(By.xpath("//div[@class='home-page-item']/a"));
+        List<WebElement> quickAccessTabs = driver.findElements(By.xpath("//div[@id='Tabs']/a"));
 //        quickAccessTabs.get(index).click();
 
 //        WebElement target = pages.generalPage().getFletumQuickAccessTabs().stream()
