@@ -48,6 +48,7 @@ Feature: PreProd Field And Sales Cases
     Then The user verify 'Satış Formu' form is open
     When The user open 'Fırsat' info in form
     Then The user verify old values
+      Then The user verify Faaliyet Kodu
     When The user open 'Fırsat' info in form
     When The user fill select prospect form sales and field
       When The user select2 '15' in 'valorSelect'

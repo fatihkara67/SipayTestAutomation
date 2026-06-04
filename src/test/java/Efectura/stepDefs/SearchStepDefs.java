@@ -1769,8 +1769,7 @@ public class SearchStepDefs extends BaseStep {
 
     @Then("The user verify Faaliyet Kodu")
     public void theUserVerifyFaaliyetKodu() {
-        Set<Map.Entry<String, String>> entries = attributeAndValues.entrySet();
-        attributeAndValues.get("estVolume");
+//        Set<Map.Entry<String, String>> entries = attributeAndValues.entrySet();
 
         String deviceActivityCodeFull = driver.findElement(By.xpath("//span[.='Faaliyet Kodu:']/ancestor::div[1]")).getText();
         String actual = deviceActivityCodeFull.split(": ")[1].trim();
