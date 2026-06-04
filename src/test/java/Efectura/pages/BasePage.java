@@ -24,7 +24,7 @@ public class BasePage {
         List<String> columnData = new ArrayList<>();
 
         // Get all headers
-        List<WebElement> headers = table.findElements(By.xpath(".//thead/tr[1]/th"));
+        List<WebElement> headers = table.findElements(By.xpath(".//thead/tr[1]/th/div/span[@class='sort-h']/span"));
 
         // Find the index of the desired header
         int columnIndex = -1;
@@ -44,7 +44,7 @@ public class BasePage {
 
         // Extract data from the specified column
         for (WebElement row : rows) {
-            WebElement cell = row.findElement(By.xpath(".//td[" + columnIndex + "]"));
+            WebElement cell = row.findElement(By.xpath(".//td[not(contains(@class, 'check'))][" + columnIndex + "]"));
             columnData.add(cell.getText().trim());
         }
 

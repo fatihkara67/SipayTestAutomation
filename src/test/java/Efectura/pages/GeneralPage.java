@@ -201,9 +201,20 @@ public class GeneralPage extends BasePage {
     // you can use selectFilter as IsAssociated, Family, ItemStatuses in feature file
     public void selectOptionInSelectFilter(String selectOption, String selectFilter) {
 
-        WebElement selectElement = driver.findElement(By.xpath("//select[contains(@id,'-" + selectFilter + "')]"));
-        BrowserUtils.selectDropdownOptionByVisibleText(selectElement,selectOption);
-        BrowserUtils.wait(3);
+//        WebElement selectElement = driver.findElement(By.xpath("//select[contains(@id,'-" + selectFilter + "')]"));
+//        BrowserUtils.selectDropdownOptionByVisibleText(selectElement,selectOption);
+//        BrowserUtils.wait(3);
+
+        WebElement selectFilterButton = driver.findElement(By.xpath("//button[@data-field='IsAssociated']"));
+        selectFilterButton.click();
+
+        WebElement option = driver.findElement(By.xpath(
+                "//div[@class='cp-options']/label/span[contains(text(),'" + selectOption + "')]/preceding-sibling::input[last()]"));
+        option.click();
+
+        WebElement updateButton = driver.findElement(By.xpath("//button[contains(@class,'cp-apply')]"));
+        updateButton.click();
+
     }
 
     public void selectImportType(String importType) {

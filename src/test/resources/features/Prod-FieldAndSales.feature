@@ -49,6 +49,7 @@ Feature: Prod Field And Sales Cases
     Then The user verify 'Satış Formu' form is open
     When The user open 'Fırsat' info in form
     Then The user verify old values
+    Then The user verify Faaliyet Kodu
     When The user open 'Fırsat' info in form
     When The user fill select prospect form sales and field
     When The user select2 '15' in 'valorSelect'
@@ -67,10 +68,10 @@ Feature: Prod Field And Sales Cases
 #    Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
     When The user navigate the deal item
     And The user clicks "Deal - Kişi İlişkisi" tab
-    And The user select "Evet" in "IsAssociated" select filter
+    And The user select "True" in "IsAssociated" select filter
     Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
     And The user clicks "Deal - Üye İşyeri İlişkisi" tab
-    And The user select "Evet" in "IsAssociated" select filter
+    And The user select "True" in "IsAssociated" select filter
     Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
     Given The user assert all
 

@@ -1766,4 +1766,17 @@ public class SearchStepDefs extends BaseStep {
         BrowserUtils.switchToTabByTitleAndCloseOld("Oturum aç");
         System.out.println("Title: " + Driver.getDriver().getTitle());
     }
+
+    @Then("The user verify Faaliyet Kodu")
+    public void theUserVerifyFaaliyetKodu() {
+        Set<Map.Entry<String, String>> entries = attributeAndValues.entrySet();
+        attributeAndValues.get("estVolume");
+
+        String deviceActivityCodeFull = driver.findElement(By.xpath("//span[.='Faaliyet Kodu:']/ancestor::div[1]")).getText();
+        String actual = deviceActivityCodeFull.split(": ")[1].trim();
+
+        Assert.assertEquals("Faaliyet Kodu beklenenden farklı",
+                attributeAndValues.get("deviceActivityCode"), actual);
+
+    }
 }
