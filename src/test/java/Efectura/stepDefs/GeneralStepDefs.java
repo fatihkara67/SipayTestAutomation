@@ -644,4 +644,16 @@ public class GeneralStepDefs extends BaseStep {
         String actualAssignee = GeneralPage.getDealAssignee(dealId);
         Assert.assertEquals(assignee, actualAssignee);
     }
+
+    @When("The user go to link")
+    public void theUserGoToLink() {
+        driver.get("https://crmapp.spwgpf.com/contract/205987");
+    }
+
+    @Then("The user take con note")
+    public void theUserTakeConNote() {
+        BrowserUtils.wait(3);
+        String conNote = driver.findElement(By.xpath("//div/div/div/div[2]/div/div/p ")).getText();
+        System.out.println("Con Note: " + conNote);
+    }
 }

@@ -6,8 +6,8 @@ Feature: Prod End To End Form Cases
 
   Scenario: Sales End To End
     Given The user login
-      | username | TestSipay  |
-      | password | Sipay2025. |
+      | username | satis1    |
+      | password | asdasd123 |
     When The user go to 'Prospect' on navbar
     When The user click 'Tamamla' button
     Then The user verify warning 'Lütfen tüm zorunlu alanları doldurun'
@@ -113,8 +113,8 @@ Feature: Prod End To End Form Cases
     Then The user verify warning "Revizyon Contracting Draft'a gönderildi."
     Given The user logout
     Given The user login
-      | username | TestSipay  |
-      | password | Sipay2025. |
+      | username | satis1    |
+      | password | asdasd123 |
     When The user search created form
     When The user click related record button at row 0
     When The user go to other tab
@@ -168,6 +168,14 @@ Feature: Prod End To End Form Cases
     Given The user assert all
 
 
+#  Scenario: Con Note Test
+#    Given The user login
+#      | username | satis1    |
+#      | password | asdasd123 |
+#    When The user go to link
+#    Then The user take con note
+
+
   Scenario: Ret Control
     Given The user login
       | username | TestSipay  |
@@ -195,7 +203,7 @@ Feature: Prod End To End Form Cases
   Scenario: Team Dashboard
     Given The user opens 'prod-fletum' environment
     And   The User inputs a valid username "sahaUser"
-    And   The User inputs a valid password "sahaPassword"
+    And   The User inputs a valid password "newSahaPassword"
     And   The User clicks the Submit button
     When The user go to team dashboard
     When The user take screenshot
@@ -240,7 +248,7 @@ Feature: Prod End To End Form Cases
     When The user navigate deal item via history
 #    Given The user opens 'prod-fletum' environment
     And   The User inputs a valid username "sahaUser"
-    And   The User inputs a valid password "sahaPassword"
+    And   The User inputs a valid password "newSahaPassword"
     And   The User clicks the Submit button
 #    When The user navigate the deal item
     And The user clicks "Deal - Kişi İlişkisi" tab
@@ -297,10 +305,10 @@ Feature: Prod End To End Form Cases
     When The user click related record button at row 0
     When The user go to other tab
     When The user wait 6 second
-    When The user mention '@testsipay'
+    When The user mention '@satis1'
     Given The user opens 'prod-fletum' environment
     And   The User inputs a valid username "sahaUser"
-    And   The User inputs a valid password "sahaPassword"
+    And   The User inputs a valid password "newSahaPassword"
     And   The User clicks the Submit button
 #    Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
     Then The user verify notification
@@ -309,8 +317,8 @@ Feature: Prod End To End Form Cases
 
   Scenario: Flow
     Given The user login
-      | username | TestSipay  |
-      | password | Sipay2025. |
+      | username | satis1    |
+      | password | asdasd123 |
     When The user go to 'Prospect' on navbar
     When The user fill select prospect form sales and field
     When The user fill inputs prospect form sales and field

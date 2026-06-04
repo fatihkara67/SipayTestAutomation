@@ -62,7 +62,7 @@ Feature: Prod Field And Sales Cases
     When The user take form id
     Given The user opens 'prod-fletum' environment
     And   The User inputs a valid username "sahaUser"
-    And   The User inputs a valid password "sahaPassword"
+    And   The User inputs a valid password "newSahaPassword"
     And   The User clicks the Submit button
 #    Then  The User waits until the Analysis element is visible with a timeout of 120 seconds
     When The user navigate the deal item
@@ -189,7 +189,7 @@ Feature: Prod Field And Sales Cases
 
   Scenario: Prod-SalesAndField-AssignedRecords-Assign Not To Me Listing Case
     When The user click create new record button
-    When The user select 'Saha SAtış 2 22' as salesRep
+    When The user select 'SahaSatış2 Sipay' as salesRep
 #    When The user fill and save the form
     When The user fill select prospect form sales and field
     When The user select2 'Olumlu' in 'communicationTracking'
@@ -201,15 +201,15 @@ Feature: Prod Field And Sales Cases
 
   Scenario: Prod-SalesAndField-AssignedRecords-Assign To Me Listing Case
     When The user click create new record button
-    When The user select 'Saha SAtış 2 22' as salesRep
+    When The user select 'SahaSatış2 Sipay' as salesRep
     When The user fill select prospect form sales and field
     When The user select2 'Olumlu' in 'communicationTracking'
     When The user fill inputs prospect form sales and field
     When The user click 'Tamamla' button
     Given The user logout
     Given The user login
-      | username | SAHASATIS22 |
-      | password | Sipay2025.  |
+      | username | sahasatis2 |
+      | password | asdasd123  |
     When The user click assigned records tab
     Then The user verify table with record
 

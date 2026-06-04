@@ -1730,7 +1730,7 @@ public class SearchStepDefs extends BaseStep {
 
     @Then("The user verify contract note")
     public void theUserVerifyContractNote() {
-        String actual = Driver.getDriver().findElement(By.xpath("//div/div/div/div[2]/div/div/p")).getText();
+        String actual = Driver.getDriver().findElement(By.xpath("//*[@id=\"root\"]/div/main/div/div/div[2]/fieldset/div[1]/div[5]/div/div/div/div[2]/div/div/p")).getText();
         System.out.println("actual note: " + actual);
         softAssert.assertTrue(actual.contains(contractNote),
                 "Contract note girilenden farklı formda");
