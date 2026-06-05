@@ -217,15 +217,15 @@ Feature: Prod Field And Sales Cases
 
   Scenario: Prod-SalesAndField-AssignedRecords-Records Not I Created Listing Case
     When The user click create new record button
-    When The user select 'Saha SAtış 2 22' as salesRep
+    When The user select 'SahaSatış2 Sipay' as salesRep
     When The user fill select prospect form sales and field
     When The user select2 'Olumlu' in 'communicationTracking'
     When The user fill inputs prospect form sales and field
     When The user click 'Tamamla' button
     Given The user logout
     Given The user login
-      | username | SAHASATIS22 |
-      | password | Sipay2025.  |
+      | username | sahasatis2 |
+      | password | asdasd123  |
     When The user click assigned records tab
     When The user click assignedOrCreatedCheckbox
     Then The user verify table no result for created case

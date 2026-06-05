@@ -1732,10 +1732,10 @@ public class SearchStepDefs extends BaseStep {
     public void theUserVerifyContractNote() {
         String actual = Driver.getDriver().findElement(By.xpath("//*[@id=\"root\"]/div/main/div/div/div[2]/fieldset/div[1]/div[5]/div/div/div/div[2]/div/div/p")).getText();
         System.out.println("actual note: " + actual);
-        softAssert.assertTrue(actual.contains(contractNote),
-                "Contract note girilenden farklı formda");
+//        softAssert.assertTrue(actual.contains(contractNote),
+//                "Contract note girilenden farklı formda");
 
-//        Assert.assertEquals(actual, contractNote);
+        Assert.assertEquals(actual, contractNote);
 
     }
 
