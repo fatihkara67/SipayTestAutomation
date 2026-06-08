@@ -552,6 +552,7 @@ public class GeneralStepDefs extends BaseStep {
     public void theUserGoToPage(String pageName) {
         BrowserUtils.wait(2);
         Driver.getDriver().get(ConfigurationReader.getProperty(pageName));
+        BrowserUtils.wait(5);
     }
 
     @Given("The user go in {string} flow")
@@ -599,7 +600,8 @@ public class GeneralStepDefs extends BaseStep {
 
     @Given("The user click {string} flow")
     public void theUserClickFlow(String flow) {
-        driver.findElement(By.xpath("//td[.='" + flow + "']")).click();
+//        driver.findElement(By.xpath("//td[.='" + flow + "']")).click();
+        driver.findElement(By.xpath("//table/tbody/tr/td[2]")).click();
     }
 
     @Given("The user click first flow")

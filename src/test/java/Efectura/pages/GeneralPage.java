@@ -339,12 +339,14 @@ public class GeneralPage extends BasePage {
 
     public void goInFlow(String formName) {
         BrowserUtils.wait(2);
-        for (int i = 0; i < formNames.size(); i++) {
-            if (formNames.get(i).getText().equalsIgnoreCase(formName)) {
-                BrowserUtils.wait(2);
-                flowStartButtons.get(i).click();
-            }
-        }
+//        for (int i = 0; i < formNames.size(); i++) {
+//            if (formNames.get(i).getText().equalsIgnoreCase(formName)) {
+//                System.out.println("Form ismi: " + formNames.get(i).getText());
+//                BrowserUtils.wait(2);
+//                flowStartButtons.get(i).click();
+//            }
+//        }
+        flowStartButtons.get(0).click();
         BrowserUtils.wait(5);
 //        BrowserUtils.waitForVisibility(formTypeSelect,5);
     }

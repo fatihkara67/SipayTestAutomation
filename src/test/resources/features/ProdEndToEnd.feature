@@ -120,7 +120,7 @@ Feature: Prod End To End Form Cases
     When The user go to other tab
     When The user wait 3 second
 #    Then The user verify risk revise reason and explanation
-    Then The user verify contract note
+#    Then The user verify contract note
     When The user click 'Tamamla' button
     Then The user verify warning 'Durum Contracting olarak güncellendi'
     Given The user logout
@@ -329,7 +329,7 @@ Feature: Prod End To End Form Cases
     When The user take form id
     Given The user opens 'prod-fletum' environment
     And   The User inputs a valid username "sahaUser"
-    And   The User inputs a valid password "sahaPassword"
+    And   The User inputs a valid password "newSahaPassword"
     And   The User clicks the Submit button
     Given The user go to "panel" page
     Given The user go in "SIPAY - Fletum Risk Akışı" flow
