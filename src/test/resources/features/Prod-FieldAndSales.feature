@@ -70,7 +70,7 @@ Feature: Prod Field And Sales Cases
     And The user clicks "Deal - Kişi İlişkisi" tab
     And The user select "True" in "IsAssociated" select filter
     Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
-    And The user clicks "Deal - Üye İşyeri İlişkisi" tab
+    And The user clicks "Üye İşyeri" tab
     And The user select "True" in "IsAssociated" select filter
     Then The user verify "İlişkili" select filter with value "Evet" in "association-table"
     Given The user assert all
